@@ -1,0 +1,26 @@
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\bin\Debug\net6.0\appsettings.Development.json
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\bin\Debug\net6.0\appsettings.json
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\bin\Debug\net6.0\HTML pages framework.staticwebassets.runtime.json
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\bin\Debug\net6.0\HTML pages framework.exe
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\bin\Debug\net6.0\HTML pages framework.deps.json
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\bin\Debug\net6.0\HTML pages framework.runtimeconfig.json
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\bin\Debug\net6.0\HTML pages framework.dll
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\bin\Debug\net6.0\ref\HTML pages framework.dll
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\bin\Debug\net6.0\HTML pages framework.pdb
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\obj\Debug\net6.0\HTML pages framework.csproj.AssemblyReference.cache
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\obj\Debug\net6.0\HTML pages framework.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\obj\Debug\net6.0\HTML pages framework.AssemblyInfoInputs.cache
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\obj\Debug\net6.0\HTML pages framework.AssemblyInfo.cs
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\obj\Debug\net6.0\HTML pages framework.csproj.CoreCompileInputs.cache
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\obj\Debug\net6.0\HTML pages framework.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\obj\Debug\net6.0\HTML pages framework.RazorAssemblyInfo.cache
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\obj\Debug\net6.0\HTML pages framework.RazorAssemblyInfo.cs
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\obj\Debug\net6.0\staticwebassets.build.json
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\obj\Debug\net6.0\staticwebassets.development.json
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\obj\Debug\net6.0\scopedcss\Pages\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\obj\Debug\net6.0\scopedcss\bundle\HTML pages framework.styles.css
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\obj\Debug\net6.0\scopedcss\projectbundle\HTML pages framework.bundle.scp.css
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\obj\Debug\net6.0\HTML pages framework.dll
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\obj\Debug\net6.0\ref\HTML pages framework.dll
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\obj\Debug\net6.0\HTML pages framework.pdb
+C:\Users\ander\source\repos\HTML pages framework\HTML pages framework\obj\Debug\net6.0\HTML pages framework.genruntimeconfig.cache
