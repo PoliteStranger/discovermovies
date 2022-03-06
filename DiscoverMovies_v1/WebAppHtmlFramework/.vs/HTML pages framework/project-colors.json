@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "5b35c007-5001-4f39-b9e8-8a33f960a9ee": {
+      "ProjectGuid": "5b35c007-5001-4f39-b9e8-8a33f960a9ee",
+      "DisplayName": "HTML pages framework",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}

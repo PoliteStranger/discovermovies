@@ -1,0 +1,127 @@
+﻿@page
+@model HTML_pages_framework.Pages.MovieModel
+@{
+}
+
+<style>
+
+
+    .column {
+  float: left;
+}
+
+.left {
+  width: 30%;
+}
+
+.right {
+  width: 70%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.attribute{
+    margin-top: 30px;
+
+}
+
+.gridback{
+    background: black;
+    display: inline-block;
+    border: 2px solid black;
+    margin: 20px;
+    margin-top: 0px;
+    }
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(1, 320px);
+    grid-template-rows: repeat(1, 440px);
+    grid-gap: 2px;
+}
+
+.grid2 {
+    display: grid;
+    grid-template-columns: repeat(7, 60px);
+    grid-template-rows: repeat(1, 81px);
+    grid-gap: 2px;
+}
+
+.cell {
+    /* center the cell content */
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-family: Arial;
+    font-size: 1rem;
+    font-weight: bold;
+    background: white;
+}
+</style>
+
+<h1 style="margin-left: 20px">Title: GenericPlaceholderMovie</h1>
+
+<div class="row">
+  <div class="column left">
+      <div class="gridback">
+        <div class="grid">
+            <div class="cell" id="1">Mov1</div>
+        </div>
+      </div>
+  </div>
+  <div class="column right">
+      <p>
+          <b style="margin-bottom: 0px">Overview:</b> 
+          <br/>
+According to all known laws
+of aviation,
+there is no way a bee
+should be able to fly.
+Its wings are too small to get
+its fat little body off the ground.
+The bee, of course, flies anyway
+because bees don't care
+what humans think is impossible.
+Yellow, black. Yellow, black.
+Yellow, black. Yellow, black.
+Ooh, black and yellow!
+Let's shake it up a little.
+Barry! Breakfast is ready!
+Ooming!
+Hang on a second.
+          
+      </p>
+      <p><b>Year: </b>1932</p>
+      <p style="margin-bottom:0px"><b>Cast: </b></p>
+      <div class="gridback">
+        <div class="grid2">
+            <div class="cell" id="1">Mov1</div>
+            <div class="cell" id="2">Mov2</div>
+            <div class="cell" id="3">Mov3</div>
+            <div class="cell" id="4">Mov4</div>
+            <div class="cell" id="5">Mov5</div>
+            <div class="cell" id="6">Mov6</div>
+            <div class="cell" id="7">Mov7</div>
+        </div>
+      </div>
+
+            <p style="margin-bottom:0px"><b>Crew: </b></p>
+      <div class="gridback">
+        <div class="grid2">
+            <div class="cell" id="1">Mov1</div>
+            <div class="cell" id="2">Mov2</div>
+            <div class="cell" id="3">Mov3</div>
+            <div class="cell" id="4">Mov4</div>
+            <div class="cell" id="5">Mov5</div>
+            <div class="cell" id="6">Mov6</div>
+            <div class="cell" id="7">Mov7</div>
+        </div>
+      </div>
+
+  </div>
+</div>
