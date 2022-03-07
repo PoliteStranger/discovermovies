@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mads9\\Desktop\\ UNI\\PRJ4\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\HTML pages framework.csproj": {}
+    "C:\\Users\\mads9\\Desktop\\UNI\\PRJ4\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\HTML pages framework.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mads9\\Desktop\\ UNI\\PRJ4\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\HTML pages framework.csproj": {
+    "C:\\Users\\mads9\\Desktop\\UNI\\PRJ4\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\HTML pages framework.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mads9\\Desktop\\ UNI\\PRJ4\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\HTML pages framework.csproj",
+        "projectUniqueName": "C:\\Users\\mads9\\Desktop\\UNI\\PRJ4\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\HTML pages framework.csproj",
         "projectName": "HTML pages framework",
-        "projectPath": "C:\\Users\\mads9\\Desktop\\ UNI\\PRJ4\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\HTML pages framework.csproj",
+        "projectPath": "C:\\Users\\mads9\\Desktop\\UNI\\PRJ4\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\HTML pages framework.csproj",
         "packagesPath": "C:\\Users\\mads9\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mads9\\Desktop\\ UNI\\PRJ4\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\obj\\",
+        "outputPath": "C:\\Users\\mads9\\Desktop\\UNI\\PRJ4\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

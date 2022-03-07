@@ -16,5 +16,11 @@ namespace HTML_pages_framework.Pages
         {
 
         }
+
+        public void sortTable()
+        {
+           
+
+        }
     }
 }
