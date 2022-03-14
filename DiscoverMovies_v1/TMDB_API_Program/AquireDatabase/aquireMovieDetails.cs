@@ -24,14 +24,14 @@ namespace API_DiscoverAlgorithm
             // Se resultaterne
             Console.WriteLine("ID: " + moviesList.moviesList[moviesList.moviesList.FindIndex(p => p.Id == movieId)].Id);
             Console.WriteLine("Title: " + moviesList.moviesList[moviesList.moviesList.FindIndex(p => p.Id == movieId)].Title);
-            //Console.WriteLine("Vote Avg: " + movieResult.Rating);
-            //Console.WriteLine("Budget: " + movieResult.Budget);
+            //Console.WriteLine("Vote Avg: " + moviesList.moviesList[moviesList.moviesList.FindIndex(p => p.Id == movieId)].Rating);
+            Console.WriteLine("Budget: " + moviesList.moviesList[moviesList.moviesList.FindIndex(p => p.Id == movieId)].Budget);
             Console.WriteLine("Release Date: " + moviesList.moviesList[moviesList.moviesList.FindIndex(p => p.Id == movieId)].ReleaseDate);
-            //Console.WriteLine("Revenue: " + movieResult.Revenue);
+            Console.WriteLine("Revenue: " + moviesList.moviesList[moviesList.moviesList.FindIndex(p => p.Id == movieId)].Revenue);
             Console.WriteLine("Runtime: " + moviesList.moviesList[moviesList.moviesList.FindIndex(p => p.Id == movieId)].Length + " Min");
-            //Console.WriteLine("Original Language: " + movieResult.OriginalLanguage);
-            //Console.WriteLine("Poster URL: " + movieResult.Poster);
-            //Console.WriteLine("Description: " + movieResult.Description);
+            Console.WriteLine("Original Language: " + moviesList.moviesList[moviesList.moviesList.FindIndex(p => p.Id == movieId)].OriginalLanguage);
+            Console.WriteLine("Poster URL: " + moviesList.moviesList[moviesList.moviesList.FindIndex(p => p.Id == movieId)].Poster);
+            Console.WriteLine("Description: " + moviesList.moviesList[moviesList.moviesList.FindIndex(p => p.Id == movieId)].Description);
 
             // Loop gennem samtlige genre:
             Console.WriteLine("Genres: ");
