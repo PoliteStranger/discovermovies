@@ -1,0 +1,96 @@
+﻿@page
+@{
+    ViewData["Title"] = "Movie Recommendations";
+}
+
+<style>
+
+
+    
+
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.button-62 {
+  background: linear-gradient(to bottom right, #EF4765, #FF9A5A);
+  border: 0;
+  border-radius: 12px;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system,system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 2.5;
+  outline: transparent;
+  padding: 0 1rem;
+  text-align: center;
+  text-decoration: none;
+  transition: box-shadow .2s ease-in-out;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+}
+
+.button-62:not([disabled]):focus {
+  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
+}
+.button-62:not([disabled]):hover {
+  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
+}
+
+.gridback{
+    background: black;
+    display: inline-block;
+    border: 2px solid black;
+    margin: 20px;}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 80px);
+    grid-template-rows: repeat(1, 120px);
+    grid-gap: 2px;
+}
+
+.cell {
+    /* center the cell content */
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-family: Arial;
+    font-size: 1rem;
+    font-weight: bold;
+    background: white;
+}
+</style>
+<center>
+
+<form id="form" role="search">
+  <input type="search" id="query" name="q"
+   placeholder="Search..."
+   aria-label="Search through site content">
+  <button>Search</button>
+</form>
+
+<div class="gridback">
+  <div class="grid">
+    <div class="cell" id="1">Mov1</div>
+    <div class="cell" id="2">Mov2</div>
+    <div class="cell" id="3">Mov3</div>
+    <div class="cell" id="4">Mov4</div>
+    <div class="cell" id="5">Mov5</div>
+  </div>
+</div>
+
+ <br/>
+
+ <button class="button-62" role="button">Get Recommendation!</button>
+
+
+</center>
