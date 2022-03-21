@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using API_DiscoverAlgorithm;
 
 namespace DiscoverMovies_v2
 {
@@ -13,10 +14,26 @@ namespace DiscoverMovies_v2
         // Adgang til movieTitleShortList
 
         //Constructor
+        compareGenres(List<MovieTitles> movieList)
+        {
+           
+
+        }
+
+        private List<MovieTitles> movieList = new List<MovieTitles>();
+
+        public List<MovieTitles> SortMethod(List<MovieTitles> movieList)
+        {
+            foreach (var movie in movieList)
+            {
+                movie.
 
 
+            }
 
-        // public List<MovieTitles> SortMethod(List<MovieTitles>)
+
+            return movieList;
+        }
 
         // laver en liste over samtlige genre fra alle 5 film
 
@@ -25,6 +42,9 @@ namespace DiscoverMovies_v2
         // Sortere movieShortList efter disse genre, popularity 
 
         // outputter vi den nye liste:
+
+
+
 
 
 

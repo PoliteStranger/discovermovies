@@ -4742,19 +4742,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Andreas\\.nuget\\packages\\": {}
+    "C:\\Users\\mads9\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Andreas\\Documents\\UNI\\PROJ4\\_GIT\\DiscoverMovies_v1\\TMDB_API_Program\\AquireDatabase\\AquireDatabase.csproj",
+      "projectUniqueName": "C:\\Users\\mads9\\Desktop\\ UNI\\PRJ4\\DiscoverMovies_v1\\TMDB_API_Program\\AquireDatabase\\AquireDatabase.csproj",
       "projectName": "AquireDatabase",
-      "projectPath": "C:\\Users\\Andreas\\Documents\\UNI\\PROJ4\\_GIT\\DiscoverMovies_v1\\TMDB_API_Program\\AquireDatabase\\AquireDatabase.csproj",
-      "packagesPath": "C:\\Users\\Andreas\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Andreas\\Documents\\UNI\\PROJ4\\_GIT\\DiscoverMovies_v1\\TMDB_API_Program\\AquireDatabase\\obj\\",
+      "projectPath": "C:\\Users\\mads9\\Desktop\\ UNI\\PRJ4\\DiscoverMovies_v1\\TMDB_API_Program\\AquireDatabase\\AquireDatabase.csproj",
+      "packagesPath": "C:\\Users\\mads9\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\mads9\\Desktop\\ UNI\\PRJ4\\DiscoverMovies_v1\\TMDB_API_Program\\AquireDatabase\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Andreas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\mads9\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
