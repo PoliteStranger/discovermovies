@@ -345,36 +345,65 @@ namespace API_DiscoverAlgorithm
         static void Main()
         {
 
-            // SUMMERY: Aquire Movie Database
+            // SUMMERY: Aquire Movie Database - v.1
             //
-            // Denne udkommenterede kode downloader samtlige film titler (KUN titler m. id) fra TMDB
+            // Denne følgende kodedel downloader samtlige film titler (KUN titler m. id) fra TMDB
             // med formålet at få en liste over samtlige film som skal lægges i vores database.
 
-            /* 
+            // Indstillinger:
 
-            // Skab et objekt af ApiLoop klassen
-            aquireApiLoop PrintAll1990sFilms = new aquireApiLoop();
+            int fromYear = 1990;
+            int toYear = 1999;
+
+            // For ikke at lave alt for mange API kald, så er alle film fra 1990'erne blevet cached i nogle json filer,
+            // så der tjekkes nu om disse filer kan findes, og hvis de kan det, så bliver de loadet i stedet for at kalde APIen i stedet for!
+            // Bliver de ikke fundet, så laves der nye. Ligger i mappen: DataStore/
+
+            // Skab et objekt af ApiLoop klassen (Crazy loop!)
+            aquireApiLoop downloadMovieTitles = new aquireApiLoop();
 
             // Opret en liste, som filmtitelerne skal lægges i
             List<MovieTitles> movieTitlesList = new List<MovieTitles>();
 
-            // Loop over den årrække som skal downloades
-            for (var i = 1990; i < 2000; i++)
+            // Vi looper nu gennem den årrække, som blev valgt foroven:
+            for (var year = fromYear; year <= toYear; year++)
             {
-                // Funktionen returner en liste, læg den sammen med den oprettede liste
-                // Virker pt ikke helt efter hensigten!
-                movieTitlesList.Concat(PrintAll1990sFilms.getYear(i)).ToList();
+                // Vi ser nu om json filerne allerede findes:
+                if (File.Exists("../../../DataStore/Movies_From_" + year + ".json") == true)
+                {
+                    // Dette år findes:
+                    Console.WriteLine("File: Movies_From_" + year + ".json Exists!");
 
-                // Skriver samlede film hentet, virker ikke helt efter hensigten pt.
-                Console.WriteLine("Movies temp total: " + movieTitlesList.Count);
+                    // Loader json filen ind i et dynamisk objekt
+                    dynamic jsonObj = JsonConvert.DeserializeObject(File.ReadAllText("../../../DataStore/Movies_From_" + year + ".json"));
+
+
+                    // Flytter json dataene ind i listen som vi lavede tidligere:
+                    foreach(var movieTitle in jsonObj)
+                    {
+                        // De bliver lagt i movieTitlesList
+                        movieTitlesList.Add(new MovieTitles((int)movieTitle._id, (string)movieTitle._title, (double)movieTitle._popularity, (string)movieTitle._releaseDate, (string)movieTitle._originalLanguage));
+                    }
+                }
+                else
+                {
+                    // En json fil kunne ikke findes, så vi downloader dette år:
+
+                    // vi bruger et objekt af klassen: aquireApiLoop, og downloader det manglende års værd af film titeler:
+                    foreach (var movieTitle in downloadMovieTitles.getYear(year))
+                    {
+                        // De bliver lagt i movieTitlesList
+                        movieTitlesList.Add(new MovieTitles((int)movieTitle._id, (string)movieTitle._title, (double)movieTitle._popularity, (string)movieTitle._releaseDate, (string)movieTitle._originalLanguage));
+                    }
+                }
+                
             }
-            // Viser antal film hentet i alt, virker pt. ikke helt efter hensigten
-            Console.WriteLine("Movies Final total: " + movieTitlesList.Count);
-            */
+            // Hvor mange film titeler blev samlet:
+            Console.WriteLine("Movie titles collected: " + movieTitlesList.Count);
 
 
 
-            // SUMMERY: Aquire Movie Details
+            // SUMMERY: Aquire Movie Details v.0.9 - Mangler DoB og DoD for personer!
             // 
             // Denne udkommenterede kode downloader alle detailer for en enkelt film.
             // Sæt movieId lig med et eksisterende film id.
@@ -405,6 +434,8 @@ namespace API_DiscoverAlgorithm
             // getMovies.getMovieDetails(568124, moviesList, workedOnList, personResults, prodResult);
 
             */
+
+
 
             // Overfør til SQL DB
 

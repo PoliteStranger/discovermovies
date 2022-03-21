@@ -8,19 +8,24 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\ander\\.nuget\\packages\\": {}
+    "C:\\Users\\mads9\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ander\\source\\repos\\PoliteStranger\\discovermovies\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\HTML pages framework.csproj",
+      "projectUniqueName": "C:\\Users\\mads9\\Desktop\\UNI\\PRJ4\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\HTML pages framework.csproj",
       "projectName": "HTML pages framework",
-      "projectPath": "C:\\Users\\ander\\source\\repos\\PoliteStranger\\discovermovies\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\HTML pages framework.csproj",
-      "packagesPath": "C:\\Users\\ander\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ander\\source\\repos\\PoliteStranger\\discovermovies\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\obj\\",
+      "projectPath": "C:\\Users\\mads9\\Desktop\\UNI\\PRJ4\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\HTML pages framework.csproj",
+      "packagesPath": "C:\\Users\\mads9\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\mads9\\Desktop\\UNI\\PRJ4\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\ander\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\mads9\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

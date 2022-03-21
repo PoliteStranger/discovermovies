@@ -352,8 +352,8 @@ namespace API_DiscoverAlgorithm
 
             // Indstillinger:
 
-            int fromYear = 2000;
-            int toYear = 2000;
+            int fromYear = 1987;
+            int toYear = 2015;
 
             // For ikke at lave alt for mange API kald, så er alle film fra 1990'erne blevet cached i nogle json filer,
             // så der tjekkes nu om disse filer kan findes, og hvis de kan det, så bliver de loadet i stedet for at kalde APIen i stedet for!
@@ -409,7 +409,7 @@ namespace API_DiscoverAlgorithm
             // Sæt movieId lig med et eksisterende film id.
 
 
-            /*
+            
             // Film id som skal søges på
             int movieId = 634649;
             // Opret et film objekt
@@ -425,7 +425,7 @@ namespace API_DiscoverAlgorithm
             aquireMovieDetails getMovies = new aquireMovieDetails();
 
             // Afvikler selve algoritmen:
-            getMovies.getMovieDetails(movieId, moviesList, workedOnList, personResults, prodResult);
+            //getMovies.getMovieDetails(99, moviesList, workedOnList, personResults, prodResult);
 
             // Filmen, el filmene, kan nu findes i objekterne moviesList, og resten kan findes i hhv. personResults, og prodResults.
             // Algorithmen: getMovies.getMovieDetails() kan bruges gentagende gange, og lægger bare flere film, personer, Employed, og produktionsselvskaber i objekterne.
@@ -433,7 +433,7 @@ namespace API_DiscoverAlgorithm
             // Film Id'et kan også bare skrives direkte ind i funktionen:
             // getMovies.getMovieDetails(568124, moviesList, workedOnList, personResults, prodResult);
 
-            */
+            
 
 
 
