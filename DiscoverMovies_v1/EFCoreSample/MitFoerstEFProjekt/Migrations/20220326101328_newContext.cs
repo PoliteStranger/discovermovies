@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MitFoerstEFProjekt.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class newContext : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,13 +13,13 @@ namespace MitFoerstEFProjekt.Migrations
                 name: "Movies",
                 columns: table => new
                 {
-                    movieId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    movieId = table.Column<int>(type: "int", nullable: false),
                     _title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     _releaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     _budget = table.Column<int>(type: "int", nullable: false),
                     _revenue = table.Column<int>(type: "int", nullable: false),
-                    _popularity = table.Column<double>(type: "float", nullable: false)
+                    _popularity = table.Column<double>(type: "float", nullable: false),
+                    _runtime = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -27,17 +27,25 @@ namespace MitFoerstEFProjekt.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Person",
+                name: "Employment",
                 columns: table => new
                 {
-                    personId = table.Column<int>(type: "int", nullable: false)
+                    employmentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    _Personname = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    _Personpopularity = table.Column<double>(type: "float", nullable: false)
+                    movieId = table.Column<int>(type: "int", nullable: false),
+                    personId = table.Column<int>(type: "int", nullable: false),
+                    _job = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    _character = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Person", x => x.personId);
+                    table.PrimaryKey("PK_Employment", x => x.employmentId);
+                    table.ForeignKey(
+                        name: "FK_Employment_Movies_movieId",
+                        column: x => x.movieId,
+                        principalTable: "Movies",
+                        principalColumn: "movieId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -79,43 +87,10 @@ namespace MitFoerstEFProjekt.Migrations
                         principalColumn: "movieId");
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Employment",
-                columns: table => new
-                {
-                    employmentId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    movieId1 = table.Column<int>(type: "int", nullable: false),
-                    personId1 = table.Column<int>(type: "int", nullable: false),
-                    _job = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    _character = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Employment", x => x.employmentId);
-                    table.ForeignKey(
-                        name: "FK_Employment_Movies_movieId1",
-                        column: x => x.movieId1,
-                        principalTable: "Movies",
-                        principalColumn: "movieId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Employment_Person_personId1",
-                        column: x => x.personId1,
-                        principalTable: "Person",
-                        principalColumn: "personId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
-                name: "IX_Employment_movieId1",
+                name: "IX_Employment_movieId",
                 table: "Employment",
-                column: "movieId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Employment_personId1",
-                table: "Employment",
-                column: "personId1");
+                column: "movieId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Genre_movieId",
@@ -138,9 +113,6 @@ namespace MitFoerstEFProjekt.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProdCompany");
-
-            migrationBuilder.DropTable(
-                name: "Person");
 
             migrationBuilder.DropTable(
                 name: "Movies");

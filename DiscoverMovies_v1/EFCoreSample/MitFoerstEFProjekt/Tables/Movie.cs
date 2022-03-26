@@ -1,10 +1,13 @@
 ﻿using System;
-
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using MitFoerstEFProjekt;
 using MitFoerstEFProjekt.Tables;
 
 public class Movie
 {
+    [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+    [Required]
     public int movieId { get; set; }
     public string _title { get; set; }
     public List<Employment> _employmentList { get; set; } = new();
@@ -14,6 +17,7 @@ public class Movie
     public int _budget { get; set; }
     public int _revenue { get; set; }
     public double _popularity { get; set; }
+    public int _runtime { get; set; }
 
     public Movie()
     {}

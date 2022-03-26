@@ -12,8 +12,8 @@ using MyFirstProject;
 namespace MitFoerstEFProjekt.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20220317105547_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220326101328_newContext")]
+    partial class newContext
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -40,17 +40,15 @@ namespace MitFoerstEFProjekt.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("movieId1")
+                    b.Property<int>("movieId")
                         .HasColumnType("int");
 
-                    b.Property<int>("personId1")
+                    b.Property<int>("personId")
                         .HasColumnType("int");
 
                     b.HasKey("employmentId");
 
-                    b.HasIndex("movieId1");
-
-                    b.HasIndex("personId1");
+                    b.HasIndex("movieId");
 
                     b.ToTable("Employment");
                 });
@@ -74,26 +72,6 @@ namespace MitFoerstEFProjekt.Migrations
                     b.HasIndex("movieId");
 
                     b.ToTable("Genre");
-                });
-
-            modelBuilder.Entity("MitFoerstEFProjekt.Tables.Person", b =>
-                {
-                    b.Property<int>("personId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("personId"), 1L, 1);
-
-                    b.Property<string>("_Personname")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("_Personpopularity")
-                        .HasColumnType("float");
-
-                    b.HasKey("personId");
-
-                    b.ToTable("Person");
                 });
 
             modelBuilder.Entity("MitFoerstEFProjekt.Tables.ProdCompany", b =>
@@ -125,10 +103,7 @@ namespace MitFoerstEFProjekt.Migrations
             modelBuilder.Entity("Movie", b =>
                 {
                     b.Property<int>("movieId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("movieId"), 1L, 1);
 
                     b.Property<int>("_budget")
                         .HasColumnType("int");
@@ -142,6 +117,9 @@ namespace MitFoerstEFProjekt.Migrations
                     b.Property<int>("_revenue")
                         .HasColumnType("int");
 
+                    b.Property<int>("_runtime")
+                        .HasColumnType("int");
+
                     b.Property<string>("_title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -153,21 +131,11 @@ namespace MitFoerstEFProjekt.Migrations
 
             modelBuilder.Entity("MitFoerstEFProjekt.Tables.Employment", b =>
                 {
-                    b.HasOne("Movie", "movieId")
+                    b.HasOne("Movie", null)
                         .WithMany("_employmentList")
-                        .HasForeignKey("movieId1")
+                        .HasForeignKey("movieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("MitFoerstEFProjekt.Tables.Person", "personId")
-                        .WithMany("employmentList")
-                        .HasForeignKey("personId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("movieId");
-
-                    b.Navigation("personId");
                 });
 
             modelBuilder.Entity("MitFoerstEFProjekt.Tables.Genre", b =>
@@ -182,11 +150,6 @@ namespace MitFoerstEFProjekt.Migrations
                     b.HasOne("Movie", null)
                         .WithMany("_prodCompanyList")
                         .HasForeignKey("movieId");
-                });
-
-            modelBuilder.Entity("MitFoerstEFProjekt.Tables.Person", b =>
-                {
-                    b.Navigation("employmentList");
                 });
 
             modelBuilder.Entity("Movie", b =>

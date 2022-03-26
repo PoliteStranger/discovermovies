@@ -11,8 +11,8 @@ namespace MitFoerstEFProjekt.Tables
     {
         [Key]
         public int employmentId { get; set; }
-        public Movie movieId { get; set; }
-        public Person personId { get; set; }
+        public int movieId { get; set; }
+        public int personId { get; set; }
         public string _job { get; set; }
         public string _character { get; set; }
 

@@ -6,7 +6,7 @@ namespace MyFirstProject {
         protected override void OnConfiguring(
             DbContextOptionsBuilder optionsBuilder) {
             optionsBuilder.UseSqlServer(
-                @"Data Source=127.0.0.1,1433;Database=MovieDB;User ID=SA;Password=Password1;"
+                @"Data Source=127.0.0.1,1433;Database=MovieDB;User ID=SA;Password=ZyurnYNmhXBP37Jdpr7a;"
                 );
 
         }
