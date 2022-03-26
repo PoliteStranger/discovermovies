@@ -46,15 +46,7 @@ namespace MyFirstProject
 
             List<Genre> genreList = new List<Genre>();
 
-            foreach(var genre in jsonObj.genres)
-            {
-                Genre newMovieGenre = new Genre();
-                newMovieGenre.genreId = (int)genre.id;
-                newMovieGenre._Genrename = (string)genre.name;
 
-
-                genreList.Add();
-            }
 
 
             Console.WriteLine("Saving film in DB!");
