@@ -68,13 +68,31 @@ namespace DiscoverMovies_v2
 
             foreach (var movie in genreScores)
             {
+                GenreCompareList genreList = new GenreCompareList();
+                // Henter overordnede film detaljer fra TMDB
+                Task<string> apiResult = ApiOps.RunApiMovieId(movie.MovieId);
+                // Læg resultatet over i en string (json)
+                string jsonMovie = apiResult.Result;
+
+                genreList.ExtractFromJson(jsonMovie);
+
+                foreach (var genre in genreList.genresCompare)
+                {
+                    movie.AddToScore(genreCounterList.Find(x => x.GenreId.Equals(genre.GenreId)).GetCount());
+                }
+
                 
-
-
-
             }
 
+            genreScores.Sort(delegate (MovieGenreScore x, MovieGenreScore y) // denne sortering er vist ikke nødvendig
+            {
+                return x.GetScore().CompareTo(y.GetScore());
+            });
 
+            movieList.Sort(delegate (MovieTitles x, MovieTitles y)
+            {
+                return genreScores.Find(g => g.MovieId.Equals(x._id)).GetScore().CompareTo(genreScores.Find(g => g.MovieId.Equals(y._id)).GetScore());
+            });
 
 
 
@@ -95,12 +113,12 @@ namespace DiscoverMovies_v2
 
     public class GenreCounter
     {
-        private int _genreId;
+        public int GenreId;
         private int _count;
 
         public GenreCounter(int id)
         {
-            _genreId = id;
+            GenreId = id;
             _count = 0;
         }
 
@@ -114,20 +132,20 @@ namespace DiscoverMovies_v2
             return _count;
         }
 
-        public int GetGenreId()
-        {
-            return _genreId;
-        }
+        //public int GetGenreId()
+        //{
+        //    return GenreId;
+        //}
     }
 
     public class MovieGenreScore
     {
-        private int _movieId { get; }
+        public int MovieId;
         private int _score;
 
         public MovieGenreScore(int movieId)
         {
-            _movieId = movieId;
+            MovieId = movieId;
             _score = 0;
         }
 
