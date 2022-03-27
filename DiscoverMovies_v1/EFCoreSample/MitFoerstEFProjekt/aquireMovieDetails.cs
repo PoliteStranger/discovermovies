@@ -15,9 +15,9 @@ namespace MyFirstProject
         {
             Movie newMovie = new Movie();
 
-            Console.WriteLine("Downloading film: " + movieId);
+            Console.WriteLine("Downloading movie info for: " + movieId);
 
-            // Henter overordnede film detaljer fra TMDB
+            // Henter overordnede film detaljer fra TMDB, som json
             Task<string> apiResult = ApiOps.RunApiMovieId(movieId);
 
             // Læg resultatet over i en string (json)
@@ -25,6 +25,7 @@ namespace MyFirstProject
 
             //Console.WriteLine(jsonMovie);
 
+            // json svar til dynamisk objekt
             dynamic jsonObj = JsonConvert.DeserializeObject(jsonMovie);
 
             newMovie._title = (string)jsonObj.title;
@@ -34,6 +35,7 @@ namespace MyFirstProject
             newMovie._budget = (int)jsonObj.budget;
             newMovie._runtime = (int)jsonObj.runtime;
 
+            // Konvertering af dato fra json yyyy-MM-DD til DateTime
             DateTime theDate;
             DateTime.TryParseExact(
                 (string)jsonObj.release_date,
@@ -44,12 +46,32 @@ namespace MyFirstProject
 
             newMovie._releaseDate = theDate;
 
-            List<Genre> genreList = new List<Genre>();
+            Console.WriteLine("Saving movie genres.");
+
+            // Gemmer samtlige genre fra filmen i dens liste over genre
+            foreach(var genre in jsonObj.genres)
+            {
+                newMovie._genreList.Add(new Genre() { _genreId = genre.id, _movieId = movieId});
+            }
+
+            Console.WriteLine("Downloading moviecredits info for: " + movieId);
+
+            // Henter overordnede film detaljer fra TMDB, som json
+            Task<string> apiResultCredits = ApiOps.RunApiMovieCredits(movieId);
+
+            // Læg resultatet over i en string (json)
+            string jsonMovieCredits = apiResultCredits.Result;
+
+            // json svar til dynamisk objekt
+            dynamic jsonObjCredits = JsonConvert.DeserializeObject(jsonMovieCredits);
+
+            // Lav listen over employments - Kun dem med Popularity +X
+
+            // Lav listen over personer - Fjern duplicates, og kun dem
 
 
 
-
-            Console.WriteLine("Saving film in DB!");
+            Console.WriteLine("Saving movie in DB!");
             db.Movies.Add(newMovie);
             db.SaveChanges();
         }
