@@ -17,6 +17,8 @@ namespace AcquireDB_EFcore
         public DbSet<Person> Persons { get; set; }
         public DbSet<Genres> Genres { get; set; }
         public DbSet<ProdCompany> ProdCompany { get; set; }
+
+
     }
 
 }
