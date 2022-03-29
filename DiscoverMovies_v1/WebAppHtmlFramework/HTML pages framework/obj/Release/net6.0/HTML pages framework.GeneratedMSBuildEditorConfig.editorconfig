@@ -15,6 +15,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\ander\source\repos\PoliteStranger\discovermovies\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/ander/source/repos/PoliteStranger/discovermovies/DiscoverMovies_v1/WebAppHtmlFramework/HTML pages framework/Pages/Catalogue.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2F0YWxvZ3VlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/ander/source/repos/PoliteStranger/discovermovies/DiscoverMovies_v1/WebAppHtmlFramework/HTML pages framework/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
