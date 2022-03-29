@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using AcquireDB_EFcore.Tables;
 
-namespace MitFoerstEFProjekt.Tables
-{
-    public class Genres
+
+public class Genres
     {
-        [Key]
-        public int genreId { get; set; }
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Required]
+        public int _genreId { get; set; }
 
-        public int _Genrename { get; set; }
+        public string _Genrename { get; set; }
     }
-}
+

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MitFoerstEFProjekt.Tables
+namespace AcquireDB_EFcore.Tables
 {
     public class ProdCompany
     {
@@ -15,6 +10,6 @@ namespace MitFoerstEFProjekt.Tables
         public int prodCompanyId { get; set; }
 
         public string _ProdCompanyname { get; set; }
-        public string _ProdCompanycountry { get; set; }
+        public string? _ProdCompanycountry { get; set; }
     }
 }

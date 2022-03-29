@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using MyFirstProject;
+using AcquireDB_EFcore.Tables;
 
-namespace MyFirstProject {
+namespace AcquireDB_EFcore
+{
     public class MyDbContext : DbContext {
         protected override void OnConfiguring(
             DbContextOptionsBuilder optionsBuilder) {
@@ -13,6 +14,9 @@ namespace MyFirstProject {
 
 
         public DbSet<Movie> Movies { get; set; }
+        public DbSet<Person> Persons { get; set; }
+        public DbSet<Genres> Genres { get; set; }
+        public DbSet<ProdCompany> ProdCompany { get; set; }
     }
 
 }
