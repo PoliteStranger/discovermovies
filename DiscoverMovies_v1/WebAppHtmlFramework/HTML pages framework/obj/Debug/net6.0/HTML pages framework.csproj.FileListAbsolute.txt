@@ -102,3 +102,29 @@ C:\Users\mads9\Desktop\UNI\PRJ4\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages
 C:\Users\mads9\Desktop\UNI\PRJ4\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\obj\Debug\net6.0\ref\HTML pages framework.dll
 C:\Users\mads9\Desktop\UNI\PRJ4\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\obj\Debug\net6.0\HTML pages framework.pdb
 C:\Users\mads9\Desktop\UNI\PRJ4\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\obj\Debug\net6.0\HTML pages framework.genruntimeconfig.cache
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\bin\Debug\net6.0\appsettings.Development.json
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\bin\Debug\net6.0\appsettings.json
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\bin\Debug\net6.0\HTML pages framework.staticwebassets.runtime.json
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\bin\Debug\net6.0\HTML pages framework.exe
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\bin\Debug\net6.0\HTML pages framework.deps.json
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\bin\Debug\net6.0\HTML pages framework.runtimeconfig.json
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\bin\Debug\net6.0\HTML pages framework.dll
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\bin\Debug\net6.0\ref\HTML pages framework.dll
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\bin\Debug\net6.0\HTML pages framework.pdb
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\obj\Debug\net6.0\HTML pages framework.csproj.AssemblyReference.cache
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\obj\Debug\net6.0\HTML pages framework.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\obj\Debug\net6.0\HTML pages framework.AssemblyInfoInputs.cache
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\obj\Debug\net6.0\HTML pages framework.AssemblyInfo.cs
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\obj\Debug\net6.0\HTML pages framework.csproj.CoreCompileInputs.cache
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\obj\Debug\net6.0\HTML pages framework.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\obj\Debug\net6.0\HTML pages framework.RazorAssemblyInfo.cache
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\obj\Debug\net6.0\HTML pages framework.RazorAssemblyInfo.cs
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\obj\Debug\net6.0\staticwebassets.build.json
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\obj\Debug\net6.0\staticwebassets.development.json
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\obj\Debug\net6.0\scopedcss\Pages\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\obj\Debug\net6.0\scopedcss\bundle\HTML pages framework.styles.css
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\obj\Debug\net6.0\scopedcss\projectbundle\HTML pages framework.bundle.scp.css
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\obj\Debug\net6.0\HTML pages framework.dll
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\obj\Debug\net6.0\ref\HTML pages framework.dll
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\obj\Debug\net6.0\HTML pages framework.pdb
+C:\Users\Andreas\Documents\UNI\PROJ4\_GIT2\DiscoverMovies_v1\WebAppHtmlFramework\HTML pages framework\obj\Debug\net6.0\HTML pages framework.genruntimeconfig.cache

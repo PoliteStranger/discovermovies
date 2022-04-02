@@ -5,6 +5,10 @@ VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcquireDB_EFcore", "AcquireDB_EFcore.csproj", "{9A6E008C-9A67-4BBB-A5E8-29E715668159}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HTML pages framework", "..\..\WebAppHtmlFramework\HTML pages framework\HTML pages framework.csproj", "{087A504C-3A4A-4FF9-B042-0574FF2CD03B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HydrusTaggerWeb2", "..\..\..\..\..\..\..\source\repos\HydrusTagger\HydrusTaggerWeb2\HydrusTaggerWeb2.csproj", "{1DC41CBE-FE3C-4EEC-AC3B-3A56D36A699C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{9A6E008C-9A67-4BBB-A5E8-29E715668159}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A6E008C-9A67-4BBB-A5E8-29E715668159}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A6E008C-9A67-4BBB-A5E8-29E715668159}.Release|Any CPU.Build.0 = Release|Any CPU
+		{087A504C-3A4A-4FF9-B042-0574FF2CD03B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{087A504C-3A4A-4FF9-B042-0574FF2CD03B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{087A504C-3A4A-4FF9-B042-0574FF2CD03B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{087A504C-3A4A-4FF9-B042-0574FF2CD03B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DC41CBE-FE3C-4EEC-AC3B-3A56D36A699C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DC41CBE-FE3C-4EEC-AC3B-3A56D36A699C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DC41CBE-FE3C-4EEC-AC3B-3A56D36A699C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DC41CBE-FE3C-4EEC-AC3B-3A56D36A699C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
