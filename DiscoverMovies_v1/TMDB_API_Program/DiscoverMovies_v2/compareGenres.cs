@@ -14,16 +14,18 @@ namespace DiscoverMovies_v2
         // Adgang til listen over oprindelige film
         // Adgang til movieTitleShortList
 
+       
+
         //Constructor
-        compareGenres(List<MovieTitles> movieList)
+        compareGenres()
         {
-           
+          
 
         }
+        //private List<MovieTitles> _movieList = new List<MovieTitles>();
+        
 
-        private List<MovieTitles> movieList = new List<MovieTitles>();
-
-        public List<MovieTitles> SortMethod(List<MovieTitles> movieList)
+        public static List<MovieTitles> SortMethod(List<MovieTitles> movieList, Movies compareMovies)
         {
             List<Movie> SortedList = new List<Movie>();
             List<GenreCounter> genreCounterList = new List<GenreCounter>();
@@ -44,11 +46,11 @@ namespace DiscoverMovies_v2
                     if (!genreCounterList.Contains(new GenreCounter(genre.GenreId))) //Skal eftercheckes
                     {
                         genreCounterList.Add(new GenreCounter(genre.GenreId));
-                        genreCounterList.Find(g => g.GetGenreId() == genre.GenreId).AddCount();//Mulig exception men burde ikke være der da der er tjekket ovenfor
+                        genreCounterList.Find(g => g.GenreId == genre.GenreId).AddCount();//Mulig exception men burde ikke være der da der er tjekket ovenfor
                     }
                     else
                     {
-                        genreCounterList.Find(g => g.GetGenreId() == genre.GenreId).AddCount(); //Mulig exception men burde ikke være der da der er tjekket ovenfor
+                        genreCounterList.Find(g => g.GenreId == genre.GenreId).AddCount(); //Mulig exception men burde ikke være der da der er tjekket ovenfor
                     }
                 }
             }
