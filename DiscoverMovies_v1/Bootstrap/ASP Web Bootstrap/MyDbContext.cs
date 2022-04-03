@@ -11,7 +11,6 @@ namespace ASP_Web_Bootstrap
                 );
         }
 
-
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Person> Persons { get; set; }
         public DbSet<Genre> GenresAndMovies { get; set; }

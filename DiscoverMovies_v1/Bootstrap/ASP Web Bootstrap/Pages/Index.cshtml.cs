@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using AcquireDB_EFcore.Tables;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -69,39 +70,17 @@ namespace ASP_Web_Bootstrap.Pages
                 if (theinput.IsGenre == true)
                 {
                     var thegenrelist = db.Genres.Where(i => i._Genrename == theinput.Name).ToList();
+                    Genres thefirst=thegenrelist.First();
 
-                    //vi tager det første OG ENESTE element i listen
-                    Genres thegenreID = thegenrelist.First();
-                    var theMoviesOfGenres = db.GenresAndMovies.Where(i=>i._genreId == thegenreID._genreId).ToList();
+                    var theMoviesByGenres = db.GenresAndMovies.Where(i => i._genreId == thefirst._genreId).ToList();
 
-                    foreach (var item in theMoviesOfGenres)
+                    foreach (var item in theMoviesByGenres)
                     {
-                        Console.WriteLine(theMoviesOfGenres.Count);
-                        Console.WriteLine(item.Movies._title);
+                        var film = db.Movies.Find(item._movieId);
+                        tings.Add(film);
                     }
-                    //Console.WriteLine(thegenreID._Genrename);
-                    //Console.WriteLine(thegenreID._genreId);
 
-                    //var thegenre =db.Movies.Where()
-
-
-
-                    //var thegenre = db.Genre.Where(i => i._Genrename == theinput.Name).ToList();
-
-
-                    //Pga. Genreid, kan vi nu slå filmene op
-
-
-
-                    //var thegenre123 = db.GenresAndMovies.Where(i => i._genreId == thegenreID._genreId).ToList();
-
-                    //MovieList = db.Movies.Where(i => i._genreList.Contains(theinput.Name)).ToList();
-
-                    //foreach (var item in thegenre123)
-                    //{
-                    //    Console.WriteLine(tings.Count);
-                    //    Console.WriteLine(item.Movies);
-                    //}
+                    MovieList = tings;
                 }
                 else
                 {
