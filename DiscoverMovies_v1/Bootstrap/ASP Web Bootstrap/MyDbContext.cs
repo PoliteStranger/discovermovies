@@ -7,18 +7,16 @@ namespace ASP_Web_Bootstrap
         protected override void OnConfiguring(
             DbContextOptionsBuilder optionsBuilder) {
             optionsBuilder.UseSqlServer(
-                @"Data Source=127.0.0.1,1433;Database=MovieDB;User ID=SA;Password=ZyurnYNmhXBP37Jdpr7a;"
+                @"Data Source=127.0.0.1,1433;Database=MovieDB;User ID=SA;Password=Patrick8975;"
                 );
-
         }
 
 
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Person> Persons { get; set; }
+        public DbSet<Genre> GenresAndMovies { get; set; }
         public DbSet<Genres> Genres { get; set; }
         public DbSet<ProdCompany> ProdCompany { get; set; }
-
-
     }
 
 }

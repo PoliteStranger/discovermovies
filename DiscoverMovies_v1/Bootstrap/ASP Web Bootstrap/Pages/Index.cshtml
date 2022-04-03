@@ -6,9 +6,24 @@
 }
 
       <h3>Heading</h3>
-      <p>Search Params input</p>
+      <p><form method="post">
+          <div class="form-group">
+              <label asp-for="theinput.Name"></label>
+              <input class="form-control" asp-for="theinput.Name" />
 
-      <div class="row">
+              <label asp-for="theinput.IsMovie"></label>
+              <input id="Checkbox1" type="checkbox" asp-for="theinput.IsMovie"/>
+              
+              <label asp-for="theinput.IsGenre"></label>
+              <input id="Checkbox1" type="checkbox" asp-for="theinput.IsGenre"/>
+
+              <span asp-validation-for="theinput.Name" class="text-danger"></span> 
+          </div>
+          <button type="submit" class="btn btn-primary">Search</button>
+                      
+     </form></p>
+<div class="row">
+    
 
     @foreach(Movie movie in Model.MovieList)
     {

@@ -1767,19 +1767,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Andreas\\.nuget\\packages\\": {}
+    "C:\\Users\\Skole\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Andreas\\Documents\\UNI\\PROJ4\\_GIT2\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\HTML pages framework.csproj",
+      "projectUniqueName": "C:\\Users\\Skole\\source\\repos\\ProjektGIT\\discovermovies\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\HTML pages framework.csproj",
       "projectName": "HTML pages framework",
-      "projectPath": "C:\\Users\\Andreas\\Documents\\UNI\\PROJ4\\_GIT2\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\HTML pages framework.csproj",
-      "packagesPath": "C:\\Users\\Andreas\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Andreas\\Documents\\UNI\\PROJ4\\_GIT2\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\obj\\",
+      "projectPath": "C:\\Users\\Skole\\source\\repos\\ProjektGIT\\discovermovies\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\HTML pages framework.csproj",
+      "packagesPath": "C:\\Users\\Skole\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Skole\\source\\repos\\ProjektGIT\\discovermovies\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Andreas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Skole\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
