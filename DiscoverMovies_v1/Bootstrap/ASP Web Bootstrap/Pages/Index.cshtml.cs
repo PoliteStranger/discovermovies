@@ -10,9 +10,12 @@ namespace ASP_Web_Bootstrap.Pages
         [BindProperty]
         public InputMovie theinput { get; set; } = new InputMovie();
 
+        [BindProperty]
+        public List<Genres> TheOriginaleGenres { get; set; } = new List<Genres>();
+
         // Listen over film som skal vises på en enkelt side:
         private List<Movie> movieList = new List<Movie>();
-
+        
         private List<Movie> tings = new List<Movie>();
 
 
@@ -34,9 +37,17 @@ namespace ASP_Web_Bootstrap.Pages
         // Når vi besøger forsiden får vi følgende:
         public void OnGet()
         {
+
             // Skaber og bruger vores database objekt:
             using (var db = new MyDbContext())
             {
+                TheOriginaleGenres = db.Genres.ToList();
+                foreach (var item in TheOriginaleGenres)
+                {
+                    Console.WriteLine(item._Genrename);
+                }
+                Console.WriteLine("{0}", TheOriginaleGenres.Count);
+
                 // Jeg har en counter på, da jeg ikke vil hente ALLE film (1500+!!!) + mere !!!!!!!
                 int i = 0;
                 // Vi gennemgår listen af film fra databasen
@@ -47,6 +58,7 @@ namespace ASP_Web_Bootstrap.Pages
                     i++;
                     // Når den har hentet 100 film'ish, så stopper vi!
                     if (i == 101) break;
+
                 }
             }
         }
@@ -54,19 +66,26 @@ namespace ASP_Web_Bootstrap.Pages
         public IActionResult OnPost()
         {
             Console.WriteLine("Itemname: {0}", theinput.Name);
+            Console.WriteLine(theinput.Genrestring);
 
             using (var db = new MyDbContext())
             {
+                Console.WriteLine(theinput.Genrestring);
+
+
                 if (theinput.IsMovie == true)
                 {
+                    Console.WriteLine(theinput.Genrestring);
+
                     MovieList = db.Movies.Where(i => i._title.Contains(theinput.Name)).ToList();
 
                     foreach (var item in tings)
                     {
                         Console.WriteLine(tings.Count);
+                        Console.WriteLine(theinput.Genrestring);
+
                     }
                 }
-
                 if (theinput.IsGenre == true)
                 {
                     var thegenrelist = db.Genres.Where(i => i._Genrename == theinput.Name).ToList();
@@ -92,10 +111,14 @@ namespace ASP_Web_Bootstrap.Pages
 
         public class InputMovie
         {
-            [Required]
             [StringLength(100, ErrorMessage = "Maximum length is {1}")]
             [Display(Name = "Moviename")]   
             public string Name { get; set; } = "";
+
+            [StringLength(100, ErrorMessage = "Maximum length is {1}")]
+            public string Genrestring { get; set; } = "";
+            
+
             public bool IsMovie { get; set; }
             public bool IsGenre { get; set; }
 
