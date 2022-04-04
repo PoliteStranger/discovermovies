@@ -7,7 +7,7 @@ namespace AcquireDB_EFcore
         protected override void OnConfiguring(
             DbContextOptionsBuilder optionsBuilder) {
             optionsBuilder.UseSqlServer(
-                @"Data Source=127.0.0.1,1433;Database=MovieDB;User ID=SA;Password=ZyurnYNmhXBP37Jdpr7a;"
+                @"Data Source=discovermoviesserver.database.windows.net;Database=DiscoverMoviesDB;User ID=DiscoverMovies;Password=Discover123;"
                 );
 
         }
