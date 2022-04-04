@@ -11,18 +11,18 @@
               <label asp-for="theinput.Name"></label>
               <input class="form-control" asp-for="theinput.Name" />
 
-              <label asp-for="theinput.IsMovie"></label>
-              <input id="Checkbox1" type="checkbox" asp-for="theinput.IsMovie"/>
+              @*<label asp-for="theinput.IsMovie"></label>
+              <input id="Checkbox1" type="checkbox" asp-for="theinput.IsMovie"/>*@
               
-              <select id="Select1" asp-items="@(new SelectList(Model.TheOriginaleGenres, "_genreId","_Genrename"))" asp-for="theinput.Genrestring">
+              <select id="Select1" asp-items="@(new SelectList(Model.TheOriginaleGenres, "_genreId","_Genrename"))" asp-for="theinput.GenreID">
                    <option value="" selected disabled> -- Select genre --</option>
               </select>
            
-              <label asp-for="theinput.IsGenre"></label>
-              <input id="Checkbox1" type="checkbox" asp-for="theinput.IsGenre"/>
+              @*<label asp-for="theinput.IsGenre"></label>
+              <input id="Checkbox1" type="checkbox" asp-for="theinput.IsGenre"/>*@
 
-              <span asp-validation-for="theinput.Name" class="text-danger"></span> 
-          </div>
+@*              <span asp-validation-for="theinput.Name" class="text-danger"></span> 
+*@          </div>
           <button type="submit" class="btn btn-primary">Search</button>
                       
      </form></p>
