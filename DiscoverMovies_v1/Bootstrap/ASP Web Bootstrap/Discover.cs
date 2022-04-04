@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
+using AcquireDB_EFcore.Tables;
 
 namespace ASP_Web_Bootstrap
 {
@@ -16,6 +17,14 @@ namespace ASP_Web_Bootstrap
     public class Discover
     {
         List<Movie> shortList = new List<Movie>();
+
+        // Settings:
+
+        // Hvor populær skal en skuespiller være før vi vil bruge dem på shortlisten:
+        private double actorPopularityMin = 20.0;
+
+        // Hvor populær skal en film være før vi vil bruge den på shortlisten:
+        private double filmPopularityMin = 20.0;
 
 
         // 5 movies enter, one movie leaves: Mad Max rulez!
@@ -35,30 +44,48 @@ namespace ASP_Web_Bootstrap
                 inputMovies.Add(db.Movies.Find(564));
                 inputMovies.Add(db.Movies.Find(3293));
 
-                List<Person> directors = new List<Person>();
-
                 
 
+                List<Person> people = new List<Person>();
+
+                // Find alle instruktøre og producere, og skuespillere m. popularity 20+
                 foreach (var movie in inputMovies)
                 {
-                    Console.WriteLine("Title: " + movie._title);
-                    // first.Concat(second).ToList();
-                    foreach(var employment in movie._employmentList.Where(x => x._job == "Director").ToList())
+
+                    // db.Movies.Where(x => x._movieId == 3293).Include(x => x._Employment).First
+
+                    foreach(var employment in db.Employment.Where(x => x._movieId == movie.movieId).ToList())
                     {
-                        directors.Add(employment.Person);
+                        if(employment._job == "Director" || employment._job == "Producer")
+                        {
+                            people.Add(db.Persons.Find(employment._personId));
+                        }
+
+                        if(employment._job == "Actor" && db.Persons.Find(employment._personId)._Personpopularity > actorPopularityMin)
+                        {
+                            people.Add(db.Persons.Find(employment._personId));
+                        }
                     }
-
                 }
 
-                Console.WriteLine("Count: " + directors.Count);
-
-                foreach (var person in directors)
+                // Find alle film som de har været med i, som 
+                foreach (var person in people)
                 {
-                    Console.WriteLine("Name: " + person._Personname);
+                    foreach(var employment in db.Employment.Where(x => x._personId == person._personId).ToList())
+                    {
+                        shortList.Add(db.Movies.Find(employment._movieId));
+                    }
+                    
                 }
 
+                Console.WriteLine("Shortlist count: " + shortList.Count);
 
             }
+
+            // Fjern Dupes:
+
+
+
 
             // Filters
             // 1. Genre
@@ -66,6 +93,12 @@ namespace ASP_Web_Bootstrap
             // 3. Crew
             // 4. Year
             // 5. Production Companies
+
+            List<Movie> genreMovies = GenreFilter(shortList);
+            List<Movie> castMovies = CastFilter(shortList);
+            List<Movie> crewMovies = CrewFilter(shortList);
+            List<Movie> yearMovies = YearFilter(shortList);
+            List<Movie> ProdMovies = ProdFilter(shortList);
 
             // Hvert filter laver en liste
 
