@@ -17,7 +17,7 @@ namespace ASP_Web_Bootstrap
         public DbSet<Person> Persons { get; set; }
         public DbSet<Genres> Genres { get; set; }
         public DbSet<ProdCompany> ProdCompany { get; set; }
-        public DbSet<Employment> Employment { get; set; }   
+        public DbSet<Employment> Employments { get; set; }   
 
 
     }
