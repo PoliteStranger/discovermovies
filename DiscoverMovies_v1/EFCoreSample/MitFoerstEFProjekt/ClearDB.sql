@@ -14,8 +14,8 @@ GO
 
 
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProdCompany]') AND type in (N'U'))
-DROP TABLE [dbo].[ProdCompany]
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProdCompanies]') AND type in (N'U'))
+DROP TABLE [dbo].[ProdCompanies]
 GO
 
 

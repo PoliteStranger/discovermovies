@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ander\\source\\repos\\PoliteStranger\\discovermovies\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\HTML pages framework.csproj": {}
+    "C:\\Users\\Andreas\\Documents\\UNI\\PROJ4\\_GIT2\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\HTML pages framework.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ander\\source\\repos\\PoliteStranger\\discovermovies\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\HTML pages framework.csproj": {
+    "C:\\Users\\Andreas\\Documents\\UNI\\PROJ4\\_GIT2\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\HTML pages framework.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ander\\source\\repos\\PoliteStranger\\discovermovies\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\HTML pages framework.csproj",
+        "projectUniqueName": "C:\\Users\\Andreas\\Documents\\UNI\\PROJ4\\_GIT2\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\HTML pages framework.csproj",
         "projectName": "HTML pages framework",
-        "projectPath": "C:\\Users\\ander\\source\\repos\\PoliteStranger\\discovermovies\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\HTML pages framework.csproj",
-        "packagesPath": "C:\\Users\\ander\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ander\\source\\repos\\PoliteStranger\\discovermovies\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\obj\\",
+        "projectPath": "C:\\Users\\Andreas\\Documents\\UNI\\PROJ4\\_GIT2\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\HTML pages framework.csproj",
+        "packagesPath": "C:\\Users\\Andreas\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Andreas\\Documents\\UNI\\PROJ4\\_GIT2\\DiscoverMovies_v1\\WebAppHtmlFramework\\HTML pages framework\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\ander\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Andreas\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -39,6 +39,16 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.3, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

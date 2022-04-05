@@ -49,7 +49,7 @@ namespace AcquireDB_EFcore.Migrations
 
                     b.HasIndex("_personId");
 
-                    b.ToTable("Employment");
+                    b.ToTable("Employments");
                 });
 
             modelBuilder.Entity("AcquireDB_EFcore.Tables.Genre", b =>
@@ -72,12 +72,12 @@ namespace AcquireDB_EFcore.Migrations
 
                     b.HasIndex("_movieId");
 
-                    b.ToTable("Genre");
+                    b.ToTable("GenresAndMovies");
                 });
 
             modelBuilder.Entity("AcquireDB_EFcore.Tables.ProdCompany", b =>
                 {
-                    b.Property<int>("prodCompanyId")
+                    b.Property<int>("ProdCompanyId")
                         .HasColumnType("int");
 
                     b.Property<string>("_ProdCompanycountry")
@@ -90,11 +90,11 @@ namespace AcquireDB_EFcore.Migrations
                     b.Property<int?>("movieId")
                         .HasColumnType("int");
 
-                    b.HasKey("prodCompanyId");
+                    b.HasKey("ProdCompanyId");
 
                     b.HasIndex("movieId");
 
-                    b.ToTable("ProdCompany");
+                    b.ToTable("ProdCompanies");
                 });
 
             modelBuilder.Entity("Genres", b =>
@@ -219,17 +219,17 @@ namespace AcquireDB_EFcore.Migrations
             modelBuilder.Entity("AcquireDB_EFcore.Tables.ProdCompany", b =>
                 {
                     b.HasOne("Movie", null)
-                        .WithMany("_prodCompanyList")
+                        .WithMany("_ProdCompaniesList")
                         .HasForeignKey("movieId");
                 });
 
             modelBuilder.Entity("Movie", b =>
                 {
+                    b.Navigation("_ProdCompaniesList");
+
                     b.Navigation("_employmentList");
 
                     b.Navigation("_genreList");
-
-                    b.Navigation("_prodCompanyList");
                 });
 #pragma warning restore 612, 618
         }
