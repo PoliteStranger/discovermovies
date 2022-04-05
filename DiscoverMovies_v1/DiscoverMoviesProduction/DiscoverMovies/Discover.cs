@@ -58,7 +58,7 @@ namespace ASP_Web_Bootstrap
 
                     // db.Movies.Where(x => x._movieId == 3293).Include(x => x._Employment).First
 
-                    foreach(var employment in db.Employment.Where(x => x._movieId == movie.movieId).ToList())
+                    foreach(var employment in db.Employments.Where(x => x._movieId == movie.movieId).ToList())
                     {
                         if(employment._job == "Director" || employment._job == "Producer")
                         {
@@ -75,7 +75,7 @@ namespace ASP_Web_Bootstrap
                 // Find alle film som de har været med i, som 
                 foreach (var person in people)
                 {
-                    foreach(var employment in db.Employment.Where(x => x._personId == person._personId).ToList())
+                    foreach(var employment in db.Employments.Where(x => x._personId == person._personId).ToList())
                     {
                         shortList.Add(db.Movies.Find(employment._movieId));
                     }

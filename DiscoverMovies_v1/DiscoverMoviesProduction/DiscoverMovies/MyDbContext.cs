@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using AcquireDB_EFcore.Tables;
 
-namespace AcquireDB_EFcore
+namespace ASP_Web_Bootstrap
 {
     public class MyDbContext : DbContext {
         protected override void OnConfiguring(
@@ -15,10 +15,10 @@ namespace AcquireDB_EFcore
 
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Person> Persons { get; set; }
-        public DbSet<Genre> GenresAndMovies { get; set; }
         public DbSet<Genres> Genres { get; set; }
+        public DbSet<Genre> GenresAndMovies { get; set; }
         public DbSet<ProdCompany> ProdCompanies { get; set; }
-        public DbSet<Employment> Employments { get; set; }
+        public DbSet<Employment> Employments { get; set; }   
 
 
     }

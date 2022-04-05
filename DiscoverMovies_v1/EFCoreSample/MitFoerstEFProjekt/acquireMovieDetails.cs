@@ -95,7 +95,7 @@ namespace AcquireDB_EFcore
                 if (db.ProdCompanies.Find((int)company.id) == null)
                 {
                     
-                    newMovie._ProdCompaniesList.Add(new ProdCompanies() { ProdCompaniesId = (int)company.id, _ProdCompaniesname = (string)company.name, _ProdCompaniescountry = (string)company.origin_country });
+                    newMovie._ProdCompaniesList.Add(new ProdCompany() { ProdCompanyId = (int)company.id, _ProdCompanyname = (string)company.name, _ProdCompanycountry = (string)company.origin_country });
                 }
                 else
                 {

@@ -7,7 +7,7 @@ namespace AcquireDB_EFcore.Tables
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Required]
-        public int ProdCompanyId { get; set; }
+        public int prodCompanyId { get; set; }
 
         public string _ProdCompanyname { get; set; }
         public string? _ProdCompanycountry { get; set; }

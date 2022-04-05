@@ -75,22 +75,22 @@ namespace AcquireDB_EFcore.Migrations
                     b.ToTable("GenresAndMovies");
                 });
 
-            modelBuilder.Entity("AcquireDB_EFcore.Tables.ProdCompanies", b =>
+            modelBuilder.Entity("AcquireDB_EFcore.Tables.ProdCompany", b =>
                 {
-                    b.Property<int>("ProdCompaniesId")
+                    b.Property<int>("ProdCompanyId")
                         .HasColumnType("int");
 
-                    b.Property<string>("_ProdCompaniescountry")
+                    b.Property<string>("_ProdCompanycountry")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("_ProdCompaniesname")
+                    b.Property<string>("_ProdCompanyname")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("movieId")
                         .HasColumnType("int");
 
-                    b.HasKey("ProdCompaniesId");
+                    b.HasKey("ProdCompanyId");
 
                     b.HasIndex("movieId");
 
@@ -216,7 +216,7 @@ namespace AcquireDB_EFcore.Migrations
                     b.Navigation("Movies");
                 });
 
-            modelBuilder.Entity("AcquireDB_EFcore.Tables.ProdCompanies", b =>
+            modelBuilder.Entity("AcquireDB_EFcore.Tables.ProdCompany", b =>
                 {
                     b.HasOne("Movie", null)
                         .WithMany("_ProdCompaniesList")
