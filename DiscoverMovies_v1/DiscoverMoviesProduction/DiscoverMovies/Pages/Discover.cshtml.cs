@@ -19,6 +19,17 @@ namespace ASP_Web_Bootstrap.Pages
             
             Discover discover = new Discover();
 
+            using (var db = new MyDbContext())
+            {
+                inputMovies.Add(db.Movies.Find(8374));
+                inputMovies.Add(db.Movies.Find(1542));
+                inputMovies.Add(db.Movies.Find(603));
+                inputMovies.Add(db.Movies.Find(564));
+                inputMovies.Add(db.Movies.Find(3293));
+            }
+
+
+
             discover.DiscoverMovies(inputMovies);
         }
     }
