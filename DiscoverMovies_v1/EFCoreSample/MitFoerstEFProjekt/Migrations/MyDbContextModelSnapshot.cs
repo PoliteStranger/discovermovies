@@ -49,7 +49,7 @@ namespace AcquireDB_EFcore.Migrations
 
                     b.HasIndex("_personId");
 
-                    b.ToTable("Employment");
+                    b.ToTable("Employments");
                 });
 
             modelBuilder.Entity("AcquireDB_EFcore.Tables.Genre", b =>
@@ -72,29 +72,29 @@ namespace AcquireDB_EFcore.Migrations
 
                     b.HasIndex("_movieId");
 
-                    b.ToTable("Genre");
+                    b.ToTable("GenresAndMovies");
                 });
 
-            modelBuilder.Entity("AcquireDB_EFcore.Tables.ProdCompany", b =>
+            modelBuilder.Entity("AcquireDB_EFcore.Tables.ProdCompanies", b =>
                 {
-                    b.Property<int>("prodCompanyId")
+                    b.Property<int>("ProdCompaniesId")
                         .HasColumnType("int");
 
-                    b.Property<string>("_ProdCompanycountry")
+                    b.Property<string>("_ProdCompaniescountry")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("_ProdCompanyname")
+                    b.Property<string>("_ProdCompaniesname")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("movieId")
                         .HasColumnType("int");
 
-                    b.HasKey("prodCompanyId");
+                    b.HasKey("ProdCompaniesId");
 
                     b.HasIndex("movieId");
 
-                    b.ToTable("ProdCompany");
+                    b.ToTable("ProdCompanies");
                 });
 
             modelBuilder.Entity("Genres", b =>
@@ -216,20 +216,20 @@ namespace AcquireDB_EFcore.Migrations
                     b.Navigation("Movies");
                 });
 
-            modelBuilder.Entity("AcquireDB_EFcore.Tables.ProdCompany", b =>
+            modelBuilder.Entity("AcquireDB_EFcore.Tables.ProdCompanies", b =>
                 {
                     b.HasOne("Movie", null)
-                        .WithMany("_prodCompanyList")
+                        .WithMany("_ProdCompaniesList")
                         .HasForeignKey("movieId");
                 });
 
             modelBuilder.Entity("Movie", b =>
                 {
+                    b.Navigation("_ProdCompaniesList");
+
                     b.Navigation("_employmentList");
 
                     b.Navigation("_genreList");
-
-                    b.Navigation("_prodCompanyList");
                 });
 #pragma warning restore 612, 618
         }

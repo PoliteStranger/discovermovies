@@ -17,6 +17,7 @@ namespace ASP_Web_Bootstrap
     public class Discover
     {
         List<Movie> shortList = new List<Movie>();
+        List<Movie> inputMovies;
 
         // Settings:
 
@@ -30,6 +31,8 @@ namespace ASP_Web_Bootstrap
         // 5 movies enter, one movie leaves: Mad Max rulez!
         public List<Movie> DiscoverMovies(List<Movie> inputMovies)
         {
+            this.inputMovies = inputMovies;
+
             // Shortlist
             //      Alle film, som samtlige instruktører, producerer, og filmstjerner(pop 20+) har være med til at lave
             //
@@ -116,6 +119,7 @@ namespace ASP_Web_Bootstrap
         {
             List<Movie> genreList = new List<Movie>();
 
+            
 
 
             return genreList;
@@ -124,6 +128,7 @@ namespace ASP_Web_Bootstrap
         public List<Movie> CastFilter(List<Movie> shortlist)
         {
             List<Movie> castList = new List<Movie>();
+
 
 
 
@@ -143,7 +148,11 @@ namespace ASP_Web_Bootstrap
         {
             List<Movie> yearList = new List<Movie>();
 
+            // 2001
+            // +/- intervallet   5 - 1999 - 2002 +5
 
+            // +/- 5 år
+            // +/- 10 år
 
             return yearList;
         }
@@ -151,6 +160,7 @@ namespace ASP_Web_Bootstrap
         public List<Movie> ProdFilter(List<Movie> shortlist)
         {
             List<Movie> prodList = new List<Movie>();
+
 
 
 

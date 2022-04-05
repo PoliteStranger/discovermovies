@@ -3,13 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AcquireDB_EFcore.Tables
 {
-    public class ProdCompany
+    public class ProdCompanies
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Required]
-        public int prodCompanyId { get; set; }
+        public int ProdCompaniesId { get; set; }
 
-        public string _ProdCompanyname { get; set; }
-        public string? _ProdCompanycountry { get; set; }
+        public string _ProdCompaniesname { get; set; }
+        public string? _ProdCompaniescountry { get; set; }
     }
 }

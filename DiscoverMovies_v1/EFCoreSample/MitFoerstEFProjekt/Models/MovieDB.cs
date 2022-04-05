@@ -27,7 +27,7 @@
 
 //        }
 
-//        public List<ProdCompanyList> GetAllCompanyLists()
+//        public List<ProdCompaniesList> GetAllCompanyLists()
 //        {
 
 //        }

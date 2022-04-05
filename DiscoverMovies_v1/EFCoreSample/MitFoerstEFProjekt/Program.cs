@@ -7,11 +7,15 @@ Console.WriteLine("Ripping TMDB movies database");
 acquireApiLoop tis = new acquireApiLoop();
 
 // Åres: 1999 vælges, og listen laves
-List<int> moviesList = tis.getYear(2000);
+List<int> moviesList = tis.getYear(2001);
 
 
 using (var db = new MyDbContext())
 {
+
+
+
+    
 
     // Gemmer alle genre i databasen
     MakeGenresList allGenres = new MakeGenresList(db);
@@ -45,6 +49,7 @@ using (var db = new MyDbContext())
         }
         
     }
+    
 
 
 }
