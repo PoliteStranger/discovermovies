@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
-using AcquireDB_EFcore.Tables;
+using Database.Tables;
 
-namespace ASP_Web_Bootstrap
+namespace DiscoverMoviesProduction
 {
     public class DiscoverScore
     {
@@ -12,7 +12,7 @@ namespace ASP_Web_Bootstrap
 
     }
 
-
+     
 
     public class Discover
     {
@@ -26,22 +26,25 @@ namespace ASP_Web_Bootstrap
 
         // Hvor populær skal en film være før vi vil bruge den på shortlisten:
         private double filmPopularityMin = 20.0;
+        
 
+        // Time Logging:
+        public DateTime Start { get; set; }
+        private DateTime End { get; set; }
 
 
         // 5 movies enter, one movie leaves: Mad Max rulez!
         public List<Movie> DiscoverMovies(List<Movie> inputMovies)
         {
+            // Log time:
+            Start = DateTime.Now;
+
             this.inputMovies = inputMovies;
 
             // Shortlist
             //      Alle film, som samtlige instruktører, producerer, og filmstjerner(pop 20+) har være med til at lave
             //
 
-            foreach(var genres in inputMovies.First()._employmentList.ToList())
-            {
-                Console.WriteLine("Person: " + genres._personId);
-            }
 
             using (var db = new MyDbContext())
             {
@@ -113,7 +116,10 @@ namespace ASP_Web_Bootstrap
 
 
 
+            // Log time:
+            End = DateTime.Now;
 
+            Console.WriteLine("Discover took: " + (End - Start));
             return inputMovies;
         }
 
@@ -134,6 +140,7 @@ namespace ASP_Web_Bootstrap
 
 
 
+
             return castList;
         }
 
@@ -141,7 +148,23 @@ namespace ASP_Web_Bootstrap
         {
             List<Movie> crewList = new List<Movie>();
 
+            
 
+            List<Employment> inputEmployments = new List<Employment>();
+
+            foreach (var movie in inputMovies.ToList())
+            {
+                foreach (var employment in movie._employmentList.ToList())
+                {
+                    inputEmployments.Add(employment);
+                }
+            }
+
+
+
+            // Director AND Producer team
+
+            // Director AND Director of Photography team
 
             return crewList;
         }
