@@ -42,11 +42,7 @@ namespace ASP_Web_Bootstrap
             {
                 // 8374, 1542, 603, 564, 3293
 
-                inputMovies.Add(db.Movies.Find(8374));
-                inputMovies.Add(db.Movies.Find(1542));
-                inputMovies.Add(db.Movies.Find(603));
-                inputMovies.Add(db.Movies.Find(564));
-                inputMovies.Add(db.Movies.Find(3293));
+
 
                 
 
