@@ -38,15 +38,16 @@ namespace ASP_Web_Bootstrap
             //      Alle film, som samtlige instruktører, producerer, og filmstjerner(pop 20+) har være med til at lave
             //
 
+            foreach(var genres in inputMovies.First()._employmentList.ToList())
+            {
+                Console.WriteLine("Person: " + genres._personId);
+            }
+
             using (var db = new MyDbContext())
             {
                 // 8374, 1542, 603, 564, 3293
 
-                inputMovies.Add(db.Movies.Find(8374));
-                inputMovies.Add(db.Movies.Find(1542));
-                inputMovies.Add(db.Movies.Find(603));
-                inputMovies.Add(db.Movies.Find(564));
-                inputMovies.Add(db.Movies.Find(3293));
+
 
                 
 
