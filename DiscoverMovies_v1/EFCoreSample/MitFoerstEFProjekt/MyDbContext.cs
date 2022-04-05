@@ -15,8 +15,10 @@ namespace AcquireDB_EFcore
 
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Person> Persons { get; set; }
+        public DbSet<Genre> GenresAndMovies { get; set; }
         public DbSet<Genres> Genres { get; set; }
-        public DbSet<ProdCompany> ProdCompany { get; set; }
+        public DbSet<ProdCompany> ProdCompanies { get; set; }
+        public DbSet<Employment> Employments { get; set; }
 
 
     }
