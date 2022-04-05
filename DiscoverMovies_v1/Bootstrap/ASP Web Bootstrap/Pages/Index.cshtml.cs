@@ -51,7 +51,7 @@ namespace ASP_Web_Bootstrap.Pages
                     movieList.Add(movie);
                     i++;
                     // Når den har hentet 100 film'ish, så stopper vi!
-                    if (i == 101) break;
+                    if (i == 201) break;
                 }
             }
         }
