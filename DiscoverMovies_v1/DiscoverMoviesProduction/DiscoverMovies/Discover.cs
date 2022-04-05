@@ -6,6 +6,17 @@ namespace DiscoverMoviesProduction
 {
     public class DiscoverScore
     {
+        public DiscoverScore()
+        {
+            Movie = new Movie();
+        }
+
+        public DiscoverScore(Movie movie, int score)
+        {
+            Movie = movie;
+            Score = score;
+        }
+
         public Movie Movie { get; set; }
 
         public int Score { get; set; }
@@ -126,8 +137,36 @@ namespace DiscoverMoviesProduction
         public List<Movie> GenreFilter(List<Movie> shortlist)
         {
             List<Movie> genreList = new List<Movie>();
+            List<int> genreCounter = new List<int>();
+            List<DiscoverScore> discoverScores = new List<DiscoverScore>();
 
-            
+            foreach (var movie in inputMovies)
+            {
+
+                foreach (var genre in movie._genreList)
+                {
+                    genreCounter.Add(genre._genreId);
+                }
+            }
+
+
+            var genreCounted = genreCounter.GroupBy(x => x).Where(g => g.Count() > 1)
+                .Select(y => new { Id = y.Key, Count = y.Count() }).ToList();
+
+            foreach (var genre in genreCounted)
+            {
+                Console.WriteLine("genre: " + genre);
+            }
+
+            foreach (var Movie in shortlist)
+            {
+                discoverScores.Add(new DiscoverScore());
+
+
+
+
+
+            }
 
 
             return genreList;
