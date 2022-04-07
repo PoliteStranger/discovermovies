@@ -1,14 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MitFoerstEFProjekt.Tables
+namespace AcquireDB_EFcore.Tables
 {
     public class Genre
     {
-        public int genreId { get; set; }
-        public int _Genrename { get; set; }
+        [Key]
+        public int genreKey { get; set; }
+
+        [ForeignKey("Genres")]
+        public int _genreId { get; set; }
+        public Genres Genres { get; set; }
+
+        [ForeignKey("Movies")]
+        public int _movieId { get; set; }
+        public Movie Movies { get; set; }
     }
 }
