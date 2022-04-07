@@ -30,9 +30,7 @@ namespace ASP_Web_Bootstrap.Pages
                 inputMovies.Add(db.Movies.Where(c => c.movieId == 564).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
                 inputMovies.Add(db.Movies.Where(c => c.movieId == 3293).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
             }
-
-
-
+            
             discover.DiscoverMovies(inputMovies);
         }
     }
