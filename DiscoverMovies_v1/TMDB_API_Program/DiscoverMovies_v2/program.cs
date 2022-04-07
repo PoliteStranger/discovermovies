@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Newtonsoft.Json;
 using System.Web.Helpers;
+using DiscoverMovies_v2;
 
 
 namespace API_DiscoverAlgorithm
@@ -177,6 +178,25 @@ namespace API_DiscoverAlgorithm
                 Console.WriteLine(iterator + ". " + movie._title + "   " + movie._popularity);
                 iterator++;
             }
+
+            // MADS's Tests
+            List<MovieTitles> Genresorted = new List<MovieTitles>();
+
+            Genresorted = compareGenres.SortMethod(movieTitlesShortListNoDupes, moviesList);
+
+            foreach (var movie in Genresorted)
+            {
+                Console.WriteLine(movie._title + " Genresorted");
+            }
+            Console.WriteLine("###################################");
+            Console.WriteLine("###################################");
+            Console.WriteLine("###################################");
+            Console.WriteLine("###################################");
+            foreach (var movie in movieTitlesShortListNoDupes)
+            {
+                Console.WriteLine(movie._title + " Notsorted");
+            }
+
 
 
         }
