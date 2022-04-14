@@ -115,7 +115,7 @@ namespace DiscoverMoviesProduction
 
             List<Movie> genreMovies = GenreFilter(shortList);
             List<Movie> castMovies = CastFilter(shortList);
-            List<Movie> crewMovies = CrewFilter(shortList);
+            List<DiscoverScore> crewMovies = CrewFilter(shortList);
             List<Movie> yearMovies = YearFilter(shortList);
             List<Movie> ProdMovies = ProdFilter(shortList);
 
@@ -183,11 +183,14 @@ namespace DiscoverMoviesProduction
             return castList;
         }
 
-        public List<Movie> CrewFilter(List<Movie> shortlist)
+        public List<DiscoverScore> CrewFilter(List<Movie> shortlist)
         {
+            // En liste over crew
             List<Movie> crewList = new List<Movie>();
 
-            
+            // Til at tildele points
+            List<DiscoverScore> discoverScores = new List<DiscoverScore>();
+
 
             List<Employment> inputEmployments = new List<Employment>();
 
@@ -195,7 +198,19 @@ namespace DiscoverMoviesProduction
             {
                 foreach (var employment in movie._employmentList.ToList())
                 {
-                    inputEmployments.Add(employment);
+                    if(employment._job != "Actor")
+                    {
+                        inputEmployments.Add(employment);
+                    }
+                    
+                }
+            }
+            Console.WriteLine("Crew:");
+            using(var db = new MyDbContext())
+            {
+                foreach (var person in inputEmployments.ToList())
+                {
+                    Console.WriteLine("Person: " + db.Persons.Find(person._personId)._Personname);
                 }
             }
 
@@ -205,7 +220,7 @@ namespace DiscoverMoviesProduction
 
             // Director AND Director of Photography team
 
-            return crewList;
+            return discoverScores;
         }
 
         public List<Movie> YearFilter(List<Movie> shortlist)
