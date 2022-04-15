@@ -1,0 +1,38 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+
+}
+<h3>Heading</h3>
+<p>result count: @Model.MovieList.Count</p>
+      <p><form method="post">
+          <div class="form-group">
+              <label asp-for="theinput.Name"></label>
+              <input class="form-control" asp-for="theinput.Name" />
+
+              @*<label asp-for="theinput.IsMovie"></label>
+              <input id="Checkbox1" type="checkbox" asp-for="theinput.IsMovie"/>*@
+              
+              <select id="Select1" asp-items="@(new SelectList(Model.TheOriginaleGenres, "_genreId","_Genrename"))" asp-for="theinput.GenreID">
+                   <option value="" selected disabled> -- Select genre --</option>
+              </select>
+           
+              @*<label asp-for="theinput.IsGenre"></label>
+              <input id="Checkbox1" type="checkbox" asp-for="theinput.IsGenre"/>*@
+
+@*              <span asp-validation-for="theinput.Name" class="text-danger"></span> 
+*@          </div>
+          <button type="submit" class="btn btn-primary">Search</button>
+                      
+     </form></p>
+<div class="row">
+    @foreach(Movie movie in Model.MovieList)
+    {
+        <div class="col-xl-2 col-sm-6 col-md-4">
+            @movie._title <br />
+            <img src=@("https://www.themoviedb.org/t/p/w220_and_h330_face" + @movie._posterUrl) height="237" width="165">
+            
+        </div>
+    }
+      </div>
