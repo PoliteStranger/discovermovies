@@ -10,14 +10,21 @@ namespace ASP_Web_Bootstrap.Pages
         [BindProperty]
         public InputMovie theinput { get; set; } = new InputMovie();
 
-        [BindProperty]
-        public List<Genres> TheOriginaleGenres { get; set; } = new List<Genres>();
+        //[BindProperty]
+        //public int pageNo { get; set; }
+        //[BindProperty]
+        //public int pageSize { get; set; }
 
+        public List<Person> Persons { get; set; } = new List<Person>();
+        public List<ProdCompany> Prodcompanies { get; set; } = new List<ProdCompany>();
+
+
+        [BindProperty]
+        //liste over alle genres
+        public List<Genres> TheOriginaleGenres { get; set; } = new List<Genres>();
         // Listen over film som skal vises på en enkelt side:
         private List<Movie> movieList = new List<Movie>();
         private List<Movie> templiste = new List<Movie>();
-        private List<Genres> tempGenresList = new List<Genres>();
-
 
         // Den bindes, så vi kan tilgå den inde fra vores Razor page
         [BindProperty]
@@ -35,8 +42,13 @@ namespace ASP_Web_Bootstrap.Pages
         }
 
         // Når vi besøger forsiden får vi følgende:
+        //public void OnGet(int size = 50, int no = 4)
+
         public void OnGet()
         {
+            //pageNo = no;
+            //pageSize = size;
+
             // Skaber og bruger vores database objekt:
             using (var db = new MyDbContext())
             {
@@ -65,11 +77,47 @@ namespace ASP_Web_Bootstrap.Pages
 
                 if (theinput.Name != "")
                 {
-                    templiste = db.Movies.Where(i => i._title.Contains(theinput.Name)).ToList();
-                    MovieList = templiste;
+                    //tjekker om det er en person som er sat
+                    if (theinput.IsPerson == true)
+                    {
+                        //kigger efter personens navn i person db
+                        Persons = db.Persons.Where(i => i._Personname.Contains(theinput.Name)).ToList();
+                        foreach (var person in Persons)
+                        {
+                            //kigger efter hver person i employments for at finde movie id'er
+                            var liste = db.Employments.Where(i=>i._personId==person._personId).ToList();
+                            foreach (var movie in liste)
+                            {
+                                var liste1 = db.Movies.Where(i => i.movieId==movie._movieId).ToList();
+                                foreach (var film in liste1)
+                                {
+                                    templiste.Add(film);
+                                }
+                                MovieList = templiste;
+                            }
+                        }
+                    }
+
+                    if (theinput.IsProdCompany == true)
+                    {
+                        //kigger efter produktionsselskabets navn i ProdCompanies db
+                        Prodcompanies = db.ProdCompanies.Where(i => i._ProdCompanyname.Contains(theinput.Name)).ToList();
+                        foreach (var Prodcompany in Prodcompanies)
+                        {
+                            Console.WriteLine(Prodcompany._ProdCompanyname);
+                            Console.WriteLine(Prodcompany.prodCompanyId);
+                        }
+                        //fuck.... 
+                        //hvordan fanden slår jeg movieid op på baggrund af et prodcompany...
+                    }
+                    else
+                    {
+                        templiste = db.Movies.Where(i => i._title.Contains(theinput.Name)).ToList();
+                        MovieList = templiste;
+                    }
                 }
 
-                //den tjekkes om den er sat.
+                //Tjekkes om genreid er sat.
                 if (theinput.GenreID != "0")
                 {
                     //cast theinput.GenreID til int
@@ -99,7 +147,10 @@ namespace ASP_Web_Bootstrap.Pages
                         foreach (var item in theMoviesByGenres)
                         {
                             var film = db.Movies.Find(item._movieId);
-                            templiste.Add(film);
+                            if (film!=null)
+                            {
+                                templiste.Add(film);
+                            }
                         }
                         MovieList = templiste;
                     }
@@ -156,7 +207,9 @@ namespace ASP_Web_Bootstrap.Pages
             [StringLength(100, ErrorMessage = "Maximum length is {1}")]
             public string GenreID { get; set; } = "0";
 
-            //public bool IsMovie { get; set; }
+            public bool IsPerson { get; set; }
+            public bool IsProdCompany { get; set; }
+
             //public bool IsGenre { get; set; }
 
         }

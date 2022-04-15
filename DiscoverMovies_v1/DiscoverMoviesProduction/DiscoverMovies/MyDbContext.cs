@@ -9,9 +9,7 @@ namespace ASP_Web_Bootstrap
             optionsBuilder.UseSqlServer(
                 @"Data Source=discovermoviesserver.database.windows.net;Database=DiscoverMoviesDB;User ID=DiscoverMovies;Password=Discover123;"
                 );
-
         }
-
 
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Person> Persons { get; set; }
@@ -19,7 +17,6 @@ namespace ASP_Web_Bootstrap
         public DbSet<Genre> GenresAndMovies { get; set; }
         public DbSet<ProdCompany> ProdCompanies { get; set; }
         public DbSet<Employment> Employments { get; set; }   
-
 
     }
 
