@@ -11,7 +11,7 @@ namespace ASP_Web_Bootstrap
             Movie = new Movie();
         }
 
-        public DiscoverScore(Movie movie, int score)
+        public DiscoverScore(Movie movie, int score = 0)
         {
             Movie = movie;
             Score = score;
@@ -110,7 +110,12 @@ namespace ASP_Web_Bootstrap
             // 4. Year
             // 5. Production Companies
 
-            List<Movie> genreMovies = GenreFilter(shortList);
+            List<DiscoverScore> genreMovies = GenreFilter(shortList);
+            foreach (var movie in genreMovies)
+            {
+                Console.WriteLine("Movie: " + movie.Movie._title + " Score: " + movie.Score);
+            }
+
             List<Movie> castMovies = CastFilter(shortList);
             List<Movie> crewMovies = CrewFilter(shortList);
             List<Movie> yearMovies = YearFilter(shortList);
@@ -128,7 +133,7 @@ namespace ASP_Web_Bootstrap
             return inputMovies;
         }
 
-        public List<Movie> GenreFilter(List<Movie> shortlist)
+        public List<DiscoverScore> GenreFilter(List<Movie> shortlist)
         {
             List<Movie> genreList = new List<Movie>();
             List<int> genreCounter = new List<int>();
@@ -152,18 +157,34 @@ namespace ASP_Web_Bootstrap
                 Console.WriteLine("genre: " + genre);
             }
 
-            foreach (var Movie in shortlist)
+            foreach (var _Movie in shortlist)
             {
-                discoverScores.Add(new DiscoverScore());
+                int score = 0;
+                using (var db = new MyDbContext())
+                {
+                    var genres = db.GenresAndMovies.Where(movie => movie._movieId == _Movie.movieId);
+
+                    foreach (var genre in genres)
+                    {
+                        if (_Movie._genreList.Contains(genre))
+                        {
+                            score = score + genreCounted.Find(x => x.Id == genre._genreId).Count;
+                        }
+
+                    }
 
 
+                }
 
-
+                discoverScores.Add(new DiscoverScore(_Movie, score));
 
             }
+            discoverScores.Sort(delegate(DiscoverScore x, DiscoverScore y) // denne sortering er vist ikke nødvendig
+            {
+                return x.Score.CompareTo(y.Score);
+            });
 
-
-            return genreList;
+            return discoverScores;
         }
 
         public List<Movie> CastFilter(List<Movie> shortlist)
