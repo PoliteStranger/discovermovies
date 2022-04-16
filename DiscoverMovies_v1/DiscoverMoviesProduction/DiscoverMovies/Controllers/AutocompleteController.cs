@@ -28,10 +28,11 @@ namespace ASP_Web_Bootstrap.Controllers
                              select new
                              {
                                  label = m._title,      // De hedder label og value, fordi at jQuery autocomplete bruger disse!!!
-                                 value = m.movieId
+                                 value = m._title
                              }).ToList();
 
-                query = query.GetRange(0, 10);
+                if(query.Count > 10)
+                    query = query.GetRange(0, 10);
 
                 // Der burde sættes noget filtrering ind her, som sikre at der ikke kommer alt for mange forslag. Alt over 20 er for meget!
                 // Autocomplete UI elementet bliver mega langsomt med alt over 20 elementer!
