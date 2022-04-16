@@ -11,7 +11,7 @@ namespace ASP_Web_Bootstrap
             Movie = new Movie();
         }
 
-        public DiscoverScore(Movie movie, int score = 0)
+        public DiscoverScore(Movie movie, int score)
         {
             Movie = movie;
             Score = score;
@@ -149,7 +149,7 @@ namespace ASP_Web_Bootstrap
             }
 
 
-            var genreCounted = genreCounter.GroupBy(x => x).Where(g => g.Count() > 1)
+            var genreCounted = genreCounter.GroupBy(x => x).Where(g => g.Count() > 0)// skal være  > 1
                 .Select(y => new { Id = y.Key, Count = y.Count() }).ToList();
 
             foreach (var genre in genreCounted)
@@ -162,26 +162,23 @@ namespace ASP_Web_Bootstrap
                 int score = 0;
                 using (var db = new MyDbContext())
                 {
-                    var genres = db.GenresAndMovies.Where(movie => movie._movieId == _Movie.movieId);
+                    var genres = db.GenresAndMovies.Where(Genre => Genre._movieId == _Movie.movieId);
 
                     foreach (var genre in genres)
                     {
-                        if (_Movie._genreList.Contains(genre))
+                        if(genreCounted.Find(x => x.Id == genre._genreId) != null)
                         {
-                            score = score + genreCounted.Find(x => x.Id == genre._genreId).Count;
+                        score = score + genreCounted.Find(x => x.Id == genre._genreId).Count;
                         }
-
                     }
-
-
+                    discoverScores.Add(new DiscoverScore(_Movie, score));
                 }
 
-                discoverScores.Add(new DiscoverScore(_Movie, score));
-
             }
-            discoverScores.Sort(delegate(DiscoverScore x, DiscoverScore y) // denne sortering er vist ikke nødvendig
+
+            discoverScores.Sort(delegate(DiscoverScore x, DiscoverScore y) // denne sortering er vist ikke nødvendig hvis vi bare er efter point.
             {
-                return x.Score.CompareTo(y.Score);
+                return y.Score.CompareTo(x.Score);
             });
 
             return discoverScores;
