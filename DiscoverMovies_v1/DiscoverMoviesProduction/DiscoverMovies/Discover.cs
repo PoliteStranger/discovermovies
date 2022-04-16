@@ -11,7 +11,7 @@ namespace DiscoverMoviesProduction
             Movie = new Movie();
         }
 
-        public DiscoverScore(Movie movie, int score)
+        public DiscoverScore(Movie movie, double score)
         {
             Movie = movie;
             Score = score;
@@ -19,7 +19,7 @@ namespace DiscoverMoviesProduction
 
         public Movie Movie { get; set; }
 
-        public int Score { get; set; }
+        public double Score { get; set; }
 
     }
 
@@ -88,12 +88,12 @@ namespace DiscoverMoviesProduction
 
                     foreach(var employment in db.Employments.Where(x => x._movieId == movie.movieId).ToList())
                     {
-                        if(employment._job == "Director" || employment._job == "Producer")
+                        if(employment._job != "Acting")
                         {
                             people.Add(db.Persons.Find(employment._personId));
                         }
 
-                        if(employment._job == "Actor" && db.Persons.Find(employment._personId)._Personpopularity > actorPopularityMin)
+                        if(employment._job == "Acting" && db.Persons.Find(employment._personId)._Personpopularity > actorPopularityMin)
                         {
                             people.Add(db.Persons.Find(employment._personId));
                         }
@@ -141,31 +141,45 @@ namespace DiscoverMoviesProduction
             List<Movie> yearMovies = YearFilter(shortList);
             List<Movie> ProdMovies = ProdFilter(shortList);
 
+            // Samlede score liste
             List<DiscoverScore> finalScore = new List<DiscoverScore>();
 
+            double GenreMaxScore = genreMovies.Max(x => x.Score);
+            double CastMaxScore = castMovies.Max(x => x.Score);
+            double CrewMaxScore = crewMovies.Max(x => x.Score);
+
+            // Gennemgang af shortlist, og tælle points sammen:
             foreach (var movie in shortList)
             {
-                int score = 0;
+                // Hver film starter med en score på 0
+                double score = 0;
 
+                // HVIS filmen har fået en score
                 if(genreMovies.Any(x => x.Movie == movie))
-                    score += genreMovies.Find(x => x.Movie == movie).Score;
+                    score += (1/GenreMaxScore) * genreMovies.Find(x => x.Movie == movie).Score; // Så hent dens points fra Genre Filteret
+                // HVIS filmen har fået en score
                 if (castMovies.Any(x => x.Movie == movie))
-                    score += castMovies.Find(x => x.Movie == movie).Score;
+                    score += (1 / CastMaxScore) * castMovies.Find(x => x.Movie == movie).Score;// Så hent dens points fra Cast Filteret
+                // HVIS filmen har fået en score
                 if (crewMovies.Any(x => x.Movie == movie))
-                    score += crewMovies.Find(x => x.Movie == movie).Score;
+                    score += (1 / CrewMaxScore) * crewMovies.Find(x => x.Movie == movie).Score;// Så hent dens points fra Crew Filteret
 
+                // Til filmen, samt summen af dens points:
                 finalScore.Add(new DiscoverScore(movie, score));
             }
 
             // I rækkefølge af score:
             finalScore = finalScore.OrderByDescending(x => x.Score).ToList();
 
+            // Print til consol
             Console.WriteLine("Final scores:");
             foreach(var score in finalScore)
             {
-                Console.WriteLine(score.Movie._title + ": " + score.Score);
+                Console.WriteLine(score.Movie._title + ": " + score.Score.ToString("0.00"));
             }
 
+            // Vi timer kodeafviklingen, så vi kan se om det går hurtigt nok!
+            // OBS Console print TAGER EKSTRA TID, de skal fjernes, så vi kan få den endelige tid!
 
             // Log time:
             End = DateTime.Now;
@@ -458,7 +472,7 @@ namespace DiscoverMoviesProduction
             {
                 foreach (var employment in movie._employmentList.ToList())
                 {
-                    if(employment._job != "Actor")
+                    if(employment._job != "Acting")
                     {
                         inputEmployments.Add(employment);
                     }
@@ -481,16 +495,24 @@ namespace DiscoverMoviesProduction
                     
                     if (movie._employmentList.Any(x => x._personId == employment._personId))
                     {
+                        int AddScore = 1;
+
+                        // Vi vægter instruktøre højere!
+                        if (employment._job == "Director" || employment._job == "Producer")
+                        {
+                            AddScore = 2;
+                            //Console.WriteLine("Director/Producer spottet!");
+                        }
 
                         // If match, then pass out score:
                         if (discoverScores.Any(x => x.Movie == movie))
                         {
-                            discoverScores.Find(x => x.Movie == movie).Score++;
+                            discoverScores.Find(x => x.Movie == movie).Score += AddScore;
                             //Console.Write(" Match!");
                         }
                         else
                         {
-                            discoverScores.Add(new DiscoverScore(movie, 1));
+                            discoverScores.Add(new DiscoverScore(movie, AddScore));
                             //Console.Write(" Match!");
                         }
                         //Console.WriteLine(discoverScores.Find(x => x.Movie == movie).Movie._title + " has " + discoverScores.Find(x => x.Movie == movie).Score + " points");

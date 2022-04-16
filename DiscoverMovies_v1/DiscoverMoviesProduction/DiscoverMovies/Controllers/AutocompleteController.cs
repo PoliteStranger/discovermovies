@@ -31,6 +31,8 @@ namespace ASP_Web_Bootstrap.Controllers
                                  value = m.movieId
                              }).ToList();
 
+                query = query.GetRange(0, 10);
+
                 // Der burde sættes noget filtrering ind her, som sikre at der ikke kommer alt for mange forslag. Alt over 20 er for meget!
                 // Autocomplete UI elementet bliver mega langsomt med alt over 20 elementer!
 
