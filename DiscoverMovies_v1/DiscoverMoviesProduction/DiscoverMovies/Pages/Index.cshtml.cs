@@ -9,19 +9,20 @@ namespace ASP_Web_Bootstrap.Pages
     {
         [BindProperty]
         public InputMovie theinput { get; set; } = new InputMovie();
-
-        //[BindProperty]
-        //public int pageNo { get; set; }
-        //[BindProperty]
-        //public int pageSize { get; set; }
-
         public List<Person> Persons { get; set; } = new List<Person>();
-        public List<ProdCompany> Prodcompanies { get; set; } = new List<ProdCompany>();
-
 
         [BindProperty]
-        //liste over alle genres
+        //liste over muligheder for søgninger.
+        public List<string> Soegninger { get; set; } = new List<string>();
+
+        [BindProperty]
+        //liste over alle genres hentet fra DB i context.
+        public List<int> Year { get; set; } = new List<int>();
+
+        [BindProperty]
+        //liste over alle genres hentet fra DB i context.
         public List<Genres> TheOriginaleGenres { get; set; } = new List<Genres>();
+        
         // Listen over film som skal vises på en enkelt side:
         private List<Movie> movieList = new List<Movie>();
         private List<Movie> templiste = new List<Movie>();
@@ -46,15 +47,38 @@ namespace ASP_Web_Bootstrap.Pages
 
         public void OnGet()
         {
-            //pageNo = no;
-            //pageSize = size;
-
             // Skaber og bruger vores database objekt:
             using (var db = new MyDbContext())
             {
+                Soegninger.Add("Movie");
+                Soegninger.Add("Person");
+
+                Year.Add(1980);
+                Year.Add(1981);
+                Year.Add(1982);
+                Year.Add(1983);
+                Year.Add(1984);
+                Year.Add(1985);
+                Year.Add(1986);
+                Year.Add(1987);
+                Year.Add(1988);
+                Year.Add(1989);
+                Year.Add(1990);
+                Year.Add(1991);
+                Year.Add(1992);
+                Year.Add(1993);
+                Year.Add(1994);
+                Year.Add(1995);
+                Year.Add(1996);
+                Year.Add(1997);
+                Year.Add(1998);
+                Year.Add(1999);
+                Year.Add(2000);
+
+                //loader med vores genres beskrevet i genres db
                 TheOriginaleGenres = db.Genres.ToList();
 
-                // Jeg har en counter på, da jeg ikke vil hente ALLE film (1500+!!!) + mere !!!!!!!
+                //en counter på, da jeg ikke vil hente ALLE film (1500+!!!) + mere !!!!!!!
                 int i = 0;
                 // Vi gennemgår listen af film fra databasen
                 foreach (Movie movie in db.Movies)
@@ -73,12 +97,37 @@ namespace ASP_Web_Bootstrap.Pages
             using (var db = new MyDbContext())
             {
                 //dropdown menu skal sættes til at være genrelisten
+                Soegninger.Add("Movie");
+                Soegninger.Add("Person");
+
+                Year.Add(1980);
+                Year.Add(1981);
+                Year.Add(1982);
+                Year.Add(1983);
+                Year.Add(1984);
+                Year.Add(1985);
+                Year.Add(1986);
+                Year.Add(1987);
+                Year.Add(1988);
+                Year.Add(1989);
+                Year.Add(1990);
+                Year.Add(1991);
+                Year.Add(1992);
+                Year.Add(1993);
+                Year.Add(1994);
+                Year.Add(1995);
+                Year.Add(1996);
+                Year.Add(1997);
+                Year.Add(1998);
+                Year.Add(1999);
+                Year.Add(2000);
+
                 TheOriginaleGenres = db.Genres.ToList();
 
                 if (theinput.Name != "")
                 {
                     //tjekker om det er en person som er sat
-                    if (theinput.IsPerson == true)
+                    if (theinput.Searchtype == "Person")
                     {
                         //kigger efter personens navn i person db
                         Persons = db.Persons.Where(i => i._Personname.Contains(theinput.Name)).ToList();
@@ -96,19 +145,6 @@ namespace ASP_Web_Bootstrap.Pages
                                 MovieList = templiste;
                             }
                         }
-                    }
-
-                    if (theinput.IsProdCompany == true)
-                    {
-                        //kigger efter produktionsselskabets navn i ProdCompanies db
-                        Prodcompanies = db.ProdCompanies.Where(i => i._ProdCompanyname.Contains(theinput.Name)).ToList();
-                        foreach (var Prodcompany in Prodcompanies)
-                        {
-                            Console.WriteLine(Prodcompany._ProdCompanyname);
-                            Console.WriteLine(Prodcompany.prodCompanyId);
-                        }
-                        //fuck.... 
-                        //hvordan fanden slår jeg movieid op på baggrund af et prodcompany...
                     }
                     else
                     {
@@ -152,9 +188,17 @@ namespace ASP_Web_Bootstrap.Pages
                                 templiste.Add(film);
                             }
                         }
+
                         MovieList = templiste;
                     }
                 }
+
+                if (theinput.Year != "0")
+                {
+                     
+                }
+
+
             }
             return Page();
         }
@@ -201,14 +245,18 @@ namespace ASP_Web_Bootstrap.Pages
         public class InputMovie
         {
             [StringLength(100, ErrorMessage = "Maximum length is {1}")]
-            [Display(Name = "Moviename")]
+            [Display(Name = "Searching Field")]
             public string Name { get; set; } = "";
 
             [StringLength(100, ErrorMessage = "Maximum length is {1}")]
             public string GenreID { get; set; } = "0";
 
-            public bool IsPerson { get; set; }
-            public bool IsProdCompany { get; set; }
+            public string Searchtype { get; set; }
+
+            public string Year { get; set; }
+
+            //public bool IsPerson { get; set; }
+            //public bool IsProdCompany { get; set; }
 
             //public bool IsGenre { get; set; }
 

@@ -2,8 +2,8 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
-
 }
+
 <h3>Heading</h3>
 <p>Result count: @Model.MovieList.Count</p>
       <p><form method="post">
@@ -11,15 +11,25 @@
               <label asp-for="theinput.Name"></label>
               <input class="form-control" asp-for="theinput.Name" />
 
-              <label asp-for="theinput.IsPerson"></label>
+              @*<label asp-for="theinput.IsPerson"></label>
               <input id="Checkbox1" type="checkbox" asp-for="theinput.IsPerson"/>
+              *@
               
-              <select id="Select1" asp-items="@(new SelectList(Model.TheOriginaleGenres, "_genreId","_Genrename"))" asp-for="theinput.GenreID">
+              <select id="Select1" asp-items="@(new SelectList(Model.Soegninger))" asp-for="theinput.Searchtype">
+                   <option value="" selected disabled> -- Select Search criteria --</option>
+              </select>
+
+              <select id="Select2" asp-items="@(new SelectList(Model.TheOriginaleGenres, "_genreId","_Genrename"))" asp-for="theinput.GenreID">
                    <option value="" selected disabled> -- Select genre --</option>
               </select>
+
+              <select id="Select3" asp-items="@(new SelectList(Model.Year))" asp-for="theinput.Year">
+                   <option value="" selected disabled> -- Select Year of Creation --</option>
+              </select>
+
            
-              <label asp-for="theinput.IsProdCompany"></label>
-              <input id="Checkbox1" type="checkbox" asp-for="theinput.IsProdCompany"/>
+            @*  <label asp-for="theinput.IsProdCompany"></label>
+              <input id="Checkbox1" type="checkbox" asp-for="theinput.IsProdCompany"/>*@
                
 @*              <span asp-validation-for="theinput.Name" class="text-danger"></span> 
 *@          </div>
@@ -30,13 +40,21 @@
     @foreach(Movie movie in Model.MovieList)
     {
         <div class="col-xl-2 col-sm-6 col-md-4">
-            @movie._title <br />
+            @movie._title <br/>
             <img src=@("https://www.themoviedb.org/t/p/w220_and_h330_face" + @movie._posterUrl) height="237" width="165">
+           
         </div>
     }
 
+ @if (Model.MovieList.Count == 0)
+            {
+                <p>Sorry no results...</p>
+            }
+</div>
+
     <@*paging class="pagination" total-records="@Model.MovieList.Count" show-total-pages="false" show-totalrecords="false" 
     page-size="@Model.pageSize" page-no="@Model.pageNo"></paging>*@
+
 @*</div>
  <div class="pagination">
   <a href="#">&laquo;</a>
