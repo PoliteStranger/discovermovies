@@ -10,12 +10,14 @@ acquireApiLoop tis = new acquireApiLoop();
 List<int> moviesList = tis.getYear(2001);
 
 
+// 27205, 329, 553, 271110, 862
+
 using (var db = new MyDbContext())
 {
 
 
-
     
+
 
     // Gemmer alle genre i databasen
     MakeGenresList allGenres = new MakeGenresList(db);
@@ -40,12 +42,19 @@ using (var db = new MyDbContext())
         if(!db.Movies.Any(x => x.movieId == movieId))
         {
             // Vi tæller film tælleren en op
-            dlMovieCount++;
+            
+
+            dlMovieCount = moviesList.IndexOf(movieId)+1;
             // Vi skriver hvilken film vi er nået til
-            Console.WriteLine("Downloading {0}/{1}", dlMovieCount, moviesList.Count);
+            Console.WriteLine("\n\nDownloading {0}/{1}", dlMovieCount, moviesList.Count);
             // Vi downloader filmens info:
             n.getMovieDetails(movieId, db);
-            
+
+        }
+        else
+        {
+            Console.Write(".");
+
         }
         
     }
