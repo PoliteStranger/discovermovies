@@ -1,12 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\DiscoverMovies_v1"
+    "\\DiscoverMovies_v1",
+    "\\DiscoverMovies_v1\\DiscoverMoviesProduction",
+    "\\DiscoverMovies_v1\\DiscoverMoviesProduction\\DiscoverMovies",
+    "\\DiscoverMovies_v1\\DiscoverMoviesProduction\\DiscoverMovies\\Pages"
   ],
-<<<<<<< HEAD
-  "SelectedNode": "\\HTML pages framework.sln",
-=======
-  "SelectedNode": "\\DiscoverMovies_v1\\EFCoreSample",
->>>>>>> EFCorebranch
+  "SelectedNode": "\\DiscoverMovies_v1\\DiscoverMoviesProduction\\DiscoverMovies\\Pages\\MoviePage.cshtml",
   "PreviewInSolutionExplorer": false
 }
