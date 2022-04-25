@@ -86,10 +86,6 @@ namespace ASP_Web_Bootstrap.Pages
                 Year.Add(j);
             }
 
-            bool nameset = false;
-            bool genreset = false;
-            bool yearset = false;
-
             using (var db = new MyDbContext())
             {
                 TheOriginaleGenres = db.Genres.ToList();
@@ -126,7 +122,6 @@ namespace ASP_Web_Bootstrap.Pages
                         }
 
                         MovieList = templiste;
-
                         //Persons = db.Persons.Where(i => i._Personname.Contains(theinput.Name)).ToList();
 
                         //foreach (var person in Persons)
@@ -160,6 +155,24 @@ namespace ASP_Web_Bootstrap.Pages
                     if (templiste.Count >= 1)
                     {
                         //.ToList sikrer, at vi caster til en ny liste.
+                      //  var query  = (from gm in db.GenresAndMovies
+                      //                join m in db.Movies
+                      //                on gm._movieId equals m.movieId
+                      //                where   
+                            
+                      //               )
+                            
+
+
+                      //var result = from o in someObj 
+                      //   where 
+                      //   (Name == null  o.Name == Name)
+                      //   && 
+                      //   (City == null  o.City == City)
+                      //   && 
+                      //   (State == null || o.State == State)
+                      //   select o;
+
                         foreach (var item in templiste.ToList())
                         {
                             var tjek = db.GenresAndMovies
