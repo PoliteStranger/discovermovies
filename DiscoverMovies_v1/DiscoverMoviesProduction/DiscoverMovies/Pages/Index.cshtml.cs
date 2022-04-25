@@ -53,7 +53,7 @@ namespace ASP_Web_Bootstrap.Pages
                 Soegninger.Add("Movie");
                 Soegninger.Add("Person");
 
-                for (int j = 1980; j<2000; j++)
+                for (int j = 1980; j<2020; j++)
                 {
                     Year.Add(j);
                 }
@@ -83,7 +83,7 @@ namespace ASP_Web_Bootstrap.Pages
                 Soegninger.Add("Movie");
                 Soegninger.Add("Person");
 
-                for (int j = 1980; j<2000; j++)
+                for (int j = 1980; j<2020; j++)
                 {
                     Year.Add(j);
                 }
@@ -164,73 +164,44 @@ namespace ASP_Web_Bootstrap.Pages
 
                 if (theinput.Year != "0")
                 {
-                    //***************//
-                    //MULIGHED 1
-                    //***************//
-                    //var theMovies = db.Movies.Where(i => i._releaseDate.Year==Int32.Parse(theinput.Year)).ToList();
-                    //foreach (var item in theMovies)
-                    //{
-                    //    Console.WriteLine(theMovies.Count);
-                    //}
+                    int genreid = Int32.Parse(theinput.GenreID);
 
-                    //***************//
-                    //MULIGHED 2
-                    //***************//
-                    var templiste1 = db.Movies.ToList();
-                    templiste.Clear();
-                    int counter = 0;
-                    foreach (var item in templiste1)
+                    if (templiste.Count >= 1)
                     {
-                        string ting = item._releaseDate.ToString();
-
-                        char[] spearator = { '-', ' '};
-                        Int32 count = 4;
-
-                        String[] strlist = ting.Split(spearator,
-                               count, StringSplitOptions.None);
-
-                        for (int i=0;i<strlist.Length;i++)
+                        //.ToList sikrer, at vi caster til en ny liste.
+                        foreach (var item in templiste.ToList())
                         {
-                            if (strlist[i] == theinput.Year)
+                            //Stemmer både movieID og GenreID?
+
+                            var tjek = db.GenresAndMovies
+                                .Any(i => i._movieId == item.movieId && i._genreId == genreid);
+
+                            if (tjek == false)
                             {
-                                templiste.Add(item);
-                                
-                                ++counter;
-                                foreach (var item3 in templiste)
-                                {
-                                    Console.WriteLine(item3.movieId);
-                                    if (counter == 50)
-                                    {
-                                        break;
-                                    }
-                                }
+                                templiste.Remove(item);
                             }
+
+                            var tjek2 = templiste.Any(i => i._releaseDate.Value.Year==Int32.Parse(theinput.Year));
+
+                            if (tjek2 == false)
+                            {
+                                templiste.Remove(item);
+                            }
+
+                            Console.WriteLine(item._title);
                         }
+                        //MovieList = templiste;
 
                     }
 
-                    MovieList = templiste;
+                    else
+                    {
+                        var templiste = db.Movies.Where(i => i._releaseDate.Value.Year==Int32.Parse(theinput.Year)).ToList();
 
-                    //var query = (from m in inputMovies.ToList()
-                    //             join e in db.Employments.ToList()
-                    //             on m.movieId equals e._movieId
-                    //             join eb in db.Employments.ToList()
-                    //             on m.movieId equals eb._movieId
-                    //             where e._personId == personPair.personA
-                    //             where eb._personId == personPair.personB
-                    //             select new
-                    //             {
-                    //                 MovieId = e._movieId,
-                    //                 MovieTitle = m._title,
-                    //                 Director = personPair.personA,
-                    //                 Producer = personPair.personB
-                    //             }).ToList();
-
-
-
+                        MovieList = templiste;
+                    }
+                   
                 }
-
-
             }
             return Page();
         }
