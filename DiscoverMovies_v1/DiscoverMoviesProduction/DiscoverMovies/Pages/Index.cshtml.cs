@@ -77,26 +77,23 @@ namespace ASP_Web_Bootstrap.Pages
 
         public IActionResult OnPost()
         {
+            //dropdown menu skal sættes til at være genrelisten
+            Soegninger.Add("Movie");
+            Soegninger.Add("Person");
+
+            for (int j = 1990; j<2020; j++)
+            {
+                Year.Add(j);
+            }
+
+            bool nameset = false;
+            bool genreset = false;
+            bool yearset = false;
+
             using (var db = new MyDbContext())
             {
-                //dropdown menu skal sættes til at være genrelisten
-                Soegninger.Add("Movie");
-                Soegninger.Add("Person");
-
-                for (int j = 1990; j<2020; j++)
-                {
-                    Year.Add(j);
-                }
-                
                 TheOriginaleGenres = db.Genres.ToList();
-                
-                bool nameset = false;
-                if (theinput.Name != "")
-                {
 
-                }
-
-                
                 if (theinput.Name != "")
                 {
                     //tjekker om det er en person som er sat
@@ -104,24 +101,51 @@ namespace ASP_Web_Bootstrap.Pages
                     {
                         //kigger efter personens navn i person db
 
-                        Persons = db.Persons.Where(i => i._Personname.Contains(theinput.Name)).ToList();
-                        foreach (var person in Persons)
+                        var query = (from p in db.Persons
+                                     join e in db.Employments
+                                     on p._personId equals e._personId
+                                     join m in db.Movies
+                                     on e._movieId equals m.movieId
+                                     where p._Personname.Contains(theinput.Name)
+                                     select new
+                                     {
+                                         movieid = m.movieId,
+                                         movietitel = m._title,
+                                         movieposter = m._posterUrl,
+                                     }
+                                     ).ToList();
+
+                        foreach(var item in query)
                         {
-                            //kigger efter hver person i employments for at finde movie id'er
-                            var liste = db.Employments.Where(i=>i._personId==person._personId).ToList();
-                            foreach (var movie in liste)
-                            {
-                                var liste1 = db.Movies.Where(i => i.movieId==movie._movieId).ToList();
-                                foreach (var film in liste1)
-                                {
-                                    templiste.Add(film);
-                                }
-                                MovieList = templiste;
-                            }
+                            Movie tempmovie = new Movie();
+
+                            tempmovie._title = item.movietitel;
+                            tempmovie._posterUrl = item.movieposter;
+                            tempmovie.movieId = item.movieid;
+                            templiste.Add(tempmovie);
                         }
+
+                        MovieList = templiste;
+
+                        //Persons = db.Persons.Where(i => i._Personname.Contains(theinput.Name)).ToList();
+
+                        //foreach (var person in Persons)
+                        //{
+                        //    //kigger efter hver person i employments for at finde movie id'er
+                        //    var liste = db.Employments.Where(i=>i._personId==person._personId).ToList();
+                        //    foreach (var movie in liste)
+                        //    {
+                        //        var liste1 = db.Movies.Where(i => i.movieId==movie._movieId).ToList();
+                        //        foreach (var film in liste1)
+                        //        {
+                        //            templiste.Add(film);
+                        //        }
+                        //        MovieList = templiste;
+                        //    }
+                        //}
                     }
                     //Så ved vi det er en film som søges efter
-                    else
+                    else if (theinput.Searchtype == "Movie")
                     {
                         templiste = db.Movies.Where(i => i._title.Contains(theinput.Name)).ToList();
                         MovieList = templiste;
@@ -167,46 +191,46 @@ namespace ASP_Web_Bootstrap.Pages
                     }
                 }
 
-                if (theinput.Year != "0")
-                {
-                    int genreid = Int32.Parse(theinput.GenreID);
+                //if (theinput.Year != "0")
+                //{
+                //    int genreid = Int32.Parse(theinput.GenreID);
 
-                    if (templiste.Count >= 1)
-                    {
-                        //.ToList sikrer, at vi caster til en ny liste.
-                        foreach (var item in templiste.ToList())
-                        {
-                            //Stemmer både movieID og GenreID?
+                //    if (templiste.Count >= 1)
+                //    {
+                //        //.ToList sikrer, at vi caster til en ny liste.
+                //        foreach (var item in templiste.ToList())
+                //        {
+                //            //Stemmer både movieID og GenreID?
 
-                            var tjek = db.GenresAndMovies
-                                .Any(i => i._movieId == item.movieId && i._genreId == genreid);
+                //            var tjek = db.GenresAndMovies
+                //                .Any(i => i._movieId == item.movieId && i._genreId == genreid);
 
-                            if (tjek == false)
-                            {
-                                templiste.Remove(item);
-                            }
+                //            if (tjek == false)
+                //            {
+                //                templiste.Remove(item);
+                //            }
 
-                            var tjek2 = templiste.Any(i => i._releaseDate.Value.Year==Int32.Parse(theinput.Year));
+                //            var tjek2 = templiste.Any(i => i._releaseDate.Value.Year==Int32.Parse(theinput.Year));
 
-                            if (tjek2 == false)
-                            {
-                                templiste.Remove(item);
-                            }
+                //            if (tjek2 == false)
+                //            {
+                //                templiste.Remove(item);
+                //            }
 
-                            Console.WriteLine(item._title);
-                        }
-                        //MovieList = templiste;
+                //            Console.WriteLine(item._title);
+                //        }
+                //        //MovieList = templiste;
 
-                    }
+                //    }
 
-                    else
-                    {
-                        var templiste = db.Movies.Where(i => i._releaseDate.Value.Year==Int32.Parse(theinput.Year)).ToList();
+                //    else
+                //    {
+                //        var templiste = db.Movies.Where(i => i._releaseDate.Value.Year==Int32.Parse(theinput.Year)).ToList();
 
-                        MovieList = templiste;
-                    }
+                //        MovieList = templiste;
+                //    }
                    
-                }
+                //}
             }
             return Page();
         }
