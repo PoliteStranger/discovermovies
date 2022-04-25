@@ -57,6 +57,7 @@ namespace ASP_Web_Bootstrap.Pages
                 {
                     Year.Add(j);
                 }
+
                 //loader med vores genres beskrevet i genres db
                 TheOriginaleGenres = db.Genres.ToList();
 
@@ -81,21 +82,6 @@ namespace ASP_Web_Bootstrap.Pages
                 //dropdown menu skal sættes til at være genrelisten
                 Soegninger.Add("Movie");
                 Soegninger.Add("Person");
-
-                //var query = (from m in inputMovies.ToList()
-                //             join e in db.Employments.ToList()
-                //             on m.movieId equals e._movieId
-                //             join eb in db.Employments.ToList()
-                //             on m.movieId equals eb._movieId
-                //             where e._personId == personPair.personA
-                //             where eb._personId == personPair.personB
-                //             select new
-                //             {
-                //                 MovieId = e._movieId,
-                //                 MovieTitle = m._title,
-                //                 Director = personPair.personA,
-                //                 Producer = personPair.personB
-                //             }).ToList();
 
                 for (int j = 1980; j<2000; j++)
                 {
@@ -127,6 +113,7 @@ namespace ASP_Web_Bootstrap.Pages
                             }
                         }
                     }
+                    //Så ved vi det er en film som søges efter
                     else
                     {
                         templiste = db.Movies.Where(i => i._title.Contains(theinput.Name)).ToList();
@@ -174,17 +161,55 @@ namespace ASP_Web_Bootstrap.Pages
                     }
                 }
 
+
                 if (theinput.Year != "0")
                 {
-                    var templisten = db.Movies.ToList();
-                    int aar = Int32.Parse(theinput.Year);
+                    //***************//
+                    //MULIGHED 1
+                    //***************//
+                    //var theMovies = db.Movies.Where(i => i._releaseDate.Year==Int32.Parse(theinput.Year)).ToList();
+                    //foreach (var item in theMovies)
+                    //{
+                    //    Console.WriteLine(theMovies.Count);
+                    //}
+
+                    //***************//
+                    //MULIGHED 2
+                    //***************//
+                    var templiste1 = db.Movies.ToList();
                     templiste.Clear();
-                    foreach (var item in templisten)
+                    int counter = 0;
+                    foreach (var item in templiste1)
                     {
-                        var ting = item._releaseDate.ToString();
-                        
-                        Console.WriteLine(ting);
+                        string ting = item._releaseDate.ToString();
+
+                        char[] spearator = { '-', ' '};
+                        Int32 count = 4;
+
+                        String[] strlist = ting.Split(spearator,
+                               count, StringSplitOptions.None);
+
+                        for (int i=0;i<strlist.Length;i++)
+                        {
+                            if (strlist[i] == theinput.Year)
+                            {
+                                templiste.Add(item);
+                                
+                                ++counter;
+                                foreach (var item3 in templiste)
+                                {
+                                    Console.WriteLine(item3.movieId);
+                                    if (counter == 50)
+                                    {
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
                     }
+
+                    MovieList = templiste;
 
                     //var query = (from m in inputMovies.ToList()
                     //             join e in db.Employments.ToList()
