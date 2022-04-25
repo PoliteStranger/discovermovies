@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscoverMoviesPrj", "DiscoverMoviesPrj\DiscoverMoviesPrj.csproj", "{08A75FF1-A121-40B9-9908-084D8D6B72D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bootstrap Project", "ASP Web Bootstrap\Bootstrap Project.csproj", "{7CC774FE-CE5B-437E-94DB-8BB6E4276153}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscoverMoviesProduction", "DiscoverMoviesProduction\DiscoverMoviesProduction.csproj", "{198B5826-7013-46F7-9874-34FB4AD29BA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCoreProjekt", "EFCoreProjekt\EFCoreProjekt.csproj", "{1CED8EEF-ECCB-45C3-9C1D-4DB83C2E8A52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTML pages framework", "HTML pages framework\HTML pages framework.csproj", "{2A051063-BE60-44D3-8567-AFE06847FB4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscoverMovies.NUnit.test", "DiscoverMovies.NUnit.test\DiscoverMovies.NUnit.test.csproj", "{F8E77CC7-BF69-4B87-AE53-AF5CFB12A867}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{08A75FF1-A121-40B9-9908-084D8D6B72D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08A75FF1-A121-40B9-9908-084D8D6B72D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08A75FF1-A121-40B9-9908-084D8D6B72D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08A75FF1-A121-40B9-9908-084D8D6B72D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CC774FE-CE5B-437E-94DB-8BB6E4276153}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CC774FE-CE5B-437E-94DB-8BB6E4276153}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CC774FE-CE5B-437E-94DB-8BB6E4276153}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CC774FE-CE5B-437E-94DB-8BB6E4276153}.Release|Any CPU.Build.0 = Release|Any CPU
+		{198B5826-7013-46F7-9874-34FB4AD29BA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{198B5826-7013-46F7-9874-34FB4AD29BA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{198B5826-7013-46F7-9874-34FB4AD29BA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{198B5826-7013-46F7-9874-34FB4AD29BA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CED8EEF-ECCB-45C3-9C1D-4DB83C2E8A52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CED8EEF-ECCB-45C3-9C1D-4DB83C2E8A52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CED8EEF-ECCB-45C3-9C1D-4DB83C2E8A52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CED8EEF-ECCB-45C3-9C1D-4DB83C2E8A52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A051063-BE60-44D3-8567-AFE06847FB4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A051063-BE60-44D3-8567-AFE06847FB4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A051063-BE60-44D3-8567-AFE06847FB4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A051063-BE60-44D3-8567-AFE06847FB4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8E77CC7-BF69-4B87-AE53-AF5CFB12A867}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8E77CC7-BF69-4B87-AE53-AF5CFB12A867}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8E77CC7-BF69-4B87-AE53-AF5CFB12A867}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8E77CC7-BF69-4B87-AE53-AF5CFB12A867}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {630A7029-240D-4DCC-A3DC-5DA9FC510CF3}
+	EndGlobalSection
+EndGlobal
