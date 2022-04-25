@@ -96,7 +96,6 @@ namespace ASP_Web_Bootstrap.Pages
                     if (theinput.Searchtype == "Person")
                     {
                         //kigger efter personens navn i person db
-
                         var query = (from p in db.Persons
                                      join e in db.Employments
                                      on p._personId equals e._personId
