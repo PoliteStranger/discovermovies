@@ -176,6 +176,16 @@ namespace ASP_Web_Bootstrap.Pages
 
                 if (theinput.Year != "0")
                 {
+                    var templisten = db.Movies.ToList();
+                    int aar = Int32.Parse(theinput.Year);
+                    templiste.Clear();
+                    foreach (var item in templisten)
+                    {
+                        var ting = item._releaseDate.ToString();
+                        
+                        Console.WriteLine(ting);
+                    }
+
                     //var query = (from m in inputMovies.ToList()
                     //             join e in db.Employments.ToList()
                     //             on m.movieId equals e._movieId
