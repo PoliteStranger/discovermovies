@@ -53,7 +53,7 @@ namespace ASP_Web_Bootstrap.Pages
                 Soegninger.Add("Movie");
                 Soegninger.Add("Person");
 
-                for (int j = 1980; j<2020; j++)
+                for (int j = 1990; j<2020; j++)
                 {
                     Year.Add(j);
                 }
@@ -83,13 +83,20 @@ namespace ASP_Web_Bootstrap.Pages
                 Soegninger.Add("Movie");
                 Soegninger.Add("Person");
 
-                for (int j = 1980; j<2020; j++)
+                for (int j = 1990; j<2020; j++)
                 {
                     Year.Add(j);
                 }
                 
                 TheOriginaleGenres = db.Genres.ToList();
+                
+                bool nameset = false;
+                if (theinput.Name != "")
+                {
 
+                }
+
+                
                 if (theinput.Name != "")
                 {
                     //tjekker om det er en person som er sat
@@ -121,7 +128,6 @@ namespace ASP_Web_Bootstrap.Pages
                     }
                 }
 
-                //Tjekkes om genreid er sat.
                 if (theinput.GenreID != "0")
                 {
                     //cast theinput.GenreID til int
@@ -160,7 +166,6 @@ namespace ASP_Web_Bootstrap.Pages
                         MovieList = templiste;
                     }
                 }
-
 
                 if (theinput.Year != "0")
                 {
@@ -205,45 +210,6 @@ namespace ASP_Web_Bootstrap.Pages
             }
             return Page();
         }
-
-
-        // JUST IN CASE !
-        /*
-        public IActionResult OnPost()
-        {
-            Console.WriteLine("Itemname: {0}", theinput.Name);
-            Console.WriteLine("{0}",theinput.GenreID);
-            using (var db = new MyDbContext())
-            {
-                if (theinput.IsMovie == true)
-                {
-                    MovieList = db.Movies.Where(i => i._title.Contains(theinput.Name)).ToList();
-                    foreach (var item in tings)
-                    {
-                        Console.WriteLine(tings.Count);
-                        Console.WriteLine(theinput.GenreID);
-                    }
-                }
-                if (theinput.IsGenre == true)
-                {
-                    var thegenrelist = db.Genres.Where(i => i._Genrename == theinput.Name).ToList();
-                    Genres thefirst=thegenrelist.First();
-                    var theMoviesByGenres = db.GenresAndMovies.Where(i => i._genreId == thefirst._genreId).ToList();
-                    foreach (var item in theMoviesByGenres)
-                    {
-                        var film = db.Movies.Find(item._movieId);
-                        tings.Add(film);
-                    }
-                    MovieList = tings;
-                }
-                else
-                {
-                    return Page();
-                }
-            }
-            return Page();
-        }
-        */
 
         public class InputMovie
         {
