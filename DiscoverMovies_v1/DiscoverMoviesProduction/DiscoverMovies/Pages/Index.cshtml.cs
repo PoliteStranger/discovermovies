@@ -53,28 +53,10 @@ namespace ASP_Web_Bootstrap.Pages
                 Soegninger.Add("Movie");
                 Soegninger.Add("Person");
 
-                Year.Add(1980);
-                Year.Add(1981);
-                Year.Add(1982);
-                Year.Add(1983);
-                Year.Add(1984);
-                Year.Add(1985);
-                Year.Add(1986);
-                Year.Add(1987);
-                Year.Add(1988);
-                Year.Add(1989);
-                Year.Add(1990);
-                Year.Add(1991);
-                Year.Add(1992);
-                Year.Add(1993);
-                Year.Add(1994);
-                Year.Add(1995);
-                Year.Add(1996);
-                Year.Add(1997);
-                Year.Add(1998);
-                Year.Add(1999);
-                Year.Add(2000);
-
+                for (int j = 1980; j<2000; j++)
+                {
+                    Year.Add(j);
+                }
                 //loader med vores genres beskrevet i genres db
                 TheOriginaleGenres = db.Genres.ToList();
 
@@ -100,28 +82,26 @@ namespace ASP_Web_Bootstrap.Pages
                 Soegninger.Add("Movie");
                 Soegninger.Add("Person");
 
-                Year.Add(1980);
-                Year.Add(1981);
-                Year.Add(1982);
-                Year.Add(1983);
-                Year.Add(1984);
-                Year.Add(1985);
-                Year.Add(1986);
-                Year.Add(1987);
-                Year.Add(1988);
-                Year.Add(1989);
-                Year.Add(1990);
-                Year.Add(1991);
-                Year.Add(1992);
-                Year.Add(1993);
-                Year.Add(1994);
-                Year.Add(1995);
-                Year.Add(1996);
-                Year.Add(1997);
-                Year.Add(1998);
-                Year.Add(1999);
-                Year.Add(2000);
+                //var query = (from m in inputMovies.ToList()
+                //             join e in db.Employments.ToList()
+                //             on m.movieId equals e._movieId
+                //             join eb in db.Employments.ToList()
+                //             on m.movieId equals eb._movieId
+                //             where e._personId == personPair.personA
+                //             where eb._personId == personPair.personB
+                //             select new
+                //             {
+                //                 MovieId = e._movieId,
+                //                 MovieTitle = m._title,
+                //                 Director = personPair.personA,
+                //                 Producer = personPair.personB
+                //             }).ToList();
 
+                for (int j = 1980; j<2000; j++)
+                {
+                    Year.Add(j);
+                }
+                
                 TheOriginaleGenres = db.Genres.ToList();
 
                 if (theinput.Name != "")
@@ -130,6 +110,7 @@ namespace ASP_Web_Bootstrap.Pages
                     if (theinput.Searchtype == "Person")
                     {
                         //kigger efter personens navn i person db
+
                         Persons = db.Persons.Where(i => i._Personname.Contains(theinput.Name)).ToList();
                         foreach (var person in Persons)
                         {
@@ -195,7 +176,23 @@ namespace ASP_Web_Bootstrap.Pages
 
                 if (theinput.Year != "0")
                 {
-                     
+                    //var query = (from m in inputMovies.ToList()
+                    //             join e in db.Employments.ToList()
+                    //             on m.movieId equals e._movieId
+                    //             join eb in db.Employments.ToList()
+                    //             on m.movieId equals eb._movieId
+                    //             where e._personId == personPair.personA
+                    //             where eb._personId == personPair.personB
+                    //             select new
+                    //             {
+                    //                 MovieId = e._movieId,
+                    //                 MovieTitle = m._title,
+                    //                 Director = personPair.personA,
+                    //                 Producer = personPair.personB
+                    //             }).ToList();
+
+
+
                 }
 
 
