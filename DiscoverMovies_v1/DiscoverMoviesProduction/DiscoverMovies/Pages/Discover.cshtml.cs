@@ -26,11 +26,11 @@ namespace ASP_Web_Bootstrap.Pages
                 // 5 random film som er i db!
                 // 8374, 1542, 603, 564, 3293
                 // Til 27205, 329, 553, 271110, 862
-                inputMovies.Add(db.Movies.Where(c => c.movieId == 8374).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
-                inputMovies.Add(db.Movies.Where(c => c.movieId == 1542).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
-                inputMovies.Add(db.Movies.Where(c => c.movieId == 603).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
-                inputMovies.Add(db.Movies.Where(c => c.movieId == 564).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
-                inputMovies.Add(db.Movies.Where(c => c.movieId == 3293).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
+                inputMovies.Add(db.Movies.Where(c => c.movieId == 11398).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
+                inputMovies.Add(db.Movies.Where(c => c.movieId == 955).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
+                inputMovies.Add(db.Movies.Where(c => c.movieId == 8358).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
+                inputMovies.Add(db.Movies.Where(c => c.movieId == 453).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
+                inputMovies.Add(db.Movies.Where(c => c.movieId == 107).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
             }
 
 

@@ -145,8 +145,10 @@ namespace DiscoverMoviesProduction
             List<DiscoverScore> finalScore = new List<DiscoverScore>();
 
             double GenreMaxScore = genreMovies.Max(x => x.Score);
+            double GenreMinScore = genreMovies.Min(x => x.Score);
             double CastMaxScore = castMovies.Max(x => x.Score);
             double CrewMaxScore = crewMovies.Max(x => x.Score);
+            double CrewMinScore = crewMovies.Min( x => x.Score);    
 
             // Gennemgang af shortlist, og tælle points sammen:
             foreach (var movie in shortList)
@@ -156,13 +158,13 @@ namespace DiscoverMoviesProduction
 
                 // HVIS filmen har fået en score
                 if(genreMovies.Any(x => x.Movie == movie))
-                    score += (1/GenreMaxScore) * genreMovies.Find(x => x.Movie == movie).Score; // Så hent dens points fra Genre Filteret
+                    score += (double)(1/(GenreMaxScore-GenreMinScore)) * genreMovies.Find(x => x.Movie == movie).Score; // Så hent dens points fra Genre Filteret
                 // HVIS filmen har fået en score
-                if (castMovies.Any(x => x.Movie == movie))
-                    score += (1 / CastMaxScore) * castMovies.Find(x => x.Movie == movie).Score;// Så hent dens points fra Cast Filteret
+                //if (castMovies.Any(x => x.Movie == movie))
+                    //score += (1 / CastMaxScore) * castMovies.Find(x => x.Movie == movie).Score;// Så hent dens points fra Cast Filteret
                 // HVIS filmen har fået en score
                 if (crewMovies.Any(x => x.Movie == movie))
-                    score += (1 / CrewMaxScore) * crewMovies.Find(x => x.Movie == movie).Score;// Så hent dens points fra Crew Filteret
+                    score += (double)(1 / (CrewMaxScore - CrewMinScore)) * crewMovies.Find(x => x.Movie == movie).Score;// Så hent dens points fra Crew Filteret
 
                 // Til filmen, samt summen af dens points:
                 finalScore.Add(new DiscoverScore(movie, score));
@@ -173,7 +175,8 @@ namespace DiscoverMoviesProduction
 
             // Print til consol
             Console.WriteLine("Final scores:");
-            foreach(var score in finalScore)
+            finalScore = finalScore.GetRange(0, 10).ToList();
+            foreach (var score in finalScore)
             {
                 Console.WriteLine(score.Movie._title + ": " + score.Score.ToString("0.00"));
             }
@@ -237,6 +240,7 @@ namespace DiscoverMoviesProduction
 
             }
             discoverScores = discoverScores.OrderByDescending(x => x.Score).ToList();
+            
             foreach (var score in discoverScores)
             {
                 Console.WriteLine(score.Movie._title + " has " + score.Score);
@@ -301,11 +305,12 @@ namespace DiscoverMoviesProduction
 
                     if (movie._employmentList.Any(x => x._personId == employment._personId))
                     {
+                        int Addscore = 1;
 
                         // If match, then pass out score:
                         if (discoverScores.Any(x => x.Movie == movie))
                         {
-                            discoverScores.Find(x => x.Movie == movie).Score++;
+                            discoverScores.Find(x => x.Movie == movie).Score += Addscore;
                             //Console.Write(" Match!");
                         }
                         else
@@ -500,7 +505,7 @@ namespace DiscoverMoviesProduction
                         // Vi vægter instruktøre højere!
                         if (employment._job == "Director" || employment._job == "Producer")
                         {
-                            AddScore = 2;
+                            AddScore = 3;
                             //Console.WriteLine("Director/Producer spottet!");
                         }
 
@@ -523,6 +528,8 @@ namespace DiscoverMoviesProduction
             }
 
             discoverScores = discoverScores.OrderByDescending(x => x.Score).ToList();
+            
+
             foreach(var score in discoverScores)
             {
                 Console.WriteLine(score.Movie._title + " has " + score.Score);
