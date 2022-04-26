@@ -607,17 +607,17 @@ namespace DiscoverMoviesProduction
             Console.WriteLine("FILTER: PROD COMPANIES");
             Console.WriteLine("-------------------------------------------------");
 
-
+            var db = new MyDbContext();
 
 
             List<Movie> prodList = new List<Movie>();
 
             foreach(var movie in shortlist.ToList())
             {
-                Console.WriteLine("ProdList Count: " + movie._prodCompanyList.Count());
-                foreach(var prod in movie._prodCompanyList.ToList())
+                Console.WriteLine("ProdList Count: " + db.ProducedBy.Where(x => x._movieId == movie.movieId).Count());
+                foreach(var prod in db.ProducedBy.Where(x => x._movieId == movie.movieId).ToList())
                 {
-                    Console.WriteLine("Prod. Co.: " + prod._ProdCompanyname);
+                    Console.WriteLine("Prod. Co.: " + db.ProdCompanies.Where(x => x.prodCompanyId == prod.prodCompanyId).FirstOrDefault()._ProdCompanyname);
                 }
             }
 
