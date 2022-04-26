@@ -28,8 +28,8 @@ namespace ASP_Web_Bootstrap.Pages
                 // Til 27205, 329, 553, 271110, 862
                 inputMovies.Add(db.Movies.Where(c => c.movieId == 11398).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
                 inputMovies.Add(db.Movies.Where(c => c.movieId == 955).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
-                inputMovies.Add(db.Movies.Where(c => c.movieId == 8358).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
-                inputMovies.Add(db.Movies.Where(c => c.movieId == 453).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
+                inputMovies.Add(db.Movies.Where(c => c.movieId == 1493).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
+                inputMovies.Add(db.Movies.Where(c => c.movieId == 2787).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
                 inputMovies.Add(db.Movies.Where(c => c.movieId == 107).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
             }
 

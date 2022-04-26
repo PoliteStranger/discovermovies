@@ -102,14 +102,15 @@ namespace AcquireDB_EFcore
                 // Hvis firmaet ikke findes i databasen, så kan vi både tilføje det og lægge det i filmens firma liste
                 if (db.ProdCompanies.Find((int)company.id) == null)
                 {
-                    
-                    newMovie._ProdCompaniesList.Add(new ProdCompany() { ProdCompanyId = (int)company.id, _ProdCompanyname = (string)company.name, _ProdCompanycountry = (string)company.origin_country });
+                    ProdCompany newComp = new ProdCompany() { ProdCompanyId = (int)company.id, _ProdCompanyname = (string)company.name, _ProdCompanycountry = (string)company.origin_country };
+                    db.ProdCompanies.Add(newComp);  
+                    newMovie._ProdCompaniesList.Add(new ProducedBy() { prodCompanyId = (int)company.id, _movieId = movieId });
                     statsProds++;
                 }
                 else
                 {
                     // Den findes allerede, så vi bruger referencen fra den som er der.
-                    newMovie._ProdCompaniesList.Add(db.ProdCompanies.Find((int)company.id));
+                    newMovie._ProdCompaniesList.Add(new ProducedBy() { prodCompanyId = (int)company.id, _movieId = movieId });
                 }
 
                 

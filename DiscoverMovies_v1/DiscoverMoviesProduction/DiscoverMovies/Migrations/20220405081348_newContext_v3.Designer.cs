@@ -4,6 +4,7 @@ using AcquireDB_EFcore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AcquireDB_EFcore.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220405081348_newContext_v3")]
+    partial class newContext_v3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -95,29 +97,6 @@ namespace AcquireDB_EFcore.Migrations
                     b.HasIndex("movieId");
 
                     b.ToTable("ProdCompanies");
-                });
-
-            modelBuilder.Entity("AcquireDB_EFcore.Tables.ProducedBy", b =>
-                {
-                    b.Property<int>("producedById")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("producedById"), 1L, 1);
-
-                    b.Property<int>("_movieId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("prodCompanyId")
-                        .HasColumnType("int");
-
-                    b.HasKey("producedById");
-
-                    b.HasIndex("_movieId");
-
-                    b.HasIndex("prodCompanyId");
-
-                    b.ToTable("ProducedBy");
                 });
 
             modelBuilder.Entity("Genres", b =>
@@ -244,25 +223,6 @@ namespace AcquireDB_EFcore.Migrations
                     b.HasOne("Movie", null)
                         .WithMany("_ProdCompaniesList")
                         .HasForeignKey("movieId");
-                });
-
-            modelBuilder.Entity("AcquireDB_EFcore.Tables.ProducedBy", b =>
-                {
-                    b.HasOne("Movie", "Movies")
-                        .WithMany()
-                        .HasForeignKey("_movieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AcquireDB_EFcore.Tables.ProdCompany", "ProdCompanies")
-                        .WithMany()
-                        .HasForeignKey("prodCompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Movies");
-
-                    b.Navigation("ProdCompanies");
                 });
 
             modelBuilder.Entity("Movie", b =>

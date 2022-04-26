@@ -97,29 +97,6 @@ namespace AcquireDB_EFcore.Migrations
                     b.ToTable("ProdCompanies");
                 });
 
-            modelBuilder.Entity("AcquireDB_EFcore.Tables.ProducedBy", b =>
-                {
-                    b.Property<int>("producedById")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("producedById"), 1L, 1);
-
-                    b.Property<int>("_movieId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("prodCompanyId")
-                        .HasColumnType("int");
-
-                    b.HasKey("producedById");
-
-                    b.HasIndex("_movieId");
-
-                    b.HasIndex("prodCompanyId");
-
-                    b.ToTable("ProducedBy");
-                });
-
             modelBuilder.Entity("Genres", b =>
                 {
                     b.Property<int>("_genreId")
@@ -244,25 +221,6 @@ namespace AcquireDB_EFcore.Migrations
                     b.HasOne("Movie", null)
                         .WithMany("_ProdCompaniesList")
                         .HasForeignKey("movieId");
-                });
-
-            modelBuilder.Entity("AcquireDB_EFcore.Tables.ProducedBy", b =>
-                {
-                    b.HasOne("Movie", "Movies")
-                        .WithMany()
-                        .HasForeignKey("_movieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AcquireDB_EFcore.Tables.ProdCompany", "ProdCompanies")
-                        .WithMany()
-                        .HasForeignKey("prodCompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Movies");
-
-                    b.Navigation("ProdCompanies");
                 });
 
             modelBuilder.Entity("Movie", b =>

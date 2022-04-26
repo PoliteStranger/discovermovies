@@ -4,6 +4,7 @@ using Database.Tables;
 
 namespace DiscoverMoviesProduction
 {
+    // Datastrukturen til at holde points tildelt filene af filtrene
     public class DiscoverScore
     {
         public DiscoverScore()
@@ -23,7 +24,7 @@ namespace DiscoverMoviesProduction
 
     }
 
-    // Til at skabe lister over par
+    // Til at skabe lister over par, skal evt droppes!
     public class PersonPair
 	{
         public int personA { get; set; }
@@ -37,11 +38,16 @@ namespace DiscoverMoviesProduction
 	}
 
      
-
+    // Selve Discover algoritmen
     public class Discover
     {
+        // Listen som holder alle film som kan vælges imellem.
         List<Movie> shortList = new List<Movie>();
+
+        // De fem film valgt inde på Discover siden.
         List<Movie> inputMovies;
+
+
 
         // Settings:
 
@@ -52,7 +58,8 @@ namespace DiscoverMoviesProduction
         private double filmPopularityMin = 20.0;
         
 
-        // Time Logging:
+
+        // Time Logging: Til at teste hvor lang tid det tager at beregne Discover
         public DateTime Start { get; set; }
         private DateTime End { get; set; }
 
@@ -63,37 +70,37 @@ namespace DiscoverMoviesProduction
             // Log time:
             Start = DateTime.Now;
 
+            // læg input movies over i den variabel som vi arbejder med.
             this.inputMovies = inputMovies;
-
-            // Shortlist
-            //      Alle film, som samtlige instruktører, producerer, og filmstjerner(pop 20+) har være med til at lave
-            //
 
 
             using (var db = new MyDbContext())
             {
-                // 8374, 1542, 603, 564, 3293
-
-
-
-                
-
+                // Ny liste over personer, som skal bruges til at finde alle VIP fra de fem inputfilm
                 List<Person> people = new List<Person>();
 
                 // Find alle instruktøre og producere, og skuespillere m. popularity 20+
                 foreach (var movie in inputMovies)
                 {
 
-                    // db.Movies.Where(x => x._movieId == 3293).Include(x => x._Employment).First
 
+                    // Vi gennemgår alle personer involveret i de fem udvalgte film
                     foreach(var employment in db.Employments.Where(x => x._movieId == movie.movieId).ToList())
                     {
-                        if(employment._job != "Acting")
+                        // Vi sætter alle Instruktøre og Producere til side:
+                        if (employment._job == "Director" || employment._job == "Producer")
                         {
                             people.Add(db.Persons.Find(employment._personId));
                         }
 
-                        if(employment._job == "Acting" && db.Persons.Find(employment._personId)._Personpopularity > actorPopularityMin)
+                        // Temp forsøg, skal slettes!
+                        if (employment._job != "Acting")
+                        {
+                            //people.Add(db.Persons.Find(employment._personId));
+                        }
+
+                        // Vi sætter alle skuespillere med popularity over actorPopularityMin til side også...
+                        if (employment._job == "Acting" && db.Persons.Find(employment._personId)._Personpopularity > actorPopularityMin)
                         {
                             people.Add(db.Persons.Find(employment._personId));
                         }
@@ -108,11 +115,10 @@ namespace DiscoverMoviesProduction
                         if(!shortList.Any(x => x.movieId == employment._movieId))
                             shortList.Add(db.Movies.Find(employment._movieId));
                     }
-                    
                 }
                 
                 
-
+                // Vi fjerner duplikater blandt filmene:
                 Console.WriteLine("Input Movies:");
                 foreach(var movie in inputMovies.ToList())
                 {
@@ -121,12 +127,14 @@ namespace DiscoverMoviesProduction
                 }
                 Console.WriteLine("Shortlist from input has count of: " + shortList.Count);
                 
+                // Vi har nu vores endelige shortlist!
+
             }
 
             // spacer
             Console.WriteLine("");
 
-
+            // Vi sender nu listen gennem samtlige filtre, og får deres MovieScores i retur:
 
             // Filters
             // 1. Genre
@@ -144,6 +152,8 @@ namespace DiscoverMoviesProduction
             // Samlede score liste
             List<DiscoverScore> finalScore = new List<DiscoverScore>();
 
+
+            // Vi finder den højeste og laveste score i hvert filter, til at normalisere værdierne:
             double GenreMaxScore = genreMovies.Max(x => x.Score);
             double GenreMinScore = genreMovies.Min(x => x.Score);
             double CastMaxScore = castMovies.Max(x => x.Score);
@@ -178,11 +188,29 @@ namespace DiscoverMoviesProduction
             finalScore = finalScore.GetRange(0, 10).ToList();
             foreach (var score in finalScore)
             {
-                Console.WriteLine(score.Movie._title + ": " + score.Score.ToString("0.00"));
+                Console.WriteLine(score.Movie._title + ": " + score.Score.ToString("0.00") + " - " + score.Movie._popularity);
             }
 
             // Vi timer kodeafviklingen, så vi kan se om det går hurtigt nok!
             // OBS Console print TAGER EKSTRA TID, de skal fjernes, så vi kan få den endelige tid!
+
+
+            Console.WriteLine("");
+            Console.WriteLine("Final scores: (Adjusted with popularity)");
+            // Et forsøg med at forstærke score ved at gange film popularity med dens score:
+
+            foreach (var score in finalScore)
+            {
+                score.Score += (double)score.Score * (double)score.Movie._popularity;
+            }
+            finalScore = finalScore.OrderByDescending(x => x.Score).ToList();
+            foreach (var score in finalScore)
+            {
+                Console.WriteLine(score.Movie._title + ": " + score.Score.ToString("0.00"));
+            }
+
+
+
 
             // Log time:
             End = DateTime.Now;
@@ -505,7 +533,7 @@ namespace DiscoverMoviesProduction
                         // Vi vægter instruktøre højere!
                         if (employment._job == "Director" || employment._job == "Producer")
                         {
-                            AddScore = 3;
+                            //AddScore = 3;
                             //Console.WriteLine("Director/Producer spottet!");
                         }
 
@@ -574,9 +602,24 @@ namespace DiscoverMoviesProduction
 
         public List<Movie> ProdFilter(List<Movie> shortlist)
         {
+
+            Console.WriteLine("");
+            Console.WriteLine("FILTER: PROD COMPANIES");
+            Console.WriteLine("-------------------------------------------------");
+
+
+
+
             List<Movie> prodList = new List<Movie>();
 
-
+            foreach(var movie in shortlist.ToList())
+            {
+                Console.WriteLine("ProdList Count: " + movie._prodCompanyList.Count());
+                foreach(var prod in movie._prodCompanyList.ToList())
+                {
+                    Console.WriteLine("Prod. Co.: " + prod._ProdCompanyname);
+                }
+            }
 
 
             return prodList;
