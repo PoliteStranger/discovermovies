@@ -5,6 +5,11 @@ VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscoverMoviesProduction", "DiscoverMovies\DiscoverMoviesProduction.csproj", "{E2A49117-5C98-4EBB-9F79-764FEEAD55FF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscoverMoviesProduction.NUnit", "DiscoverMoviesProduction.NUnit\DiscoverMoviesProduction.NUnit.csproj", "{0FB9ABD3-154B-4636-A0BC-8E7FA54CD41F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E2A49117-5C98-4EBB-9F79-764FEEAD55FF} = {E2A49117-5C98-4EBB-9F79-764FEEAD55FF}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +20,10 @@ Global
 		{E2A49117-5C98-4EBB-9F79-764FEEAD55FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2A49117-5C98-4EBB-9F79-764FEEAD55FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2A49117-5C98-4EBB-9F79-764FEEAD55FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FB9ABD3-154B-4636-A0BC-8E7FA54CD41F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FB9ABD3-154B-4636-A0BC-8E7FA54CD41F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FB9ABD3-154B-4636-A0BC-8E7FA54CD41F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FB9ABD3-154B-4636-A0BC-8E7FA54CD41F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
