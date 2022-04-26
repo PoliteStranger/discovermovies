@@ -6,10 +6,10 @@ using Newtonsoft.Json;
 Console.WriteLine("Ripping TMDB movies database");
 
 // Opretter et AcquireApiLoop objekt, det gennemgår alle film i et givet årstal, og laver en liste over alle deres IDer
-//acquireApiLoop tis = new acquireApiLoop();
+acquireApiLoop tis = new acquireApiLoop();
 
 // Åres: 1999 vælges, og listen laves
-//List<int> moviesList = tis.getYear(1996);
+List<int> moviesList = tis.getYear(1996);
 
 
 // 27205, 329, 553, 271110, 862
