@@ -13,7 +13,7 @@ Console.WriteLine("Ripping TMDB movies database");
 
 
 // 27205, 329, 553, 271110, 862
-/*
+
 using (var db = new MyDbContext())
 {
 
@@ -66,8 +66,8 @@ using (var db = new MyDbContext())
 }
 
 
-*/
 
+/*
 // Fikse PROD COMPANY listen i DB
 using (var db = new MyDbContext())
 {
@@ -129,3 +129,5 @@ using (var db = new MyDbContext())
 
 
 }
+
+*/
