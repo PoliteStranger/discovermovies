@@ -11,6 +11,7 @@ namespace ASP_Web_Bootstrap.Pages
 
         private List<Movie> inputMovies = new List<Movie>();
         private Movie specificMovie = new Movie();
+        private MyDbContext dbContext = new MyDbContext();
 
         [BindProperty]
         public List<Movie> InputMovies
@@ -26,16 +27,23 @@ namespace ASP_Web_Bootstrap.Pages
             set { specificMovie = value; }
         }
 
+        [BindProperty]
+        public MyDbContext DbContext
+        {
+            get { return dbContext;}
+            set { dbContext = value; }
+        }
+
         public void OnGet([FromRoute] int? movieId = null)
         {
             if (movieId != null)
             {
-                using (var db = new MyDbContext())
-                {
-                    // 8374, 1542, 603, 564, 3293
-                    inputMovies.Add(db.Movies.Where(c => c.movieId == movieId).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
-                    specificMovie = inputMovies.ElementAt(0);
-                }
+                // 8374, 1542, 603, 564, 3293
+                inputMovies.Add(dbContext.Movies.Where(c => c.movieId == movieId)
+                                                .Include(x => x._genreList).Include(y => y._prodCompanyList)
+                                                .Include(z => z._employmentList)
+                                                .FirstOrDefault());
+                specificMovie = inputMovies.ElementAt(0);
             }
 
 

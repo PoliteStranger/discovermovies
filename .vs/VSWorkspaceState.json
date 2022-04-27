@@ -1,11 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\DiscoverMovies_v1",
-    "\\DiscoverMovies_v1\\DiscoverMoviesProduction",
-    "\\DiscoverMovies_v1\\DiscoverMoviesProduction\\DiscoverMovies",
-    "\\DiscoverMovies_v1\\DiscoverMoviesProduction\\DiscoverMovies\\Pages"
+    ""
   ],
-  "SelectedNode": "\\DiscoverMovies_v1\\DiscoverMoviesProduction\\DiscoverMovies\\Pages\\MoviePage.cshtml",
+  "SelectedNode": "\\DiscoverMoviesProduction.sln",
   "PreviewInSolutionExplorer": false
 }

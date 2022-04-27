@@ -1,7 +1,11 @@
 ﻿@page "/movie/{movieId:int?}/"
+@using AcquireDB_EFcore.Tables
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.EntityFrameworkCore.Query.Internal
 @model MoviePageModel
 @{
     ViewData["Title"] = "Movie";
+    
 }
 
 <style>
@@ -73,26 +77,46 @@
             <b style="margin-bottom: 0px">Overview:</b>
             <br/>
             @Model.SpecificMovie._description
-
         </p>
-
         
-        @*        <p> <b></b>
+        <p> <b>Genres:</b>
+            
             @foreach (var i in @Model.SpecificMovie._genreList)
             {
-                @i.Genres._Genrename
+
+                var genres = @Model.DbContext.Genres.Where(x => x._genreId == @i._genreId);
+                foreach (var g in genres)
+                {
+                    <br/>
+                    @g._Genrename
+                }
+
             }
-        </p>*@
+        </p>
 
-        <p style="margin-bottom: 0px"><b>Cast: </b></p>
+        <p> <b>Cast & Crew:</b>
+            @{
+                List<Employment> employments = new List<Employment>();
+                foreach (var i in @Model.SpecificMovie._employmentList)
+            {
+                employments.Add(Model.DbContext.Employments.Where(x => x.Person._personId == i._personId).Where(x=>x._movieId == Model.SpecificMovie.movieId).Include(x => x.Person).FirstOrDefault());
 
-        @* <p>
-          @foreach (var i in @Model.SpecificMovie._employmentList)
-          {
-              @i.Person._PersonName;
-              <br/>          
-          }
-      </p>*@
+            }
+
+                employments = employments.OrderByDescending(x=>x.Person._Personpopularity).ToList();
+
+                for (int j = 0; j <= 10; j++)
+                {
+                    <br/>
+                    @(employments.ElementAt(j).Person._Personname + " - " + employments.ElementAt(j)._job)
+                    if (employments.ElementAt(j)._character != null)
+                    {
+                        @(" - " + employments.ElementAt(j)._character)
+                    }
+                }
+            }
+
+        </p>
         
         
         <p><b>Budget/Box Office Revenue:</b>
