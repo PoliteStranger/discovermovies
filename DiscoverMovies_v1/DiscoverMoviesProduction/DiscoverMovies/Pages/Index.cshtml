@@ -16,20 +16,34 @@
               *@
               
               <select id="Select1" asp-items="@(new SelectList(Model.Soegninger))" asp-for="theinput.Searchtype">
-                   <option value="" selected disabled> -- Select Search criteria --</option>
+                   <option value="" selected disabled>Search Option</option>
               </select>
-
+@*
               <select id="Select2" asp-items="@(new SelectList(Model.TheOriginaleGenres, "_genreId","_Genrename"))" asp-for="theinput.GenreID">
                    <option value="" selected disabled> -- Select genre --</option>
+              </select>*@
+
+              <select id="Select2" asp-items="@(new SelectList(Model.TheOriginaleGenres, "_genreId","_Genrename"))" asp-for="theinput.GenreID">
+                   @*<option value=""> -- Select genre --</option>*@
+                   <option value="" selected disabled> Select genre </option>
+
+                  @* <option selected disabled hidden value="">Genre</option>.*@
               </select>
 
               <select id="Select3" asp-items="@(new SelectList(Model.Year))" asp-for="theinput.Year">
-                   <option value="" selected disabled> -- Select Year of Creation --</option>
+                   <option value="" selected disabled>Select Year of creation</option>
               </select>
 
-@*              <span asp-validation-for="theinput.Name" class="text-danger"></span> 
-*@          </div>
+                @* @if (Model.theinput.Name != "")
+                 {
+                    if (Model.theinput.Searchtype == "")
+                    {
+                        <span asp-validation-for="theinput.Searchtype" class="text-danger">Searching option is required when Searching field has a value</span>
+                    }
+                 }*@
+         </div>
           <button type="submit" class="btn btn-primary">Search</button>  
+          <button type="reset" class="btn btn-primary">Reset</button>  
      </form></p>
 
 <div class="row">
@@ -42,10 +56,11 @@
         </div>
     }
 
- @if (Model.MovieList.Count == 0)
-            {
-                <p>Sorry no results...</p>
-            }
+   @if (Model.MovieList.Count == 0)
+   {
+        <p>Sorry no results...</p>
+   }
+   
 </div>
 
     <@*paging class="pagination" total-records="@Model.MovieList.Count" show-total-pages="false" show-totalrecords="false" 
