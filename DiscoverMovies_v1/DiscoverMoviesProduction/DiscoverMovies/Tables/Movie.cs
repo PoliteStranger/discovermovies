@@ -1,7 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DiscoverMoviesProduction;
 using Database.Tables;
+
+
 
 public class Movie
 {
@@ -19,7 +22,7 @@ public class Movie
 
     public List<Genre> _genreList { get; set; } = new();
 
-    public List<ProducedBy> _ProdCompaniesList { get; set; } = new();
+    public List<ProdCompany> _prodCompanyList { get; set; } = new();
 
     public DateTime? _releaseDate { get; set; }
     public int? _budget { get; set; }
