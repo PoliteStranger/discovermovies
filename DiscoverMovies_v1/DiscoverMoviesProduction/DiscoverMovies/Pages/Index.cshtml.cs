@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using AcquireDB_EFcore.Tables;
+using Database.Tables;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using DiscoverMoviesProduction;
 
 namespace ASP_Web_Bootstrap.Pages
 {

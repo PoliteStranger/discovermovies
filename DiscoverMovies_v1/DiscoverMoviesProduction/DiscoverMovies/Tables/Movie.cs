@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using AcquireDB_EFcore;
-using AcquireDB_EFcore.Tables;
+using DiscoverMoviesProduction;
+using Database.Tables;
 
 
 

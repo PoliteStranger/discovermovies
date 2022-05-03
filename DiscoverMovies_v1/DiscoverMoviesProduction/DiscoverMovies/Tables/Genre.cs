@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AcquireDB_EFcore.Tables
+namespace Database.Tables
 {
     public class Genre
     {
