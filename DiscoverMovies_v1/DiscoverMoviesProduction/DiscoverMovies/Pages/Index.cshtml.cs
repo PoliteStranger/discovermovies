@@ -50,8 +50,6 @@ namespace ASP_Web_Bootstrap.Pages
 
         public void OnGet()
         {
-            Console.WriteLine(theinput.Name);
-
             //dropdown menu til søgning af film eller personer
             Soegninger.Add("Movie");
             Soegninger.Add("Person");
@@ -91,7 +89,6 @@ namespace ASP_Web_Bootstrap.Pages
             Soegninger.Add("Movie");
             Soegninger.Add("Person");
             templiste.Clear();
-
 
             Console.WriteLine(theinput.Name);
             //dropdown menu til år
@@ -198,7 +195,7 @@ namespace ASP_Web_Bootstrap.Pages
                                      movietitel = m._title,
                                      movieposter = m._posterUrl,
                                  }
-                                 ).ToList().Distinct();
+                                 ).ToList().Distinct(); // til liste og fjerner samtidig duplikater.
 
                     foreach (var item in query)
                     {
