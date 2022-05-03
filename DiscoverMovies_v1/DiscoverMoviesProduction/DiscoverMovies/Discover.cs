@@ -563,8 +563,8 @@ namespace DiscoverMoviesProduction
                 Console.WriteLine(score.Movie._title + " has " + score.Score);
                 foreach(var employment in inputEmployments.ToList())
                 {
-                    if(employment._movieId == score.Movie.movieId)
-                    Console.WriteLine(employment.Person._Personname + " was " + employment._job);
+                    //if(employment._movieId == score.Movie.movieId)
+                    //Console.WriteLine(employment.Person._Personname + " was " + employment._job);
                 }
             }
 

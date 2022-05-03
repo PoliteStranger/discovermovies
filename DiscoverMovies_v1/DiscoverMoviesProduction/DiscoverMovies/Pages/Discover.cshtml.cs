@@ -26,13 +26,15 @@ namespace ASP_Web_Bootstrap.Pages
                 // 5 random film som er i db!
                 // 8374, 1542, 603, 564, 3293
                 // Til 27205, 329, 553, 271110, 862
-                inputMovies.Add(db.Movies.Where(c => c.movieId == 11398).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
-                inputMovies.Add(db.Movies.Where(c => c.movieId == 955).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
-                inputMovies.Add(db.Movies.Where(c => c.movieId == 1493).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
-                inputMovies.Add(db.Movies.Where(c => c.movieId == 2787).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
-                inputMovies.Add(db.Movies.Where(c => c.movieId == 107).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
+                inputMovies.Add(db.Movies.Where(c => c.movieId == 11398).Include(x => x._genreList).Include(y => y._ProdCompaniesList).Include(z => z._employmentList).FirstOrDefault());
+                inputMovies.Add(db.Movies.Where(c => c.movieId == 955).Include(x => x._genreList).Include(y => y._ProdCompaniesList).Include(z => z._employmentList).FirstOrDefault());
+                inputMovies.Add(db.Movies.Where(c => c.movieId == 1493).Include(x => x._genreList).Include(y => y._ProdCompaniesList).Include(z => z._employmentList).FirstOrDefault());
+                inputMovies.Add(db.Movies.Where(c => c.movieId == 2787).Include(x => x._genreList).Include(y => y._ProdCompaniesList).Include(z => z._employmentList).FirstOrDefault());
+                inputMovies.Add(db.Movies.Where(c => c.movieId == 107).Include(x => x._genreList).Include(y => y._ProdCompaniesList).Include(z => z._employmentList).FirstOrDefault());
             }
-            
+
+
+
             discover.DiscoverMovies(inputMovies);
         }
     }
