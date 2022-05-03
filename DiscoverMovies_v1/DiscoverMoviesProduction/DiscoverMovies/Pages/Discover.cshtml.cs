@@ -32,9 +32,7 @@ namespace ASP_Web_Bootstrap.Pages
                 inputMovies.Add(db.Movies.Where(c => c.movieId == 2787).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
                 inputMovies.Add(db.Movies.Where(c => c.movieId == 107).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
             }
-
-
-
+            
             discover.DiscoverMovies(inputMovies);
         }
     }

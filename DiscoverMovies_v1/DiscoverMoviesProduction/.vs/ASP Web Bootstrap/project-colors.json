@@ -1,0 +1,16 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "ae1767e3-e41e-4374-9dbf-47d9dc2ca0a6": {
+      "ProjectGuid": "ae1767e3-e41e-4374-9dbf-47d9dc2ca0a6",
+      "DisplayName": "ASP Web Bootstrap",
+      "ColorIndex": 0
+    },
+    "56b25b60-7a52-4cd0-937a-ddf15509e8aa": {
+      "ProjectGuid": "56b25b60-7a52-4cd0-937a-ddf15509e8aa",
+      "DisplayName": "AcquireDB_EFcore",
+      "ColorIndex": 1
+    }
+  },
+  "NextColorIndex": 2
+}
