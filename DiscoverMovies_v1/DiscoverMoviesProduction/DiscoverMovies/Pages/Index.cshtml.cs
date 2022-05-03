@@ -90,7 +90,6 @@ namespace ASP_Web_Bootstrap.Pages
             Soegninger.Add("Person");
             templiste.Clear();
 
-            Console.WriteLine(theinput.Name);
             //dropdown menu til år
             for (int j = 1995; j<2020; j++)
             {
@@ -115,7 +114,7 @@ namespace ASP_Web_Bootstrap.Pages
                                  where (m._title.Contains(theinput.Name) || theinput.Name == "")
                                  && (theinput.GenreID == "0" || gm._genreId == Int32.Parse(theinput.GenreID))
                                  && (m._releaseDate.Value.Year == Int32.Parse(theinput.Year) || theinput.Year == "0")
-                                 && theinput.Searchtype == "Movie" || theinput.Searchtype == null
+                                 && (theinput.Searchtype == "Movie" || theinput.Searchtype == "")
 
                                  select new
                                  {
@@ -154,7 +153,7 @@ namespace ASP_Web_Bootstrap.Pages
                                  where (p._Personname.Contains(theinput.Name) || theinput.Name == "")
                                  && (theinput.GenreID == "0" || gm._genreId == Int32.Parse(theinput.GenreID))
                                  && (m._releaseDate.Value.Year == Int32.Parse(theinput.Year) || theinput.Year == "0")
-                                 && theinput.Searchtype == "Person" || theinput.Searchtype == null
+                                 && (theinput.Searchtype == "Person" || theinput.Searchtype == "")
                                  select new
                                  {
                                      movieid = m.movieId,
@@ -167,7 +166,6 @@ namespace ASP_Web_Bootstrap.Pages
                     foreach (var item in query)
                     {
                         Movie tempmovie = new Movie();
-                        Console.WriteLine(item.movietitel);
                         tempmovie._title = item.movietitel;
                         tempmovie._posterUrl = item.movieposter;
                         tempmovie.movieId = item.movieid;
