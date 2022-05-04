@@ -24,7 +24,7 @@ namespace AcquireDB_EFcore
             // Opretter en ny film:
             Movie newMovie = new Movie();
 
-            Console.WriteLine("----------------------------");
+            Console.WriteLine("");
 
 
             // Henter overordnede film detaljer fra TMDB, som json
@@ -39,9 +39,7 @@ namespace AcquireDB_EFcore
             // json svar til dynamisk objekt
             dynamic jsonObj = JsonConvert.DeserializeObject(jsonMovie);
 
-
-
-            Console.WriteLine("Getting Movie:   " + movieId + ": " + (string)jsonObj.title + " ("+ (double)jsonObj.popularity + ") ");
+            Console.WriteLine("API-Movie: " + movieId + ": " + (string)jsonObj.title);
 
             // Stamdata sættes:
             newMovie._title = (string)jsonObj.title;
@@ -69,15 +67,15 @@ namespace AcquireDB_EFcore
             // 
             // *********************************************************************
 
-            //Console.Write("API-Genres: ");
+            Console.Write("API-Genres: ");
 
             // Gemmer samtlige genre fra filmen i dens liste over genre
             foreach(var genre in jsonObj.genres)
             {
-                //Console.Write(db.Genres.Find((int)genre.id)._Genrename + ", ");
+                Console.Write(db.Genres.Find((int)genre.id)._Genrename + ", ");
                 newMovie._genreList.Add(new Genre() { _genreId = (int)genre.id, _movieId = movieId});
             }
-            //Console.WriteLine("");
+            Console.WriteLine("");
 
 
             // *********************************************************************
@@ -86,40 +84,32 @@ namespace AcquireDB_EFcore
             // 
             // *********************************************************************
 
-            //Console.Write("API-ProdComp: ");
-
-            // Tællere til nye objekter!
-            int statsPers = 0;
-            int statsEmployments = 0;
-            int statsProds = 0;
-
+            Console.Write("API-ProdComp: ");
 
             // Gemmer samtlige Produktions Firmaer
             foreach (var company in jsonObj.production_companies)
             {
-                //Console.Write((string)company.name + ", ");
+                Console.Write((string)company.name + ", ");
 
                 // Hvis firmaet ikke findes i databasen, så kan vi både tilføje det og lægge det i filmens firma liste
                 if (db.ProdCompanies.Find((int)company.id) == null)
                 {
-                    ProdCompany newComp = new ProdCompany() { ProdCompanyId = (int)company.id, _ProdCompanyname = (string)company.name, _ProdCompanycountry = (string)company.origin_country };
-                    db.ProdCompanies.Add(newComp);  
-                    newMovie._ProdCompaniesList.Add(new ProducedBy() { prodCompanyId = (int)company.id, _movieId = movieId });
-                    statsProds++;
+                    
+                    newMovie._ProdCompaniesList.Add(new ProdCompany() { ProdCompanyId = (int)company.id, _ProdCompanyname = (string)company.name, _ProdCompanycountry = (string)company.origin_country });
                 }
                 else
                 {
                     // Den findes allerede, så vi bruger referencen fra den som er der.
-                    newMovie._ProdCompaniesList.Add(new ProducedBy() { prodCompanyId = (int)company.id, _movieId = movieId });
+                    newMovie._ProdCompaniesList.Add(db.ProdCompanies.Find((int)company.id));
                 }
 
                 
             }
-            //Console.WriteLine("");
+            Console.WriteLine("");
 
 
             // <--------------------------------------------------------------- Film Credits info!
-            //Console.WriteLine("API-Credits: " + newMovie._title);
+            Console.WriteLine("API-Credits: " + newMovie._title);
 
             // Henter overordnede film detaljer fra TMDB, som json
             Task<string> apiResultCredits = ApiOps.RunApiMovieCredits(movieId);
@@ -133,8 +123,9 @@ namespace AcquireDB_EFcore
 
 
             // <---------------------------------------------------------------Film Crew!
-            //Console.Write("API-Pers: ");
-
+            Console.Write("API-Pers: ");
+            int statsPers = 0;
+            int statsEmployments = 0;
 
             foreach (var credit in jsonObjCredits.crew)
             {
@@ -180,10 +171,8 @@ namespace AcquireDB_EFcore
                 // Hvis personen IKKE findes, så gemmer vi den person:
                 if (db.Persons.Find((int)credit.id) == null)
                 {
-                    
-                    
+                   
                     Person newPerson = GetPerson((int)credit.id);
-                    
                     db.Persons.Add(newPerson);
                     statsPers++;
                 }
@@ -197,10 +186,8 @@ namespace AcquireDB_EFcore
             // Vi gemmer allerede nu! Fordi at vi skal have alle personerne ind, så deres foreign keys kan referes til!
             db.SaveChanges();
             Console.WriteLine("");
-            Console.WriteLine("New Persons:     " + statsPers);
-            Console.WriteLine("New Employments: " + statsEmployments);
-            Console.WriteLine("New Companies:   " + statsEmployments);
-
+            Console.WriteLine("Persons: " + statsPers);
+            Console.WriteLine("Employments: " + statsEmployments);
 
 
 
@@ -223,7 +210,7 @@ namespace AcquireDB_EFcore
             //Console.WriteLine("Downloading person info for: " + personId);
 
             string personJson;
-            Console.Write("   ");
+
             if (File.Exists("../../../DataStore/APIcalls/Persons/Person_" + personId + ".json") == true)
             {
                 // Dette år findes:
@@ -242,12 +229,12 @@ namespace AcquireDB_EFcore
                 // Læg resultatet over i en string (json)
                 personJson = personApi.Result;
 
-                //string[] jsonToText = { personJson };
-                //File.WriteAllLines("../../../DataStore/APIcalls/Persons/Person_" + personId + ".json", jsonToText);
+                string[] jsonToText = { personJson };
+                File.WriteAllLines("../../../DataStore/APIcalls/Persons/Person_" + personId + ".json", jsonToText);
                 Console.Write(">");
 
             }
-            
+
 
 
 

@@ -1,7 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using AcquireDB_EFcore;
-using AcquireDB_EFcore.Tables;
-using Newtonsoft.Json;
 
 Console.WriteLine("Ripping TMDB movies database");
 
@@ -9,17 +7,15 @@ Console.WriteLine("Ripping TMDB movies database");
 acquireApiLoop tis = new acquireApiLoop();
 
 // Åres: 1999 vælges, og listen laves
-List<int> moviesList = tis.getYear(1996);
+List<int> moviesList = tis.getYear(2001);
 
-
-// 27205, 329, 553, 271110, 862
 
 using (var db = new MyDbContext())
 {
 
 
-    
 
+    
 
     // Gemmer alle genre i databasen
     MakeGenresList allGenres = new MakeGenresList(db);
@@ -44,19 +40,12 @@ using (var db = new MyDbContext())
         if(!db.Movies.Any(x => x.movieId == movieId))
         {
             // Vi tæller film tælleren en op
-            
-
-            dlMovieCount = moviesList.IndexOf(movieId)+1;
+            dlMovieCount++;
             // Vi skriver hvilken film vi er nået til
-            Console.WriteLine("\n\nDownloading {0}/{1}", dlMovieCount, moviesList.Count);
+            Console.WriteLine("Downloading {0}/{1}", dlMovieCount, moviesList.Count);
             // Vi downloader filmens info:
             n.getMovieDetails(movieId, db);
-
-        }
-        else
-        {
-            Console.Write(".");
-
+            
         }
         
     }
@@ -64,70 +53,3 @@ using (var db = new MyDbContext())
 
 
 }
-
-
-
-/*
-// Fikse PROD COMPANY listen i DB
-using (var db = new MyDbContext())
-{
-    int i = 0;
-    foreach(var movie in db.Movies.ToList())
-    {
-        i++;
-        Console.WriteLine("{0}/{1} Getting Prod Companies for movie: " + movie._title + ": " + movie.movieId, i, db.Movies.Count());
-
-
-
-        if(db.ProducedBy.Any(x => x._movieId == movie.movieId) == false)
-        {
-            Console.WriteLine("Missing from ProducedBy, looking for companies!");
-            // Henter overordnede film detaljer fra TMDB, som json
-            Task<string> apiResult = ApiOps.RunApiMovieId(movie.movieId);
-
-            // Læg resultatet over i en string (json)
-            string jsonMovie = apiResult.Result;
-
-            // json svar til dynamisk objekt
-            dynamic jsonObj = JsonConvert.DeserializeObject(jsonMovie);
-
-
-            // Gemmer samtlige Produktions Firmaer
-            foreach (var company in jsonObj.production_companies)
-            {
-                Console.WriteLine("Found some!");
-                //Console.WriteLine("Getting: "+ (string)company.name);
-
-                // Hvis firmaet ikke findes i databasen, så kan vi både tilføje det og lægge det i filmens firma liste
-                if (db.ProdCompanies.Find((int)company.id) == null)
-                {
-                    //Console.WriteLine("New company, adding it to Movie ProdCompany List!");
-                    ProdCompany newComp = new ProdCompany() { ProdCompanyId = (int)company.id, _ProdCompanyname = (string)company.name, _ProdCompanycountry = (string)company.origin_country };
-                    db.ProdCompanies.Add(newComp);
-                    movie._ProdCompaniesList.Add(new ProducedBy() { prodCompanyId = (int)company.id, _movieId = movie.movieId });
-
-                }
-                else
-                {
-                    //Console.WriteLine("Already have this company, adding it to Movie ProdCompany List!");
-                    // Den findes allerede, så vi bruger referencen fra den som er der.
-                    movie._ProdCompaniesList.Add(new ProducedBy() { prodCompanyId = (int)company.id, _movieId = movie.movieId });
-                }
-
-
-            }
-            Console.WriteLine("Saving...");
-            db.SaveChanges();
-        }
-        else
-        {
-            Console.WriteLine("Skipping this one...");
-        }
-
-
-    }
-
-
-}
-
-*/
