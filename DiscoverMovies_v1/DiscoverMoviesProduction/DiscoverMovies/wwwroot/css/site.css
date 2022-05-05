@@ -41,6 +41,10 @@ h3 {
         margin-bottom: 0;
     }
 
+a:link {
+    color: black;
+}
+
 [class*="col-"] {
     padding-top: 1rem;
     padding-bottom: 1rem;
