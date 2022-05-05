@@ -1,0 +1,142 @@
+﻿@page "/movie/{movieId:int?}/"
+@using AcquireDB_EFcore.Tables
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.EntityFrameworkCore.Query.Internal
+@model MoviePageModel
+@{
+    ViewData["Title"] = "Movie";
+    
+}
+
+<style>
+    .column {
+  float: left;
+}
+.left {
+  width: 30%;
+}
+.right {
+  width: 70%;
+}
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.attribute{
+    margin-top: 30px;
+}
+.gridback{
+    background: black;
+    display: inline-block;
+    border: 2px solid black;
+    margin: 20px;
+    margin-top: 0px;
+    }
+.grid {
+    display: grid;
+    grid-template-columns: repeat(1, 320px);
+    grid-template-rows: repeat(1, 440px);
+    grid-gap: 2px;
+}
+.grid2 {
+    display: grid;
+    grid-template-columns: repeat(7, 60px);
+    grid-template-rows: repeat(1, 81px);
+    grid-gap: 2px;
+}
+.cell {
+    /* center the cell content */
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-family: Arial;
+    font-size: 1rem;
+    font-weight: bold;
+    background: white;
+}
+</style>
+
+
+<div class="row">
+    <div class="column left">
+        <img src=@("https://www.themoviedb.org/t/p/w600_and_h900_bestv2" + @Model.SpecificMovie._posterUrl) height="525" width="350">
+    </div>
+    <div class="column right">
+        <h1> Title: @Model.SpecificMovie._title</h1>
+
+        <p><b>Runtime:</b>
+            @Model.SpecificMovie._runtime
+        </p>
+        <p><b>Release: </b>
+            @Model.SpecificMovie._releaseDate.ToString().Replace("00:00:00", "")
+        </p>
+
+        <p >
+            <b style="margin-bottom: 0px">Overview:</b>
+            <br/>
+            @Model.SpecificMovie._description
+        </p>
+        
+        <p> <b>Genres:</b>
+            
+            @foreach (var i in @Model.SpecificMovie._genreList)
+            {
+
+                var genres = @Model.DbContext.Genres.Where(x => x._genreId == @i._genreId);
+                foreach (var g in genres)
+                {
+                    <br/>
+                    @g._Genrename
+                }
+
+            }
+        </p>
+
+        <p> <b>Cast & Crew:</b>
+            @{
+                List<Employment> employments = new List<Employment>();
+                foreach (var i in @Model.SpecificMovie._employmentList)
+                {
+                    employments.Add(Model.DbContext.Employments.Where(x => x.Person._personId == i._personId).Where(x=>x._movieId == Model.SpecificMovie.movieId).Include(x => x.Person).FirstOrDefault());
+
+                }
+
+                employments = employments.OrderByDescending(x=>x.Person._Personpopularity).ToList();
+
+                for (int j = 0; j <= 10; j++)
+                {
+                    <br/>
+                    @(employments.ElementAt(j).Person._Personname + " - " + employments.ElementAt(j)._job)
+                    if (employments.ElementAt(j)._character != null)
+                    {
+                        @(" - " + employments.ElementAt(j)._character)
+                    }
+                }
+            }
+        </p>
+        
+@*        <p>
+            <b>Production Company:</b>
+            @{
+                var prodCompanies = new List<ProdCompany>();
+                foreach (var i in @Model.SpecificMovie._prodCompanyList)
+                {
+                    prodCompanies.Add(Model.DbContext.ProducedBy.Where(x => x.prodCompanyId == i.prodCompanyId).FirstOrDefault());
+                }
+                foreach (var j in prodCompanies)
+                {
+                    @(j._ProdCompanyname)
+                    <br/>
+                }
+            }
+        </p>*@
+        
+        
+        <p><b>Budget/Box Office Revenue:</b>
+            @Model.SpecificMovie._budget / @Model.SpecificMovie._revenue
+        </p>
+
+    </div>
+</div>
