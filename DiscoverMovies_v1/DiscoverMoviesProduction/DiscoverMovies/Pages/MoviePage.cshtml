@@ -98,10 +98,10 @@
             @{
                 List<Employment> employments = new List<Employment>();
                 foreach (var i in @Model.SpecificMovie._employmentList)
-            {
-                employments.Add(Model.DbContext.Employments.Where(x => x.Person._personId == i._personId).Where(x=>x._movieId == Model.SpecificMovie.movieId).Include(x => x.Person).FirstOrDefault());
+                {
+                    employments.Add(Model.DbContext.Employments.Where(x => x.Person._personId == i._personId).Where(x=>x._movieId == Model.SpecificMovie.movieId).Include(x => x.Person).FirstOrDefault());
 
-            }
+                }
 
                 employments = employments.OrderByDescending(x=>x.Person._Personpopularity).ToList();
 
@@ -115,8 +115,23 @@
                     }
                 }
             }
-
         </p>
+        
+@*        <p>
+            <b>Production Company:</b>
+            @{
+                var prodCompanies = new List<ProdCompany>();
+                foreach (var i in @Model.SpecificMovie._prodCompanyList)
+                {
+                    prodCompanies.Add(Model.DbContext.ProducedBy.Where(x => x.prodCompanyId == i.prodCompanyId).FirstOrDefault());
+                }
+                foreach (var j in prodCompanies)
+                {
+                    @(j._ProdCompanyname)
+                    <br/>
+                }
+            }
+        </p>*@
         
         
         <p><b>Budget/Box Office Revenue:</b>
