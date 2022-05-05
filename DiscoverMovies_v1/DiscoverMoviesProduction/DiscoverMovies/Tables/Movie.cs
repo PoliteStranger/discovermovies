@@ -6,7 +6,7 @@ using AcquireDB_EFcore.Tables;
 
 
 
-public class Movie
+public class Movie 
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
     [Required]
