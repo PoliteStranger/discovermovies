@@ -2,37 +2,80 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
-
 }
+
 <h3>Heading</h3>
-<p>result count: @Model.MovieList.Count</p>
+<p>Result count: @Model.MovieList.Count</p>
       <p><form method="post">
           <div class="form-group">
               <label asp-for="theinput.Name"></label>
               <input class="form-control" asp-for="theinput.Name" />
 
-              @*<label asp-for="theinput.IsMovie"></label>
-              <input id="Checkbox1" type="checkbox" asp-for="theinput.IsMovie"/>*@
+              @*<label asp-for="theinput.IsPerson"></label>
+              <input id="Checkbox1" type="checkbox" asp-for="theinput.IsPerson"/>
+              *@
               
-              <select id="Select1" asp-items="@(new SelectList(Model.TheOriginaleGenres, "_genreId","_Genrename"))" asp-for="theinput.GenreID">
-                   <option value="" selected disabled> -- Select genre --</option>
+              <select id="Select1" asp-items="@(new SelectList(Model.Soegninger))" asp-for="theinput.Searchtype">
+                   <option value="" selected disabled>Search Option</option>
               </select>
-           
-              @*<label asp-for="theinput.IsGenre"></label>
-              <input id="Checkbox1" type="checkbox" asp-for="theinput.IsGenre"/>*@
+@*
+              <select id="Select2" asp-items="@(new SelectList(Model.TheOriginaleGenres, "_genreId","_Genrename"))" asp-for="theinput.GenreID">
+                   <option value="" selected disabled> -- Select genre --</option>
+              </select>*@
 
-@*              <span asp-validation-for="theinput.Name" class="text-danger"></span> 
-*@          </div>
-          <button type="submit" class="btn btn-primary">Search</button>
-                      
+              <select id="Select2" asp-items="@(new SelectList(Model.TheOriginaleGenres, "_genreId","_Genrename"))" asp-for="theinput.GenreID">
+                   @*<option value=""> -- Select genre --</option>*@
+                   <option value="" selected disabled> Select genre </option>
+
+                  @* <option selected disabled hidden value="">Genre</option>.*@
+              </select>
+
+              <select id="Select3" asp-items="@(new SelectList(Model.Year))" asp-for="theinput.Year">
+                   <option value="" selected disabled>Select Year of creation</option>
+              </select>
+
+                 @*@if (Model.theinput.Name != "")
+                 {
+                    if (Model.theinput.Searchtype == "0")
+                    {
+                        <span asp-validation-for="theinput.Searchtype" class="text-danger">Search option required when Search field has value</span>
+                    }
+                 }*@
+         </div>
+          <button type="submit" class="btn btn-primary">Search</button>  
+          <button type="reset" class="btn btn-primary">Reset</button>  
+
      </form></p>
+
 <div class="row">
     @foreach(Movie movie in Model.MovieList)
     {
-        <div class="col-xl-2 col-sm-6 col-md-4">
-            @movie._title <br />
+       <a href="/Movies/@movie.movieId" class="col-xl-2 col-sm-6 col-md-4"> 
+            @movie._title <br/>
             <img src=@("https://www.themoviedb.org/t/p/w220_and_h330_face" + @movie._posterUrl) height="237" width="165">
-            
-        </div>
+       </a>
     }
-      </div>
+
+   @if (Model.MovieList.Count == 0)
+   {
+        <p>Sorry no results...</p>
+   }
+</div>
+
+
+
+    <@*paging class="pagination" total-records="@Model.MovieList.Count" show-total-pages="false" show-totalrecords="false" 
+    page-size="@Model.pageSize" page-no="@Model.pageNo"></paging>
+
+@*</div>
+ <div class="pagination">
+  <a href="#">&laquo;</a>
+  <a href="#">1</a>
+  <a class="active" href="#">2</a>
+  <a href="#">3</a>
+  <a href="#">4</a>
+  <a href="#">5</a>
+  <a href="#">6</a>
+  <a href="#">&raquo;</a>
+</div> *@
+
