@@ -9,7 +9,7 @@ Console.WriteLine("Ripping TMDB movies database");
 acquireApiLoop tis = new acquireApiLoop();
 
 // Åres: 1999 vælges, og listen laves
-List<int> moviesList = tis.getYear(1996);
+List<int> moviesList = tis.getYear(1995);
 
 
 // 27205, 329, 553, 271110, 862
@@ -18,7 +18,7 @@ using (var db = new MyDbContext())
 {
 
 
-    
+
 
 
     // Gemmer alle genre i databasen
@@ -38,15 +38,15 @@ using (var db = new MyDbContext())
     // Vi tæller hvor langt vi er nået:
     int dlMovieCount = 0;
     // Download loopet begynder:
-    foreach(int movieId in moviesList)
+    foreach (int movieId in moviesList)
     {
         // Vi henter KUN en film, hvis den ikke allerede ER i databasen!
-        if(!db.Movies.Any(x => x.movieId == movieId))
+        if (!db.Movies.Any(x => x.movieId == movieId))
         {
             // Vi tæller film tælleren en op
-            
 
-            dlMovieCount = moviesList.IndexOf(movieId)+1;
+
+            dlMovieCount = moviesList.IndexOf(movieId) + 1;
             // Vi skriver hvilken film vi er nået til
             Console.WriteLine("\n\nDownloading {0}/{1}", dlMovieCount, moviesList.Count);
             // Vi downloader filmens info:
@@ -58,14 +58,21 @@ using (var db = new MyDbContext())
             Console.Write(".");
 
         }
-        
+
     }
-    
+
 
 
 }
 
+//using (var db = new MyDbContext())
+//{
+//    acquireMovieDetails film = new acquireMovieDetails();
 
+//    film.getMovieDetails(19995, db);
+//}
+
+////19995
 
 /*
 // Fikse PROD COMPANY listen i DB
