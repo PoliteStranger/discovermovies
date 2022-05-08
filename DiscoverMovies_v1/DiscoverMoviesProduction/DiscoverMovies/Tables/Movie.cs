@@ -6,7 +6,7 @@ using AcquireDB_EFcore.Tables;
 
 
 
-public class Movie
+public class Movie 
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
     [Required]
@@ -16,6 +16,8 @@ public class Movie
     public string? _description { get; set; }
     public string? _posterUrl { get; set; }
 
+
+
     public List<Employment> _employmentList { get; set; } = new();
 
     public List<Genre> _genreList { get; set; } = new();
@@ -24,7 +26,7 @@ public class Movie
 
     public DateTime? _releaseDate { get; set; }
     public int? _budget { get; set; }
-    public int? _revenue { get; set; }
+    public long? _revenue { get; set; }
     public double? _popularity { get; set; }
     public int? _runtime { get; set; }
 

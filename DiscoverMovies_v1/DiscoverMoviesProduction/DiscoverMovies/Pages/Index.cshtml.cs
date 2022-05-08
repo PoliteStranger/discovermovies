@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using AcquireDB_EFcore.Tables;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -49,8 +48,6 @@ namespace ASP_Web_Bootstrap.Pages
 
         public void OnGet()
         {
-            Console.WriteLine(theinput.Name);
-
             //dropdown menu til søgning af film eller personer
             Soegninger.Add("Movie");
             Soegninger.Add("Person");
@@ -91,14 +88,12 @@ namespace ASP_Web_Bootstrap.Pages
             Soegninger.Add("Person");
             templiste.Clear();
 
-
-            Console.WriteLine(theinput.Name);
             //dropdown menu til år
             for (int j = 1995; j<2020; j++)
             {
                 Year.Add(j);
             }
-            
+
             //henter genres ned til dropdownmenu Genre
             using (var db = new MyDbContext())
             {
@@ -117,7 +112,7 @@ namespace ASP_Web_Bootstrap.Pages
                                  where (m._title.Contains(theinput.Name) || theinput.Name == "")
                                  && (theinput.GenreID == "0" || gm._genreId == Int32.Parse(theinput.GenreID))
                                  && (m._releaseDate.Value.Year == Int32.Parse(theinput.Year) || theinput.Year == "0")
-                                 && theinput.Searchtype == "Movie" || theinput.Searchtype == null
+                                 && (theinput.Searchtype == "Movie" || theinput.Searchtype == "")
 
                                  select new
                                  {
@@ -156,7 +151,7 @@ namespace ASP_Web_Bootstrap.Pages
                                  where (p._Personname.Contains(theinput.Name) || theinput.Name == "")
                                  && (theinput.GenreID == "0" || gm._genreId == Int32.Parse(theinput.GenreID))
                                  && (m._releaseDate.Value.Year == Int32.Parse(theinput.Year) || theinput.Year == "0")
-                                 && theinput.Searchtype == "Person" || theinput.Searchtype == null
+                                 && (theinput.Searchtype == "Person" || theinput.Searchtype == "")
                                  select new
                                  {
                                      movieid = m.movieId,
@@ -164,12 +159,11 @@ namespace ASP_Web_Bootstrap.Pages
                                      movieposter = m._posterUrl,
                                  }
                                  ).ToList().Distinct(); // til liste og fjerner samtidig duplikater.
-                   
+
 
                     foreach (var item in query)
                     {
                         Movie tempmovie = new Movie();
-                        Console.WriteLine(item.movietitel);
                         tempmovie._title = item.movietitel;
                         tempmovie._posterUrl = item.movieposter;
                         tempmovie.movieId = item.movieid;
@@ -197,7 +191,7 @@ namespace ASP_Web_Bootstrap.Pages
                                      movietitel = m._title,
                                      movieposter = m._posterUrl,
                                  }
-                                 ).ToList().Distinct();
+                                 ).ToList().Distinct(); // til liste og fjerner samtidig duplikater.
 
                     foreach (var item in query)
                     {
@@ -207,9 +201,9 @@ namespace ASP_Web_Bootstrap.Pages
                         tempmovie.movieId = item.movieid;
                         templiste.Add(tempmovie);
                     }
-                }
-                MovieList = templiste;
 
+                    MovieList = templiste;
+                }
             }
             return Page();
         }
@@ -220,6 +214,8 @@ namespace ASP_Web_Bootstrap.Pages
             [Display(Name = "Searching Field")]
             public string Name { get; set; } = "";
             public string GenreID { get; set; } = "0";
+
+            [StringLength(100, ErrorMessage = "Maximum length is {1}")]
             public string Searchtype { get; set; } = "";
             public string Year { get; set; } = "0";
         }

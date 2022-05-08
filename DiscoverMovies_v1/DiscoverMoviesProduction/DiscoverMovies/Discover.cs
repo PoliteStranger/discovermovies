@@ -23,6 +23,8 @@ namespace ASP_Web_Bootstrap
 
     }
 
+
+
     public class Discover
     {
         List<Movie> shortList = new List<Movie>();
