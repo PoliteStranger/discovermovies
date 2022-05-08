@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using ASP_Web_Bootstrap.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -6,9 +7,9 @@ namespace ASP_Web_Bootstrap.Pages
 {
     public class IndexModel : PageModel
     {
+        //Input klasse fra søgning
         [BindProperty]
         public InputMovie theinput { get; set; } = new InputMovie();
-        public List<Person> Persons { get; set; } = new List<Person>();
 
         [BindProperty]
         //liste til dropdown menu til søgning af film, personer, eller produktionsselskaber.
@@ -48,21 +49,11 @@ namespace ASP_Web_Bootstrap.Pages
 
         public void OnGet()
         {
-            //dropdown menu til søgning af film eller personer
-            Soegninger.Add("Movie");
-            Soegninger.Add("Person");
-
-            //dropdown menu til år
-            for (int j = 1990; j<2020; j++)
-            {
-                Year.Add(j);
-            }
-
-            //henter genres ned til dropdownmenu Genre
-            using (var db = new MyDbContext())
-            {
-                TheOriginaleGenres = db.Genres.ToList();
-            }
+            //dropdown menuer til søgning af film, personer, år, genre.
+            var initsoegning = new soegning();
+            initsoegning.initSearchOption(Soegninger);
+            initsoegning.initYear(Year);
+            TheOriginaleGenres = initsoegning.initGenre(TheOriginaleGenres);
 
             //loader med vores genres beskrevet i genres db
             using (var db = new MyDbContext())
@@ -83,22 +74,11 @@ namespace ASP_Web_Bootstrap.Pages
 
         public IActionResult OnPost()
         {
-            //dropdown menu til søgning af film eller personer
-            Soegninger.Add("Movie");
-            Soegninger.Add("Person");
-            templiste.Clear();
-
-            //dropdown menu til år
-            for (int j = 1995; j<2020; j++)
-            {
-                Year.Add(j);
-            }
-
-            //henter genres ned til dropdownmenu Genre
-            using (var db = new MyDbContext())
-            {
-                TheOriginaleGenres = db.Genres.ToList();
-            }
+            //dropdown menuer til søgning af film, personer, år, genre.
+            var initsoegning = new soegning();
+            initsoegning.initSearchOption(Soegninger);
+            initsoegning.initYear(Year);
+            TheOriginaleGenres = initsoegning.initGenre(TheOriginaleGenres);
 
             if (theinput.Searchtype == "Movie")
             {
