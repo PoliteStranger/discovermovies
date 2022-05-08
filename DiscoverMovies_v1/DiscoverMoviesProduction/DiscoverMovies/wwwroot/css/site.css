@@ -56,3 +56,15 @@ hr {
     margin-top: 2rem;
     margin-bottom: 2rem;
 }
+
+input[value="Reset"] {
+    background: lightgreen;
+    border-radius: 8px;
+    -moz-border-radius: 5px;
+}
+
+input[value="Submit"] {
+    background: lightgreen;
+    border-radius: 8px;
+    -moz-border-radius: 5px;
+}

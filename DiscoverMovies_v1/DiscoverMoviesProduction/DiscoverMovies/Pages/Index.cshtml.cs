@@ -8,6 +8,11 @@ namespace ASP_Web_Bootstrap.Pages
 {
     public class IndexModel : PageModel
     {
+        public void OnGetMyOnClick()
+        {
+            Console.WriteLine("TISSEMAND");
+        }
+
         //Input klasse fra søgning
         [BindProperty]
         public InputMovie theinput { get; set; } = new InputMovie();
@@ -74,7 +79,7 @@ namespace ASP_Web_Bootstrap.Pages
                 }
             }
         }
-
+        
         public IActionResult OnPost()
         {
             //dropdown menuer til søgning af film, personer, år, genre.
