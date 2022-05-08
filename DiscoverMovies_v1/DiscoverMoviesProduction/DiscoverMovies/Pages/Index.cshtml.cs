@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using ASP_Web_Bootstrap.Models;
+using ASP_Web_Bootstrap.Models.Init;
+using ASP_Web_Bootstrap.Models.SearchResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -10,6 +11,9 @@ namespace ASP_Web_Bootstrap.Pages
         //Input klasse fra søgning
         [BindProperty]
         public InputMovie theinput { get; set; } = new InputMovie();
+
+        // initializer for søgning
+        Iinitializer initsoegning = new soegning();
 
         [BindProperty]
         //liste til dropdown menu til søgning af film, personer, eller produktionsselskaber.
@@ -50,7 +54,6 @@ namespace ASP_Web_Bootstrap.Pages
         public void OnGet()
         {
             //dropdown menuer til søgning af film, personer, år, genre.
-            var initsoegning = new soegning();
             initsoegning.initSearchOption(Soegninger);
             initsoegning.initYear(Year);
             TheOriginaleGenres = initsoegning.initGenre(TheOriginaleGenres);
@@ -75,115 +78,29 @@ namespace ASP_Web_Bootstrap.Pages
         public IActionResult OnPost()
         {
             //dropdown menuer til søgning af film, personer, år, genre.
-            var initsoegning = new soegning();
             initsoegning.initSearchOption(Soegninger);
             initsoegning.initYear(Year);
             TheOriginaleGenres = initsoegning.initGenre(TheOriginaleGenres);
 
             if (theinput.Searchtype == "Movie")
             {
-                using (var db = new MyDbContext())
-                {
-                    var query = (from m in db.Movies
-                                 join gm in db.GenresAndMovies
-                                 on m.movieId equals gm._movieId
-                                 join g in db.Genres
-                                 on gm._genreId equals g._genreId
-                                 where (m._title.Contains(theinput.Name) || theinput.Name == "")
-                                 && (theinput.GenreID == "0" || gm._genreId == Int32.Parse(theinput.GenreID))
-                                 && (m._releaseDate.Value.Year == Int32.Parse(theinput.Year) || theinput.Year == "0")
-                                 && (theinput.Searchtype == "Movie" || theinput.Searchtype == "")
-
-                                 select new
-                                 {
-                                     movieid = m.movieId,
-                                     movietitel = m._title,
-                                     movieposter = m._posterUrl,
-                                 }
-                                 ).ToList().Distinct();
-
-                    foreach (var item in query)
-                    {
-                        Movie tempmovie = new Movie();
-                        tempmovie._title = item.movietitel;
-                        tempmovie._posterUrl = item.movieposter;
-                        tempmovie.movieId = item.movieid;
-                        templiste.Add(tempmovie);
-                    }
-                }
-                MovieList = templiste;
+                Isearch filmsoegning = new MovieSearchoption();
+                MovieList = filmsoegning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype);
             }
 
             else if (theinput.Searchtype == "Person")
             {
-                using (var db = new MyDbContext())
-                {
-                    var query = (from p in db.Persons
-                                 join e in db.Employments
-                                 on p._personId equals e._personId
-                                 join m in db.Movies
-                                 on e._movieId equals m.movieId
-                                 join gm in db.GenresAndMovies
-                                 on m.movieId equals gm._movieId
-                                 join g in db.Genres
-                                 on gm._genreId equals g._genreId
-
-                                 where (p._Personname.Contains(theinput.Name) || theinput.Name == "")
-                                 && (theinput.GenreID == "0" || gm._genreId == Int32.Parse(theinput.GenreID))
-                                 && (m._releaseDate.Value.Year == Int32.Parse(theinput.Year) || theinput.Year == "0")
-                                 && (theinput.Searchtype == "Person" || theinput.Searchtype == "")
-                                 select new
-                                 {
-                                     movieid = m.movieId,
-                                     movietitel = m._title,
-                                     movieposter = m._posterUrl,
-                                 }
-                                 ).ToList().Distinct(); // til liste og fjerner samtidig duplikater.
-
-
-                    foreach (var item in query)
-                    {
-                        Movie tempmovie = new Movie();
-                        tempmovie._title = item.movietitel;
-                        tempmovie._posterUrl = item.movieposter;
-                        tempmovie.movieId = item.movieid;
-                        templiste.Add(tempmovie);
-                    }
-                }
-                MovieList = templiste;
+                Isearch filmsoegning = new PersonSearchoption();
+                MovieList = filmsoegning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype);
             }
+
 
             else if (theinput.Searchtype == "")
             {
-                using (var db = new MyDbContext())
-                {
-                    var query = (from m in db.Movies
-                                 join gm in db.GenresAndMovies
-                                 on m.movieId equals gm._movieId
-                                 join g in db.Genres
-                                 on gm._genreId equals g._genreId
-                                 where (theinput.GenreID == "0" || gm._genreId == Int32.Parse(theinput.GenreID))
-                                  && (m._releaseDate.Value.Year == Int32.Parse(theinput.Year) || theinput.Year == "0")
+                Isearch filmsoegning = new NullSearchoption();
+                MovieList = filmsoegning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype);
 
-                                 select new
-                                 {
-                                     movieid = m.movieId,
-                                     movietitel = m._title,
-                                     movieposter = m._posterUrl,
-                                 }
-                                 ).ToList().Distinct(); // til liste og fjerner samtidig duplikater.
-
-                    foreach (var item in query)
-                    {
-                        Movie tempmovie = new Movie();
-                        tempmovie._title = item.movietitel;
-                        tempmovie._posterUrl = item.movieposter;
-                        tempmovie.movieId = item.movieid;
-                        templiste.Add(tempmovie);
-                    }
-
-                    MovieList = templiste;
-                }
+                
             }
             return Page();
         }

@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using ASP_Web_Bootstrap.Models;
+using ASP_Web_Bootstrap.Models.Init;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ASP_Web_Bootstrap.Models
+namespace ASP_Web_Bootstrap.Models.Init
 {
     public class soegning : Iinitializer
     {

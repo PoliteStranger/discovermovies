@@ -1,4 +1,4 @@
-﻿namespace ASP_Web_Bootstrap.Models
+﻿namespace ASP_Web_Bootstrap.Models.Init
 {
     public interface Iinitializer
     {
