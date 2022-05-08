@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Database.Tables;
+using AcquireDB_EFcore.Tables;
 
-namespace DiscoverMoviesProduction
+namespace ASP_Web_Bootstrap
 {
     public class MyDbContext : DbContext {
         protected override void OnConfiguring(
@@ -20,7 +20,7 @@ namespace DiscoverMoviesProduction
         public DbSet<ProdCompany> ProdCompanies { get; set; }
         public DbSet<Employment> Employments { get; set; }   
 
-        public DbSet<ProducedBy> ProducedBy { get; set; }
+
     }
 
 }

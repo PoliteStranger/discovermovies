@@ -45,8 +45,7 @@ namespace AcquireDB_EFcore
             newMovie._title = (string)jsonObj.title;
             newMovie.movieId = (int)jsonObj.id;
             newMovie._popularity = (double)jsonObj.popularity;
-            newMovie._revenue = (long)jsonObj.revenue;
-            Console.WriteLine("Revenue: " + newMovie._revenue + "   API: " + jsonObj.revenue);
+            newMovie._revenue = (int)jsonObj.revenue;
             newMovie._budget = (int)jsonObj.budget;
             // Hvis en runtime er NULL, giver det bøvl, så vi sætter alle runtime som er NULL til 0
             if(jsonObj.runtime == null)

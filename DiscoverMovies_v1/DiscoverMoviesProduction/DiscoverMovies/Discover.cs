@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
-using Database.Tables;
+using AcquireDB_EFcore.Tables;
 
-namespace DiscoverMoviesProduction
+namespace ASP_Web_Bootstrap
 {
     public class DiscoverScore
     {
@@ -110,65 +110,17 @@ namespace DiscoverMoviesProduction
             // 4. Year
             // 5. Production Companies
 
-            List<DiscoverScore> genreMovies = GenreFilter(shortList);
-            List<DiscoverScore> castMovies = CastFilter(shortList);
+            List<Movie> genreMovies = GenreFilter(shortList);
+            List<Movie> castMovies = CastFilter(shortList);
+            List<Movie> crewMovies = CrewFilter(shortList);
+            List<Movie> yearMovies = YearFilter(shortList);
+            List<Movie> ProdMovies = ProdFilter(shortList);
 
             // Hvert filter laver en liste
 
-                // HVIS filmen har fået en score
-                if (castMovies.Any(x => x.Movie == movie))
-                    score += (double)(1 / (CastMaxScore - CastMinScore)) * castMovies.Find(x => x.Movie == movie).Score;// Så hent dens points fra Cast Filteret
-                // HVIS filmen har fået en score
-                if (crewMovies.Any(x => x.Movie == movie))
-                    score += (double)(1 / (CrewMaxScore - CrewMinScore)) * crewMovies.Find(x => x.Movie == movie).Score;// Så hent dens points fra Crew Filteret
+            // Hvad der går igen i hver liste
 
-                // HVIS filmen har fået en score
-                if (yearMovies.Any(x => x.Movie == movie))
-                    score += (double)(1 / (YearMaxScore - YearMinScore)) * yearMovies.Find(x => x.Movie == movie).Score;// Så hent dens points fra Crew Filteret
-
-
-                // HVIS filmen har fået en score
-                //if (ProdMovies.Any(x => x.Movie == movie))
-                //    score += (double)(1 / (ProdMaxScore - ProdMinScore)) * ProdMovies.Find(x => x.Movie == movie).Score;// Så hent dens points fra Crew Filteret
-
-
-
-                // Til filmen, samt summen af dens points:
-                finalScore.Add(new DiscoverScore(movie, score));
-            }
-
-            // I rækkefølge af score:
-            finalScore = finalScore.OrderByDescending(x => x.Score).ToList();
-
-            // Print til consol
-            Console.WriteLine("Final scores:");
-            finalScore = finalScore.GetRange(0, 10).ToList();
-            foreach (var score in finalScore)
-            {
-                Console.WriteLine(score.Movie._title + ": " + score.Score.ToString("0.00") + " - " + score.Movie._popularity);
-            }
-
-            // Vi timer kodeafviklingen, så vi kan se om det går hurtigt nok!
-            // OBS Console print TAGER EKSTRA TID, de skal fjernes, så vi kan få den endelige tid!
-
-
-            Console.WriteLine("");
-            Console.WriteLine("Final scores: (Adjusted with popularity)");
-            // Et forsøg med at forstærke score ved at gange film popularity med dens score:
-
-            foreach (var score in finalScore)
-            {
-                score.Score += (double)score.Score * (double)score.Movie._popularity;
-            }
-            finalScore = finalScore.OrderByDescending(x => x.Score).ToList();
-            foreach (var score in finalScore)
-            {
-                Console.WriteLine(score.Movie._title + ": " + score.Score.ToString("0.00"));
-            }
-
-
-
-
+            // Top resultatet er den forslåede film
 
 
 
@@ -233,193 +185,27 @@ namespace DiscoverMoviesProduction
             return crewList;
         }
 
-        public List<DiscoverScore> YearFilter(List<Movie> shortlist)
+        public List<Movie> YearFilter(List<Movie> shortlist)
         {
-            var db = new MyDbContext();
-
             List<Movie> yearList = new List<Movie>();
 
-            // Til at tildele points
-            List<DiscoverScore> discoverScores = new List<DiscoverScore>();
+            // 2001
+            // +/- intervallet   5 - 1999 - 2002 +5
 
-            Console.WriteLine("");
-            Console.WriteLine("FILTER: ReleaseDate");
-            Console.WriteLine("-------------------------------------------------");
+            // +/- 5 år
+            // +/- 10 år
 
-            List<Movie> inputYear = new List<Movie>();
-
-            int maxYear = 0;
-            int minYear = 2022;
-            int range;
-
-
-            Console.WriteLine("Max year: " + shortlist.Max(x => x._releaseDate.Value.Year));
-            Console.WriteLine("Min year: " + shortlist.Min(x => x._releaseDate.Value.Year));
-
-            foreach (var movie in inputMovies)
-            {
-
-                // Extract Year from Datetime
-
-                if (movie._releaseDate.Value.Year < minYear)
-                {
-                    minYear = movie._releaseDate.Value.Year;
-                }
-                else if (movie._releaseDate.Value.Year > maxYear)
-                {
-                    maxYear = movie._releaseDate.Value.Year;
-                }
-
-
-            }
-            minYear = inputMovies.Min(x => x._releaseDate.Value.Year);
-            maxYear = inputMovies.Max(x => x._releaseDate.Value.Year);
-
-            Console.WriteLine("Found releaseyear in range from {0} to {1} in input", minYear, maxYear);
-
-            Console.WriteLine("\nSearching for matches by Release Year:");
-
-            range = maxYear - minYear;
-
-            Console.WriteLine("Number of Movies: {0}", shortList.Count());
-
-            foreach (var movie in shortList.ToList())
-            {
-
-                if (movie._releaseDate.Value.Year >= minYear && movie._releaseDate.Value.Year <= maxYear)
-                {
-
-                    // If match, then pass out score:
-                    if (discoverScores.Any(x => x.Movie == movie))
-                    {
-                        discoverScores.Find(x => x.Movie == movie).Score += 3;
-                    }
-                    else
-                    {
-                        discoverScores.Add(new DiscoverScore(movie, 3));
-                    }
-
-                }
-
-                else if (movie._releaseDate.Value.Year >= (minYear - 0.5 * range) && movie._releaseDate.Value.Year <= (maxYear + 0.5 * range))
-                {
-                    // If match, then pass out score:
-                    if (discoverScores.Any(x => x.Movie == movie))
-                    {
-                        discoverScores.Find(x => x.Movie == movie).Score += 2;
-                    }
-                    else
-                    {
-                        discoverScores.Add(new DiscoverScore(movie, 2));
-                    }
-                }
-
-                else if (movie._releaseDate.Value.Year >= (minYear - range) && movie._releaseDate.Value.Year <= (maxYear + range))
-                {
-                    // If match, then pass out score:
-                    if (discoverScores.Any(x => x.Movie == movie))
-                    {
-                        discoverScores.Find(x => x.Movie == movie).Score += 1;
-                    }
-                    else
-                    {
-                        discoverScores.Add(new DiscoverScore(movie, 1));
-                    }
-                }
-
-
-
-
-
-            }
-
-            discoverScores = discoverScores.OrderByDescending(x => x.Score).ToList();
-            foreach (var score in discoverScores)
-            {
-                Console.WriteLine(score.Movie._title + " has " + score.Score);
-
-            }
-
-            return discoverScores;
+            return yearList;
         }
 
-
-
-        public List<DiscoverScore> ProdFilter(List<Movie> shortlist)
+        public List<Movie> ProdFilter(List<Movie> shortlist)
         {
-            var db = new MyDbContext();
-
-
-            // En liste over crew
             List<Movie> prodList = new List<Movie>();
 
-            // Til at tildele points
-            List<DiscoverScore> discoverScores = new List<DiscoverScore>();
-
-            Console.WriteLine("");
-            Console.WriteLine("FILTER: PRODUCTION");
-            Console.WriteLine("-------------------------------------------------");
 
 
 
-            List<ProdCompany> inputProds = new List<ProdCompany>();
-
-
-            foreach (var movie in inputMovies)
-            {
-                //Console.WriteLine(movie._prodCompanyList.Count());
-                foreach (var prod in movie._prodCompanyList.ToList())
-                {
-                    // Console.WriteLine("!" + employment._job);
-                    inputProds.Add(prod);
-
-                }
-            }
-            Console.WriteLine("Found {0} prod in input", inputProds.Count);
-
-
-            Console.WriteLine("\nSearching for matches in Production:");
-
-
-
-            foreach (var movie in shortList.ToList())
-            {
-                //Console.Write(">");
-
-                foreach (var prod in inputProds.ToList())
-                {
-
-                    if (movie._prodCompanyList.Any(x => x.prodCompanyId == prod.prodCompanyId))
-                    {
-
-                        // If match, then pass out score:
-                        if (discoverScores.Any(x => x.Movie == movie))
-                        {
-                            discoverScores.Find(x => x.Movie == movie).Score++;
-                            //Console.Write(" Match!");
-                        }
-                        else
-                        {
-                            discoverScores.Add(new DiscoverScore(movie, 1));
-                            //Console.Write(" Match!");
-                        }
-                        //Console.WriteLine(discoverScores.Find(x => x.Movie == movie).Movie._title + " has " + discoverScores.Find(x => x.Movie == movie).Score + " points");
-
-                    }
-                }
-
-            }
-
-            discoverScores = discoverScores.OrderByDescending(x => x.Score).ToList();
-            foreach (var score in discoverScores)
-            {
-                Console.WriteLine(score.Movie._title + " has " + score.Score);
-
-            }
-
-            return discoverScores;
-
-
+            return prodList;
         }
 
 
