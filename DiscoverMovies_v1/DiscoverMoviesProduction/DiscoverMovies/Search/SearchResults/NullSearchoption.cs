@@ -1,6 +1,6 @@
-﻿namespace ASP_Web_Bootstrap.Models.SearchResults
+﻿namespace ASP_Web_Bootstrap.Search.SearchResults
 {
-    public class NullSearchoption : Isearch
+    public class NullSearchoption : ISearch
     {
         private List<Movie> templiste = new List<Movie>();
 

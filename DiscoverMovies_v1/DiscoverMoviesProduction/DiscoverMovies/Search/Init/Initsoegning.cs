@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using ASP_Web_Bootstrap.Models.Init;
+using ASP_Web_Bootstrap.Search.Init;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ASP_Web_Bootstrap.Models.Init
+namespace ASP_Web_Bootstrap.Search.Init
 {
     public class soegning : Iinitializer
     {
@@ -22,14 +22,15 @@ namespace ASP_Web_Bootstrap.Models.Init
             }
         }
 
-        public List<Genres> initGenre(List<Genres> Genrelisten)
+        public List<Genres> initGenre()
         {
+            List <Genres> tempgenres = new List<Genres>();
             //henter genres ned til dropdownmenu Genre
             using (var db = new MyDbContext())
             {
-                Genrelisten = db.Genres.ToList();
-                return Genrelisten;
+                tempgenres = db.Genres.ToList();
             }
+            return tempgenres;
         }
     }
 }

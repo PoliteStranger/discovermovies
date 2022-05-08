@@ -1,11 +1,16 @@
-﻿namespace ASP_Web_Bootstrap.Models.SearchResults
+﻿namespace ASP_Web_Bootstrap.Search.SearchResults
 {
-    public class MovieSearchoption : Isearch
+    public class MovieSearchoption : ISearch
     {
         private List<Movie> templiste = new List<Movie>();
 
         public List<Movie> SearchInput(string theinputName, string theinputGenreID, string theinputYear, string theinputSearchtype)
         {
+            Console.WriteLine(theinputName);
+            Console.WriteLine(theinputGenreID);
+            Console.WriteLine(theinputYear);
+            Console.WriteLine(theinputSearchtype);
+
             using (var db = new MyDbContext())
             {
                 var query = (from m in db.Movies
