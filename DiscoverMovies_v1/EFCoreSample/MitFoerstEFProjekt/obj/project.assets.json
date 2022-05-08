@@ -6451,19 +6451,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\caspe\\.nuget\\packages\\": {}
+    "C:\\Users\\Andreas\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\caspe\\source\\repos\\discovermovies\\DiscoverMovies_v1\\EFCoreSample\\MitFoerstEFProjekt\\AcquireDB_EFcore.csproj",
+      "projectUniqueName": "C:\\Users\\Andreas\\Documents\\UNI\\PROJ4\\_GIT2\\DiscoverMovies_v1\\EFCoreSample\\MitFoerstEFProjekt\\AcquireDB_EFcore.csproj",
       "projectName": "AcquireDB_EFcore",
-      "projectPath": "C:\\Users\\caspe\\source\\repos\\discovermovies\\DiscoverMovies_v1\\EFCoreSample\\MitFoerstEFProjekt\\AcquireDB_EFcore.csproj",
-      "packagesPath": "C:\\Users\\caspe\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\caspe\\source\\repos\\discovermovies\\DiscoverMovies_v1\\EFCoreSample\\MitFoerstEFProjekt\\obj\\",
+      "projectPath": "C:\\Users\\Andreas\\Documents\\UNI\\PROJ4\\_GIT2\\DiscoverMovies_v1\\EFCoreSample\\MitFoerstEFProjekt\\AcquireDB_EFcore.csproj",
+      "packagesPath": "C:\\Users\\Andreas\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Andreas\\Documents\\UNI\\PROJ4\\_GIT2\\DiscoverMovies_v1\\EFCoreSample\\MitFoerstEFProjekt\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\caspe\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Andreas\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

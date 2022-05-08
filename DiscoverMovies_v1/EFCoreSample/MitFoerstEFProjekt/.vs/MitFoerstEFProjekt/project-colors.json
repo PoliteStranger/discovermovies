@@ -10,7 +10,12 @@
       "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
       "DisplayName": "Miscellaneous Files",
       "ColorIndex": -1
+    },
+    "81826d15-ac17-4f28-8457-2fef2b7ac633": {
+      "ProjectGuid": "81826d15-ac17-4f28-8457-2fef2b7ac633",
+      "DisplayName": "AcquireDB_EFcore",
+      "ColorIndex": 1
     }
   },
-  "NextColorIndex": 1
+  "NextColorIndex": 2
 }
