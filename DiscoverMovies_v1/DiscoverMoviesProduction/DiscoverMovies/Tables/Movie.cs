@@ -26,7 +26,7 @@ public class Movie
 
     public DateTime? _releaseDate { get; set; }
     public int? _budget { get; set; }
-    public int? _revenue { get; set; }
+    public long? _revenue { get; set; }
     public double? _popularity { get; set; }
     public int? _runtime { get; set; }
 
