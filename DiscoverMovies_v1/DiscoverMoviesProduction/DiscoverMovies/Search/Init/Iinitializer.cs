@@ -1,4 +1,6 @@
-﻿namespace ASP_Web_Bootstrap.Search.Init
+﻿using AcquireDB_EFcore.Tables;
+
+namespace ASP_Web_Bootstrap.Search.Init
 {
     public interface Iinitializer
     {

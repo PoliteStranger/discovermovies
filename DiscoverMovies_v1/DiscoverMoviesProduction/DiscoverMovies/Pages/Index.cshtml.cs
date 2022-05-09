@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using AcquireDB_EFcore.Tables;
 using ASP_Web_Bootstrap.Search.Init;
 using ASP_Web_Bootstrap.Search.SearchResults;
 using Microsoft.AspNetCore.Mvc;
@@ -12,23 +13,19 @@ namespace ASP_Web_Bootstrap.Pages
         [BindProperty]
         public InputMovie theinput { get; set; } = new InputMovie();
 
-        // initializer for søgning
+        // initializer
         Iinitializer initsoegning = new soegning();
 
         [BindProperty]
-        //liste til dropdown menu til søgning af film, personer, eller produktionsselskaber.
+        //liste til dropdown menu til søgning af film, eller personer.
         public List<string> Soegninger { get; set; } = new List<string>();
 
         [BindProperty]
-        //liste af alle år.
+        //liste til dropdown af år.
         public List<int> Year { get; set; } = new List<int>();
 
         [BindProperty]
-        //liste af alle Productions selskaber.
-        public List<int> Productioncompany { get; set; } = new List<int>();
-
-        [BindProperty]
-        //liste til alle genres hentet fra DB.
+        //liste til dropdown af alle genres hentet fra DB.
         public List<Genres> TheOriginaleGenres { get; set; } = new List<Genres>();
 
         // Listen over film som skal vises på en enkelt side:
@@ -108,14 +105,10 @@ namespace ASP_Web_Bootstrap.Pages
 
         public class InputMovie
         {
-            [StringLength(100, ErrorMessage = "Maximum length is {1}")]
-            //[Display(Name = "Searching Field")]
             public string Name { get; set; } = "";
             public string GenreID { get; set; } = "0";
-
             public string Searchtype { get; set; } = "";
             public string Year { get; set; } = "0";
-            public string Productioncompany { get; set; } = "0";
 
         }
     }
