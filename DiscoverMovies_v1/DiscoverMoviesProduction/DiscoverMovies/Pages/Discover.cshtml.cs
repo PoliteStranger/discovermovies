@@ -6,6 +6,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ASP_Web_Bootstrap.Pages
 {
+    public class MovieReturn
+    {
+        public int MovieId { get; set; }
+        public string Title { get; set; }
+        public string PosterURL { get; set; }
+    }
+
+
+
     public class DiscoverModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
@@ -15,26 +24,26 @@ namespace ASP_Web_Bootstrap.Pages
             _logger = logger;
         }
 
+        [BindProperty]
+        public MovieReturn DiscoverResult { get; set; }
+
+        [BindProperty]
+        public string TheMovie { get; set; }
+
         public void OnGet()
         {
-            List<Movie> inputMovies = new List<Movie>();
-            
+            List<int> inputMovies = new List<int>();
+            inputMovies.Add(11398);
+            inputMovies.Add(955);
+            inputMovies.Add(180);
+            inputMovies.Add(2787);
+            inputMovies.Add(107);
+
             Discover discover = new Discover();
 
-            using (var db = new MyDbContext())
-            {
-                // 5 random film som er i db!
-                // 8374, 1542, 603, 564, 3293
-                // Til 27205, 329, 553, 271110, 862
-                inputMovies.Add(db.Movies.Where(c => c.movieId == 11398).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
-                inputMovies.Add(db.Movies.Where(c => c.movieId == 955).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
-                inputMovies.Add(db.Movies.Where(c => c.movieId == 180).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
-                inputMovies.Add(db.Movies.Where(c => c.movieId == 2787).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
-                inputMovies.Add(db.Movies.Where(c => c.movieId == 107).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
-            }
+            Movie ReturnMovie = discover.DiscoverMovies(inputMovies);
 
-
-            discover.DiscoverMovies(inputMovies);
+            TheMovie = ReturnMovie._title;
         }
     }
 }

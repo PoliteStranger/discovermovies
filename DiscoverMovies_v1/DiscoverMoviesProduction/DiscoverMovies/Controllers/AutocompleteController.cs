@@ -28,7 +28,7 @@ namespace ASP_Web_Bootstrap.Controllers
                              select new
                              {
                                  label = m._title,      // De hedder label og value, fordi at jQuery autocomplete bruger disse!!!
-                                 value = m._title
+                                 value = m.movieId
                              }).ToList();
 
                 if(query.Count > 10)
