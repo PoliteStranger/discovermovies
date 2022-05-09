@@ -226,6 +226,101 @@ namespace ASP_Web_Bootstrap
             return prodList;
         }
 
+        public List<DiscoverScore> BudgetRevenueFilter(List<Movie> shortlist)
+        {
+            List<Movie> budgetRevenueList = new List<Movie>();
+            List<DiscoverScore> discoverScores = new List<DiscoverScore>();
+
+            int averageBudget = 0;
+            int totalBudget = 0;
+            int profitableCount = 0;
+            int unProfitableCount = 0;
+            int firstQuartile = 5200000, secondQuartile = 18100000, thirdQuartile = 41000000;
+            int firstQuartileCount = 0, secondQuartileCount = 0, thirdQuartileCount = 0, fourthQuartileCount = 0;
+
+
+            foreach (var movie in inputMovies)
+            {
+                if (movie._budget != 0 && movie._revenue != 0 && movie._budget != null && movie._revenue != null)
+                {
+                    if (movie._budget > movie._revenue)
+                    {
+                        unProfitableCount++;
+                    }
+                    else
+                    {
+                        profitableCount++;
+                    }
+                    totalBudget += movie._budget.GetValueOrDefault();
+                }
+                //https://stephenfollows.com/how-much-does-the-average-movie-cost-to-make/
+                //Ovenstående link fremsætter kvartilerne for filmbudget. Disse bliver brugt til vurdering.
+                if (movie._budget <= firstQuartile)
+                {
+                    firstQuartileCount++;
+                }
+                else if (movie._budget <= secondQuartile && movie._budget > firstQuartile)
+                {
+                    secondQuartileCount++;
+                }
+                else if (movie._budget <= thirdQuartile && movie._budget > secondQuartile)
+                {
+                    thirdQuartileCount++;
+                }
+                else if (movie._budget > thirdQuartile)
+                {
+                    fourthQuartileCount++;
+                }
+            }
+            averageBudget = totalBudget / inputMovies.Count;
+
+            foreach (var movie in shortList)
+            {
+                int score = 0;
+                if (movie._budget <= firstQuartile)
+                {
+                    score += firstQuartileCount;
+                }
+                else if (movie._budget <= secondQuartile && movie._budget > firstQuartile)
+                {
+                    score += secondQuartileCount;
+                }
+                else if (movie._budget <= thirdQuartile && movie._budget > secondQuartile)
+                {
+                    score += thirdQuartileCount;
+                }
+                else if (movie._budget > thirdQuartile)
+                {
+                    score += fourthQuartileCount;
+                }
+
+                if (movie._budget > averageBudget-averageBudget*0.1 && movie._budget < averageBudget+averageBudget*0.1)
+                {
+                    score += 3;
+                }
+
+                if (movie._budget > movie._revenue)
+                {
+                    score += unProfitableCount;
+                }
+                else
+                {
+                    score += profitableCount;
+                }
+
+                discoverScores.Add(new DiscoverScore(movie, score));
+            }
+
+            discoverScores.Sort(delegate (DiscoverScore x, DiscoverScore y) // denne sortering er vist ikke nødvendig hvis vi bare er efter point.
+            {
+                return y.Score.CompareTo(x.Score);
+            });
+
+            return discoverScores;
+        }
+
+
+
 
     }
 }
