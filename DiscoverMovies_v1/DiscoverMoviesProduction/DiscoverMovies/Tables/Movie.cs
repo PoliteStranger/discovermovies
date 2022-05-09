@@ -16,6 +16,8 @@ public class Movie
     public string? _description { get; set; }
     public string? _posterUrl { get; set; }
 
+
+
     public List<Employment> _employmentList { get; set; } = new();
 
     public List<Genre> _genreList { get; set; } = new();
