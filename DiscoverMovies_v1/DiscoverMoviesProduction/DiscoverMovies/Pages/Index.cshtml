@@ -4,12 +4,15 @@
     ViewData["Title"] = "Home page";
 
 }
+<script src="~/js/autocomplete.js"></script>
+
 <h3>Heading</h3>
       <p><form method="post">
           <div class="form-group">
+              <div class="ui-widget">
               <label asp-for="theinput.Name"></label>
-              <input class="form-control" asp-for="theinput.Name" />
-
+              <input id="search-field" class="form-control" asp-for="theinput.Name" />
+              </div>
               @*<label asp-for="theinput.IsMovie"></label>
               <input id="Checkbox1" type="checkbox" asp-for="theinput.IsMovie"/>*@
               
@@ -22,14 +25,14 @@
 
 @*              <span asp-validation-for="theinput.Name" class="text-danger"></span> 
 *@          </div>
-          <button type="submit" class="btn btn-primary">Search</button>
+          <button type="submit" id="search-button" class="btn btn-primary">Search</button>
                       
      </form></p>
 <div class="row">
     @foreach(Movie movie in Model.MovieList)
     {
         <div class="col-xl-2 col-sm-6 col-md-4">
-            @movie._title <br />
+            @movie._title : @movie.movieId<br />
             <img src=@("https://www.themoviedb.org/t/p/w220_and_h330_face" + @movie._posterUrl) height="237" width="165">
             
         </div>

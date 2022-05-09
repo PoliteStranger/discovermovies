@@ -16,7 +16,7 @@ namespace AcquireDB_EFcore
         public MakeGenresList(MyDbContext db)
         {
 
-            Console.WriteLine("Getting genres:");
+            //Console.WriteLine("Getting genres");
             dynamic jsonObj = JsonConvert.DeserializeObject(jsonGenres);
 
             foreach(var genre in jsonObj.genres)
@@ -24,18 +24,18 @@ namespace AcquireDB_EFcore
                 // Hvis den allerede er i DB så springer vi over!
                 if (db.Genres.Find((int)genre.id) == null)
                 {
-                    Console.WriteLine("Getting: " + (string)genre.name);
+                    //Console.WriteLine("Getting: " + (string)genre.name);
                     db.Genres.Add(new Genres() { _genreId = (int)genre.id, _Genrename = (string)genre.name });
                     db.SaveChanges();
 
                 }
                 else
                 {
-                    Console.WriteLine("Got it!");
+                    //Console.WriteLine("Got it!");
                 }
 
             }
-            Console.WriteLine("Saving to DB");
+            //Console.WriteLine("Saving to DB");
             
         }
     }

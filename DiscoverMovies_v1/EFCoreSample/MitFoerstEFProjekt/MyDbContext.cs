@@ -20,6 +20,7 @@ namespace AcquireDB_EFcore
         public DbSet<ProdCompany> ProdCompanies { get; set; }
         public DbSet<Employment> Employments { get; set; }
 
+        public DbSet<ProducedBy> ProducedBy { get; set; }
 
     }
 

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using AcquireDB_EFcore.Tables;
+using Database.Tables;
 
-namespace ASP_Web_Bootstrap
+namespace DiscoverMoviesProduction
 {
     public class MyDbContext : DbContext {
         protected override void OnConfiguring(
@@ -18,9 +18,9 @@ namespace ASP_Web_Bootstrap
         public DbSet<Genres> Genres { get; set; }
         public DbSet<Genre> GenresAndMovies { get; set; }
         public DbSet<ProdCompany> ProdCompanies { get; set; }
-        public DbSet<Employment> Employments { get; set; }   
+        public DbSet<Employment> Employments { get; set; }
 
-
+        public DbSet<ProducedBy> ProducedBy { get; set; }
     }
 
 }

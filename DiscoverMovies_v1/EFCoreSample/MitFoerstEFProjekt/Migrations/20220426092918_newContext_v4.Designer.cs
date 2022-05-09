@@ -4,6 +4,7 @@ using AcquireDB_EFcore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AcquireDB_EFcore.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220426092918_newContext_v4")]
+    partial class newContext_v4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,7 +89,12 @@ namespace AcquireDB_EFcore.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("movieId")
+                        .HasColumnType("int");
+
                     b.HasKey("ProdCompanyId");
+
+                    b.HasIndex("movieId");
 
                     b.ToTable("ProdCompanies");
                 });
@@ -149,8 +156,8 @@ namespace AcquireDB_EFcore.Migrations
                     b.Property<DateTime?>("_releaseDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("_revenue")
-                        .HasColumnType("bigint");
+                    b.Property<int?>("_revenue")
+                        .HasColumnType("int");
 
                     b.Property<int?>("_runtime")
                         .HasColumnType("int");
@@ -234,10 +241,17 @@ namespace AcquireDB_EFcore.Migrations
                     b.Navigation("Movies");
                 });
 
+            modelBuilder.Entity("AcquireDB_EFcore.Tables.ProdCompany", b =>
+                {
+                    b.HasOne("Movie", null)
+                        .WithMany("_ProdCompaniesList")
+                        .HasForeignKey("movieId");
+                });
+
             modelBuilder.Entity("AcquireDB_EFcore.Tables.ProducedBy", b =>
                 {
                     b.HasOne("Movie", "Movies")
-                        .WithMany("_ProdCompaniesList")
+                        .WithMany()
                         .HasForeignKey("_movieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
