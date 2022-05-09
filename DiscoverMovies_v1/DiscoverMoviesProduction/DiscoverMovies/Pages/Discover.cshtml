@@ -1,25 +1,11 @@
-﻿@page "/discover/{movieParam1:int?}/{movieParam2:int?}/{movieParam3:int?}/{movieParam4:int?}/{movieParam5:int?}/"
+﻿@page
 @model DiscoverModel
 @{
     ViewData["Title"] = "Discover";
 }
-<script src="~/js/autocomplete.js"></script>
 
       <h3>Disover movies</h3>
       <p>Select 5 movies</p>
-
-      <p><form method="post">
-          <div class="form-group">
-              <div class="ui-widget">
-              <label asp-for="theinput.Name"></label>
-              <input id="search-field" class="form-control" asp-for="theinput.Name" />
-              </div>
-
-@*              <span asp-validation-for="theinput.Name" class="text-danger"></span> 
-*@          </div>
-          <button type="submit" id="search-button" class="btn btn-primary">Add Movie</button>
-                      
-     </form></p>
 
       <div class="row">
         <div class="col-xl-2 col-sm-6 col-md-4">Movie 1</div>
