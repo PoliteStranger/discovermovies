@@ -8,14 +8,16 @@
 <p>Result count: @Model.MovieList.Count</p>
       <p><form method="post">
           <div class="form-group">
-              <label asp-for="theinput.Name"></label>
-              <input class="form-control" asp-for="theinput.Name" />
+              @*              <label asp-for="theinput.Name"></label>
+*@              <p>Searching Field</p>
+              
+              <input id="input1" class="form-control" asp-for="theinput.Name" />
 
               <select id="Select1" asp-items="@(new SelectList(Model.Soegninger))" asp-for="theinput.Searchtype">
                   <option value="">Search Option</option>
               </select>
-              @*
-              <select id="Select2" asp-items="@(new SelectList(Model.TheOriginaleGenres, "_genreId","_Genrename"))" asp-for="theinput.GenreID">
+              
+              @* <select id="Select2" asp-items="@(new SelectList(Model.TheOriginaleGenres, "_genreId","_Genrename"))" asp-for="theinput.GenreID">
                    <option value="" selected disabled> -- Select genre --</option>
               </select>*@
 
@@ -26,6 +28,10 @@
               <select id="Select3" asp-items="@(new SelectList(Model.Year))" asp-for="theinput.Year">
                   <option value="0">Select Year of creation</option>
               </select>
+              
+              <select id="Select4" asp-items="@(new SelectList(Model.Productioncompany))" asp-for="theinput.Productioncompany">
+                  <option value="0">Select Production Company</option>
+              </select>
 
               @*@if (Model.theinput.Name != "")
                  {
@@ -35,20 +41,25 @@
                     }
                  }*@
           </div>
-          <input type="submit" id="btnSubmit" value="Submit"/>
+          <br/>
 
+          <input type="submit" id="btnSubmit" value="Submit"/>
          @* <button type="submit" class="btn btn-primary">Search</button>
           <button type="reset" value="Clear" class="btn btn-primary">Reset</button> *@
               
-          <input type="button" id="btnReset" value="Reset" onclick="Reset();" />
+          <input type="button" id="btnReset" value="Reset" onclick="Reset();"/>
             <script type="text/javascript">
                 function Reset() {
                     var dropDown1 = document.getElementById("Select1");
                     var dropDown2 = document.getElementById("Select2");
                     var dropDown3 = document.getElementById("Select3");
+                    var dropDown4 = document.getElementById("Select4");
+
                     dropDown1.selectedIndex = 0;
                     dropDown2.selectedIndex = 0;
                     dropDown3.selectedIndex = 0;
+                    dropDown4.selectedIndex = 0;
+
                 }
             </script>
       </form></p>

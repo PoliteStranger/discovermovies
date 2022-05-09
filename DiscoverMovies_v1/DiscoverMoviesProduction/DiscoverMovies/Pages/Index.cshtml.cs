@@ -8,11 +8,6 @@ namespace ASP_Web_Bootstrap.Pages
 {
     public class IndexModel : PageModel
     {
-        public void OnGetMyOnClick()
-        {
-            Console.WriteLine("TISSEMAND");
-        }
-
         //Input klasse fra søgning
         [BindProperty]
         public InputMovie theinput { get; set; } = new InputMovie();
@@ -27,6 +22,10 @@ namespace ASP_Web_Bootstrap.Pages
         [BindProperty]
         //liste af alle år.
         public List<int> Year { get; set; } = new List<int>();
+
+        [BindProperty]
+        //liste af alle Productions selskaber.
+        public List<int> Productioncompany { get; set; } = new List<int>();
 
         [BindProperty]
         //liste til alle genres hentet fra DB.
@@ -110,13 +109,14 @@ namespace ASP_Web_Bootstrap.Pages
         public class InputMovie
         {
             [StringLength(100, ErrorMessage = "Maximum length is {1}")]
-            [Display(Name = "Searching Field")]
+            //[Display(Name = "Searching Field")]
             public string Name { get; set; } = "";
             public string GenreID { get; set; } = "0";
 
-            [StringLength(100, ErrorMessage = "Maximum length is {1}")]
             public string Searchtype { get; set; } = "";
             public string Year { get; set; } = "0";
+            public string Productioncompany { get; set; } = "0";
+
         }
     }
 }
