@@ -28,8 +28,43 @@ namespace ASP_Web_Bootstrap.Pages
             _logger = logger;
         }
 
-        public void OnGet()
+        public void OnGet
+            (
+                [FromRoute] int? movieParam1 = null,
+                [FromRoute] int? movieParam2 = null,
+                [FromRoute] int? movieParam3 = null,
+                [FromRoute] int? movieParam4 = null,
+                [FromRoute] int? movieParam5 = null
+                )
         {
+            using (var db = new MyDbContext())
+            {
+                if (movieParam1 != null)
+                {
+                    MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam1));
+
+                    if (movieParam2 != null)
+                    {
+                        MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam2));
+
+                        if (movieParam3 != null)
+                        {
+                            MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam3));
+
+                            if (movieParam4 != null)
+                            {
+                                MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam4));
+
+                                if (movieParam5 != null)
+                                {
+                                    MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam5));
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
 
             //            List<Movie> inputMovies = new List<Movie>();
             //            
@@ -72,7 +107,7 @@ namespace ASP_Web_Bootstrap.Pages
 //                    templiste.Add(item);
 //                }
 
-                return Page();
+                return Red;
             }
         }
     }

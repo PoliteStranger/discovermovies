@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "/discover/{movieParam1:int?}/{movieParam2:int?}/{movieParam3:int?}/{movieParam4:int?}/{movieParam5:int?}/"
 @model DiscoverModel
 @{
     ViewData["Title"] = "Discover";
@@ -14,12 +14,10 @@
               <label asp-for="theinput.Name"></label>
               <input id="search-field" class="form-control" asp-for="theinput.Name" />
               </div>
-              @*<label asp-for="theinput.IsMovie"></label>
-              <input id="Checkbox1" type="checkbox" asp-for="theinput.IsMovie"/>*@
 
 @*              <span asp-validation-for="theinput.Name" class="text-danger"></span> 
 *@          </div>
-          <button type="submit" id="search-button" class="btn btn-primary">Search</button>
+          <button type="submit" id="search-button" class="btn btn-primary">Add Movie</button>
                       
      </form></p>
 
