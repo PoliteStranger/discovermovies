@@ -107,7 +107,7 @@ namespace ASP_Web_Bootstrap.Pages
 //                    templiste.Add(item);
 //                }
 
-                return Red;
+                return Page();
             }
         }
     }
