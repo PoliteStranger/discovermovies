@@ -6,6 +6,10 @@
 
         public List<Movie> SearchInput(string theinputName, string theinputGenreID, string theinputYear, string theinputSearchtype)
         {
+            Console.WriteLine(theinputName);
+            Console.WriteLine(theinputGenreID);
+            Console.WriteLine(theinputYear);
+            Console.WriteLine(theinputSearchtype);
             using (var db = new MyDbContext())
             {
                 var query = (from p in db.Persons

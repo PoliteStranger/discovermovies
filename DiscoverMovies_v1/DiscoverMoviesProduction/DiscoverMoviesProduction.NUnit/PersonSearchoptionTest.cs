@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ASP_Web_Bootstrap;
@@ -21,81 +22,81 @@ namespace DiscoverMoviesProduction.NUnit
         }
         
         [Test]
-        public void TestCountWithAllSearchParameters()
+        public void PersonTest_Count_With_All_Search_Parameters()
         {
-            string theinputName = "the";
-            string theinputGenreID = "12";//adventure
-            string theinputYear = "2001";
+            string theinputName = "charles";
+            string theinputGenreID = "35";//Comedy
+            string theinputYear = "2000";
             string theinputSearchtype = "Person";
 
             List<Movie> movieTESTliste = new List<Movie>();
             movieTESTliste = uut.SearchInput(theinputName, theinputGenreID, theinputYear, theinputSearchtype);
-            Assert.That(movieTESTliste.Count, Is.EqualTo(36));
+            Assert.That(movieTESTliste.Count, Is.EqualTo(23));
         }
 
         [Test]
-        public void TestWithAllSearchParametersContainsSpecificMovie()
+        public void PersonTest_With_All_Search_Parameters_Contains_Specific_Movie()
         {
             //searching for a movie
-            string theinputName = "the";
-            string theinputGenreID = "12";//adventure
-            string theinputYear = "2001";
+            string theinputName = "charles";
+            string theinputGenreID = "36";//History
+            string theinputYear = "2000";
             string theinputSearchtype = "Person";
 
             List<Movie> movieTESTliste = new List<Movie>();
             movieTESTliste = uut.SearchInput(theinputName, theinputGenreID, theinputYear, theinputSearchtype);
 
-            //testing with movie "Planet of the Apes" == movieID 869
-            Assert.That(movieTESTliste.Any(i => i.movieId == 869), Is.True);
+            //testing with movie "The Patriot" == movieID 2024
+            Assert.That(movieTESTliste.Any(i => i.movieId == 2024), Is.True);
         }
 
         [Test]
-        public void TestCountWithoutYearParameter()
+        public void PersonTest_Count_Without_Year_Parameter()
         {
-            string theinputName = "the";
-            string theinputGenreID = "14";//fantasy
+            string theinputName = "steven";
+            string theinputGenreID = "80";//Crime
             string theinputYear = "0";
             string theinputSearchtype = "Person";
 
             List<Movie> movieTESTliste = new List<Movie>();
             movieTESTliste = uut.SearchInput(theinputName, theinputGenreID, theinputYear, theinputSearchtype);
-            Assert.That(movieTESTliste.Count, Is.EqualTo(477));
+            Assert.That(movieTESTliste.Count, Is.EqualTo(147));
         }
 
         [Test]
-        public void TestWithoutYearParameterContainsSpecificMovie()
+        public void PersonTest_Without_Year_Parameter_Contains_Specific_Movie()
         {
             //searching for a movie
-            string theinputName = "the";
-            string theinputGenreID = "12";//adventure
+            string theinputName = "steven";
+            string theinputGenreID = "37";//Western
             string theinputYear = "0";
             string theinputSearchtype = "Person";
 
             List<Movie> movieTESTliste = new List<Movie>();
             movieTESTliste = uut.SearchInput(theinputName, theinputGenreID, theinputYear, theinputSearchtype);
 
-            //testing with movie "The Last Legion" == movieID 9703
-            Assert.That(movieTESTliste.Any(i => i.movieId == 9703), Is.True);
+            //testing with movie "Last Stand at Saber River" == movieID 55576
+            Assert.That(movieTESTliste.Any(i => i.movieId == 55576), Is.True);
         }
 
         [Test]
-        public void TestCountWithoutYearAndGenreIDParameters()
+        public void PersonTest_Count_Without_Year_And_GenreID_Parameter()
         {
-            string theinputName = "the";
+            string theinputName = "robert downey";
             string theinputGenreID = "0";
             string theinputYear = "0";
             string theinputSearchtype = "Person";
 
             List<Movie> movieTESTliste = new List<Movie>();
             movieTESTliste = uut.SearchInput(theinputName, theinputGenreID, theinputYear, theinputSearchtype);
-            Assert.That(movieTESTliste.Count, Is.EqualTo(6919));
+            Assert.That(movieTESTliste.Count, Is.EqualTo(32));
         }
 
         [Test]
-        public void TestWithoutYearAndGenreIDParametersContainsSpecificMovie()
+        public void PersonTest_Without_Year_And_GenreID_Parameter_Contains_Specific_Movie()
         {
             //searching for a movie
-            string theinputName = "the";
+            string theinputName = "downey";
             string theinputGenreID = "0";
             string theinputYear = "0";
             string theinputSearchtype = "Person";
@@ -103,37 +104,45 @@ namespace DiscoverMoviesProduction.NUnit
             List<Movie> movieTESTliste = new List<Movie>();
             movieTESTliste = uut.SearchInput(theinputName, theinputGenreID, theinputYear, theinputSearchtype);
 
-            //testing with same movie "The Last Legion" == movieID 9703
-            Assert.That(movieTESTliste.Any(i => i.movieId == 9703), Is.True);
+            //testing with movie "Bowfinger" == movieID 11353
+            Assert.That(movieTESTliste.Any(i => i.movieId == 11353), Is.True);
         }
 
-        [Test]
-        public void TestCountWithoutNameAndSearchTypeParameters()
-        {
-            string theinputName = "";
-            string theinputGenreID = "16"; //animation
-            string theinputYear = "2000";
-            string theinputSearchtype = "";
+        //[Test]
+        //public void PersonTest_Does_Person_Do_Something_In_Specific_Movie()
+        //{
+        //    //searching for a movie
+        //    string theinputName = "downey";
+        //    string theinputGenreID = "0";
+        //    string theinputYear = "0";
+        //    string theinputSearchtype = "Person";
 
-            List<Movie> movieTESTliste = new List<Movie>();
-            movieTESTliste = uut.SearchInput(theinputName, theinputGenreID, theinputYear, theinputSearchtype);
-            Assert.That(movieTESTliste.Count, Is.EqualTo(133));
-        }
+        //    List<Movie> movieTESTliste = new List<Movie>();
+        //    movieTESTliste = uut.SearchInput(theinputName, theinputGenreID, theinputYear, theinputSearchtype);
 
-        [Test]
-        public void TestWithoutNameAndSearchTypeParametersContainsSpecificMovie()
-        {
-            //searching for a movie
-            string theinputName = "";
-            string theinputGenreID = "16"; //animation
-            string theinputYear = "2000";
-            string theinputSearchtype = "";
+        //    //testing with movie "Bowfinger" == movieID 11353
+        //    Movie film = movieTESTliste.Find(i => i.movieId == 11353);
 
-            List<Movie> movieTESTliste = new List<Movie>();
-            movieTESTliste = uut.SearchInput(theinputName, theinputGenreID, theinputYear, theinputSearchtype);
+            
 
-            //testing with same movie "Lupin the Third: Missed by a Dollar" == movieID 31053
-            Assert.That(movieTESTliste.Any(i => i.movieId == 31053), Is.True);
-        }
+        //    List<Person> personliste = new List<Person>();
+
+        //    //using (var db = new MyDbContext())
+        //    //{
+        //    //    var query = (from p in db.Persons
+        //    //        join e in db.Employments
+        //    //        on p._personId equals e._personId
+                        
+        //    //        where p._Personname.Contains(theinputName);
+
+
+        //    //}
+
+        //    Assert.That(film._employmentList.Count, Is.GreaterThan(1));
+
+
+        //    //Assert.That(film._employmentList.Any(i => i.Person._Personname.Contains("downey")), Is.True);
+        //}
+        
     }
 }
