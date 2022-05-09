@@ -115,7 +115,13 @@ namespace DiscoverMoviesProduction
         private LoadTimer timer = new LoadTimer();
 
 
-        // 5 movies enter, one movie leaves: Mad Max rulez!
+
+        /// <summary>
+        /// 5 movies enter, one movie leaves: Mad Max rulez!
+        /// Giv den en liste over 5 Ints, og den sender et Movie objekt tilbage!
+        /// </summary>
+        /// <param name="inputMovieInts"></param>
+        /// <returns></returns>
         public Movie DiscoverMovies(List<int> inputMovieInts)
         {
             // Log time:

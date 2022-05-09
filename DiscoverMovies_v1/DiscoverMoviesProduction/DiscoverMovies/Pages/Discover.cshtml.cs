@@ -6,11 +6,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ASP_Web_Bootstrap.Pages
 {
+
+    // Mit forslag til et objekt til at holde de nævvendige film data til discover resultats siden:
     public class MovieReturn
     {
         public int MovieId { get; set; }
         public string Title { get; set; }
         public string PosterURL { get; set; }
+
+        public MovieReturn(Movie inputMovie)
+        {
+            MovieId = inputMovie.movieId;
+            Title = inputMovie._title;
+            PosterURL = inputMovie._posterUrl;
+        }
     }
 
 
@@ -24,26 +33,28 @@ namespace ASP_Web_Bootstrap.Pages
             _logger = logger;
         }
 
+        // Jeg ville gerne se det på siden, kan bare slettes/laves om!
         [BindProperty]
-        public MovieReturn DiscoverResult { get; set; }
+        public MovieReturn movieReturn { get; set; }
 
-        [BindProperty]
-        public string TheMovie { get; set; }
 
         public void OnGet()
         {
-            List<int> inputMovies = new List<int>();
-            inputMovies.Add(11398);
-            inputMovies.Add(955);
-            inputMovies.Add(180);
-            inputMovies.Add(2787);
-            inputMovies.Add(107);
+            // Liste over Film IDs:
+            List<int> inputMovies = new List<int>()
+            {
+                11398,
+                955,
+                180,
+                2787,
+                107
+            };
 
+            // Skaber et Discover objekt:
             Discover discover = new Discover();
 
-            Movie ReturnMovie = discover.DiscoverMovies(inputMovies);
-
-            TheMovie = ReturnMovie._title;
+            // Bruger MovieReturn typen til at tage i mod en film fra discover, med Film IDs som input:
+            movieReturn = new MovieReturn(discover.DiscoverMovies(inputMovies));
         }
     }
 }
