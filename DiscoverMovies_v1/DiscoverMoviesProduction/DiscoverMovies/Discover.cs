@@ -104,7 +104,8 @@ namespace DiscoverMoviesProduction
 
         DiscoverIntsToMovies IntsToMovies = new DiscoverIntsToMovies();
 
-        public int dbKald = 0;
+        
+
 
         // Settings:
 
@@ -114,6 +115,8 @@ namespace DiscoverMoviesProduction
         // Vi holder styr på hvor lang tid at Discover tager at beregne/hente data!
         private LoadTimer timer = new LoadTimer();
 
+        // Vi tager tid på hvor lang tid siden er om at beregne resultatet
+        public int dbKald = 0;
 
 
         /// <summary>

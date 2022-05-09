@@ -43,11 +43,11 @@ namespace ASP_Web_Bootstrap.Pages
             // Liste over Film IDs:
             List<int> inputMovies = new List<int>()
             {
-                11398,
-                955,
-                180,
-                2787,
-                107
+                11398, // Snatch
+                955,   // Minority Report
+                180,   // Mission: Impossible II
+                2787,  // Pitch Black
+                107    // The Art of War
             };
 
             // Skaber et Discover objekt:
