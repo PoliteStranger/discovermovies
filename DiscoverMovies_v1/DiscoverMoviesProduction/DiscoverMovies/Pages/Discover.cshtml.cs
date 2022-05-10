@@ -10,7 +10,7 @@ namespace ASP_Web_Bootstrap.Pages
 {
     public class DiscoverModel : PageModel
     {
-        [BindProperty] 
+        [BindProperty]
         public IndexModel.InputMovie theinput { get; set; } = new IndexModel.InputMovie();
 
         [BindProperty] public bool displayAddMoveForm { get; set; } = true;
@@ -26,7 +26,7 @@ namespace ASP_Web_Bootstrap.Pages
         }
 
         private bool performAlgorithm = false;
-        [BindProperty] public Movie AlgorithmMovieResult { get; set; } =  null;
+        [BindProperty] public Movie AlgorithmMovieResult { get; set; } = null;
 
         private readonly ILogger<IndexModel> _logger;
 
@@ -35,7 +35,13 @@ namespace ASP_Web_Bootstrap.Pages
             _logger = logger;
         }
 
+        /*
+         * OnGet kaldes hver gang siden renderes. Heri læser den alle parametre i Url, og søger/sætter satte parameter (som er filmId) til
+         * deres tilknyttet film. OnGet sørger også for at gemme/vise elementer ved at ændre på binded properties. OnGet eksekverer også Discover
+         * algoritmen, ved brug af en hjælper funktion.
+         */
         public IActionResult OnGet(
+            //movie id parametre fra url
             [FromRoute] int? movieParam1 = null,
             [FromRoute] int? movieParam2 = null,
             [FromRoute] int? movieParam3 = null,
@@ -45,6 +51,7 @@ namespace ASP_Web_Bootstrap.Pages
         {
             using (var db = new MyDbContext())
             {
+                //nested if sætninger, som sekventielt tjekker for hvorvidt filmparametre er sat og søger dernæst efter dem i db
                 if (movieParam1 != null)
                 {
 
@@ -64,6 +71,7 @@ namespace ASP_Web_Bootstrap.Pages
 
                                 if (movieParam5 != null)
                                 {
+                                    //hvis 5 film er sat i url, skal discover algoritmen eksekveres
                                     MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam5));
                                     //disable add movie form
                                     displayAddMoveForm = false;
@@ -81,62 +89,71 @@ namespace ASP_Web_Bootstrap.Pages
 
             if (performAlgorithm)
             {
+                //AlgorithmMovieResult er en binded property, som vil blive vist på client-side hvis den ikke er null 
                 AlgorithmMovieResult = GetDiscoverdMovie(MovieList);
             }
 
-             return Page();
+            return Page();
         }
 
         //perform algorithm helper function
         private Movie GetDiscoverdMovie(List<Movie> MovieParamList)
         {
             if (MovieParamList.Count != 5) return null;
-                //create list of movie ids for algorithm
-                List<int> idList = new List<int>();
-                foreach (var movie in MovieList)
-                {
-                    idList.Add(movie.movieId);
-                }
+            //create list of movie ids for algorithm
+            List<int> idList = new List<int>();
+            foreach (var movie in MovieList)
+            {
+                idList.Add(movie.movieId);
+            }
             //create discover instance
             Discover discover = new Discover();
 
-                //perform algorithm
-                return discover.DiscoverMovies(idList);
+            //perform algorithm
+            return discover.DiscoverMovies(idList);
 
         }
 
+        /*
+         * Post metode kalde for tilføjelse af film. Denne funktion søger efter filmen skrevet ind i søgefeltet, og finder det første
+         * resultat i databasen. Hvis filmen ikke findes vil den intet gøre.
+         * Hvis filmen findes, tilføjer den database id'en på filmen til dens nuværende url, hvorefter den laver et redirect til dette url.
+         * Dette betyder at den netop tilføjet film vil være en ny parameter i get metoden, når siden renderes igen.
+         */
         public IActionResult OnPost()
         {
-            //brug Request.RouteValues til at få en dictionary af key-value pairs... lav det om til en liste??
-            Console.WriteLine($"look at this {Request.RouteValues.Values.ToString()}");
+            //variable til film i søgefunktion (sættes kun hvis filmen findes i db)
+            Movie movieSearchResult = null;
 
-            Console.WriteLine($"Size of movie list: {MovieList.Count}");
-
-
-
-            if (MovieList.Count < 5)
+            //søg kun i db hvis der er blevet skrevet i søgefeltet 
+            if (theinput.Name != "")
             {
                 using (var db = new MyDbContext())
                 {
-                    if (theinput.Name != "")
-                    {
-                        var movieSearchResult = db.Movies.FirstOrDefault(i => i._title == theinput.Name);
-                        if (movieSearchResult != null)
-                        {
-                            string redirectUrl = Request.Path;
-                            if (!redirectUrl.EndsWith('/'))
-                                redirectUrl += '/';
-                            redirectUrl += movieSearchResult.movieId.ToString();
+                    //find den første film med samme navn som navnet i inputfeltet
+                    movieSearchResult = db.Movies.FirstOrDefault(i => i._title == theinput.Name);
 
-                            return Redirect(redirectUrl);
-                        }
-                    }
                 }
             }
 
+            //hvis filmen blev fundet bliver film id'et på denne sammenkædet med det nuværende id, hvorefter der laves et redirect på dét nye url
+            if (movieSearchResult != null)
+            {
+                string redirectUrl = Request.Path;
+                if (!redirectUrl.EndsWith('/'))
+                    redirectUrl += '/';
+                redirectUrl += movieSearchResult.movieId.ToString();
+
+                return Redirect(redirectUrl);
+            }
+
+
+
+            //returner blot nuværende side hvis filmen ikke blev fundet i db
             return Page();
         }
 
+        //ryd tilføjet film ved blot at redirect til siden uden parametre
         public IActionResult OnPostClear()
         {
             return Redirect("/discover");
