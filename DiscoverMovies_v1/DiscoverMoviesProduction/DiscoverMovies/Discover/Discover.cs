@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DiscoverMoviesProduction
 {
+
+
+
     /// <summary>
     /// Datastrukturen til at holde points tildelt filene af filtrene
     /// </summary>
@@ -27,26 +30,12 @@ namespace DiscoverMoviesProduction
 
     }
 
-    /// <summary>
-    /// Til at skabe lister over par, skal evt droppes!
-    /// </summary>
-    public class PersonPair
-	{
-        public int personA { get; set; }
-        public int personB { get; set; }
-
-        public PersonPair(int persona, int personb)
-		{
-            personA = persona;
-            personB = personb;
-		}
-	}
 
 
     /// <summary>
     /// Interface til DiscoverIntsToMovies, som konvertere en liste af filmId'er til en movieliste med samtlige films data.
     /// </summary>
-    public interface DiscoverInputMovies
+    public interface IDiscoverInputMovies
     {
         List<Movie> GetInputMovies(List<int> InputMovieIds);
     }
@@ -54,7 +43,7 @@ namespace DiscoverMoviesProduction
     /// <summary>
     /// Konvertere en liste af filmId'er til en movieliste med samtlige films data.
     /// </summary>
-    public class DiscoverIntsToMovies : DiscoverInputMovies
+    public class DiscoverIntsToMovies : IDiscoverInputMovies
     {
         public List<Movie> GetInputMovies(List<int> InputMovieIds)
         {
@@ -69,25 +58,6 @@ namespace DiscoverMoviesProduction
         }
     }
 
-    /// <summary>
-    /// Normalisere scores i et MovieScore objekt
-    /// </summary>
-    public class NormalizingScores
-    {
-        public static void Normalize(List<DiscoverScore> inputScores)
-        {
-            if(inputScores.Count() > 0)
-            {
-                double MaxScore = inputScores.Max(x => x.Score);
-                double MinScore = inputScores.Min(x => x.Score);
-
-                foreach (DiscoverScore movie in inputScores)
-                {
-                    movie.Score = (double)(1 / (MaxScore - MinScore)) * inputScores.Find(x => x.Movie == movie.Movie).Score;
-                }
-            }
-        }
-    }
 
 
 
@@ -111,6 +81,8 @@ namespace DiscoverMoviesProduction
 
         // Hvor populær skal en skuespiller være før vi vil bruge dem på shortlisten:
         private double actorPopularityMin = 20.0;
+
+        private double moviePopularityMin = 10.0;
 
         // Vi holder styr på hvor lang tid at Discover tager at beregne/hente data!
         private LoadTimer timer = new LoadTimer();
@@ -137,74 +109,68 @@ namespace DiscoverMoviesProduction
 
             using (var db = new MyDbContext())
             {
+                dbKald++;
                 // Ny liste over personer, som skal bruges til at finde alle VIP fra de fem inputfilm
-                List<Person> people = new List<Person>();
+                List<Person> people = (from pers in db.Persons.Where(x => x._Personpopularity > actorPopularityMin)
+                                       join emp in db.Employments.Where(x => inputMovieInts.Contains(x._movieId))
+                                       on pers._personId equals emp._personId
+                                       where emp._job == "Acting"
+                                       select pers).ToList();
 
-                // Find alle instruktøre og producere, og skuespillere m. popularity 20+
-                foreach (var movie in inputMovies)
-                {
-                    // Vi gennemgår alle personer involveret i de fem udvalgte film
-                    foreach(var employment in db.Employments.Where(x => x._movieId == movie.movieId).ToList())
-                    {
-                        dbKald++;
-                        // Vi sætter alle Instruktøre og Producere til side:
-                        if (employment._job == "Director" || employment._job == "Producer")
-                        {
-                            people.Add(db.Persons.Find(employment._personId));
-                        }
+                dbKald++;
+                people.AddRange((from pers in db.Persons
+                                       join emp in db.Employments.Where(x => inputMovieInts.Contains(x._movieId))
+                                       on pers._personId equals emp._personId
+                                       where emp._job == "Director" || emp._job == "Producer"
+                                       select pers).ToList());
 
-                        // Vi sætter alle skuespillere med popularity over actorPopularityMin til side også...
-                        if (employment._job == "Acting" && db.Persons.Find(employment._personId)._Personpopularity > actorPopularityMin)
-                        {
-                            dbKald++;
-                            people.Add(db.Persons.Find(employment._personId));
-                        }
-                    }
-                }
 
-                // Find alle film som de har været med i:
+                Console.WriteLine("Persons found: " + people.Count);
+
+                List<int> personIds = new List<int>();
                 foreach (var person in people)
                 {
-                    foreach(var employment in db.Employments.Where(x => x._personId == person._personId).ToList())
-                    {
-                        dbKald++;
-                        if (!shortList.Any(x => x.movieId == employment._movieId))
-                        {
-                            shortList.Add(db.Movies.Find(employment._movieId));
-                            dbKald++;
-
-                        }
-
-                    }
+                    personIds.Add(person._personId);
                 }
-                
-                
-                // Vi fjerner duplikater blandt filmene. Inputfilmene vil nemlig også være på denne liste!
+
+                //people.Select(x => x._personId).ToList()
+
+                dbKald++;
+                shortList = (from m in db.Movies.Include(z => z._employmentList).Include(y => y._genreList).Include(x => x._prodCompanyList)
+                             join e in db.Employments.Where(x => personIds.Contains(x._personId))
+                             on m.movieId equals e._movieId
+                             select m).ToList();
+
+                shortList = shortList.Distinct().ToList();
+
                 Console.WriteLine("Input Movies:");
-                foreach(var movie in inputMovies.ToList())
+                foreach (var movie in inputMovies)
                 {
                     shortList.Remove(shortList.Find(x => x.movieId == movie.movieId));
                     Console.WriteLine(movie._title);
                 }
                 Console.WriteLine("Shortlist from input has count of: " + shortList.Count);
-                
-                // Vi har nu vores endelige shortlist!
 
             }
 
             // spacer
             Console.WriteLine("");
 
-
+            Console.WriteLine("");
+            Console.WriteLine("Running filters...");
             // Vi sender nu listen gennem samtlige filtre, og får deres MovieScores i retur:
             List<DiscoverScore> genreMovies = GenreFilter(shortList);
             List<DiscoverScore> castMovies = CastFilter(shortList);
             List<DiscoverScore> crewMovies = CrewFilter(shortList);
             List<DiscoverScore> yearMovies = YearFilter(shortList);
             List<DiscoverScore> ProdMovies = ProdFilter(shortList);
+            List<DiscoverScore> BudgetRevenueMovies = BudgetRevenueFilter(shortList);
 
             // Samlede score liste
             List<DiscoverScore> finalScore = new List<DiscoverScore>();
+
+            Console.WriteLine("");
+            Console.WriteLine("Tallying scores...");
 
             // Normalisering af alle scores i alle lister
             NormalizingScores.Normalize(genreMovies);
@@ -212,6 +178,7 @@ namespace DiscoverMoviesProduction
             NormalizingScores.Normalize(crewMovies);
             NormalizingScores.Normalize(yearMovies);
             NormalizingScores.Normalize(ProdMovies);
+            NormalizingScores.Normalize(BudgetRevenueMovies);
 
             // Gennemgang af shortlist, og tælle points sammen:
             foreach (var movie in shortList)
@@ -233,6 +200,9 @@ namespace DiscoverMoviesProduction
                 if (ProdMovies.Any(m => m.Movie.movieId == movie.movieId))
                     score += ProdMovies.Find(m => m.Movie.movieId == movie.movieId).Score;
 
+                if (BudgetRevenueMovies.Any(m => m.Movie.movieId == movie.movieId))
+                    score += BudgetRevenueMovies.Find(m => m.Movie.movieId == movie.movieId).Score;
+
                 // Til filmen, samt summen af dens points:
                 finalScore.Add(new DiscoverScore(movie, score));
 
@@ -245,7 +215,10 @@ namespace DiscoverMoviesProduction
 
 
             // Print til consol
+            Console.WriteLine("");
             Console.WriteLine("Final scores:");
+            Console.WriteLine("-------------------------------------------------");
+
             finalScore = finalScore.GetRange(0, 10).ToList();
             foreach (var score in finalScore)
             {
@@ -296,6 +269,7 @@ namespace DiscoverMoviesProduction
 
             foreach (var _Movie in shortlist)
             {
+
                 int score = 0;
                 using (var db = new MyDbContext())
                 {
@@ -316,18 +290,15 @@ namespace DiscoverMoviesProduction
 
             }
             discoverScores = discoverScores.OrderByDescending(x => x.Score).ToList();
-            
-            foreach (var score in discoverScores)
+
+
+            int range = 10;
+            if (discoverScores.Count() < 10) range = discoverScores.Count();
+            foreach (var score in discoverScores.GetRange(0, range))
             {
-                Console.WriteLine(score.Movie._title + " has " + score.Score);
+                Console.WriteLine(score.Movie._title + " - " + score.Score);
             }
 
-            /*
-            discoverScores.Sort(delegate (DiscoverScore x, DiscoverScore y) // denne sortering er vist ikke nødvendig hvis vi bare er efter point.
-            {
-                return y.Score.CompareTo(x.Score);
-            });
-            */
 
             return discoverScores;
         }
@@ -335,8 +306,7 @@ namespace DiscoverMoviesProduction
         public List<DiscoverScore> CastFilter(List<Movie> shortlist)
         {
 
-            var db = new MyDbContext();
-
+            
 
             // En liste over crew
             List<Movie> crewList = new List<Movie>();
@@ -353,8 +323,12 @@ namespace DiscoverMoviesProduction
             List<Employment> inputEmployments = new List<Employment>();
 
 
+
+
             foreach (var movie in inputMovies.ToList())
             {
+               // Console.WriteLine("movie: " + movie._title + " C: " + movie._employmentList.Count());
+
                 foreach (var employment in movie._employmentList.ToList())
                 {
                    // Console.WriteLine("!" + employment._job);
@@ -374,7 +348,8 @@ namespace DiscoverMoviesProduction
 
             foreach (var movie in shortList.ToList())
             {
-                //Console.Write(">");
+                //Console.WriteLine("movie: " + movie._title + " Emps: " + movie._employmentList.Count());
+
 
                 foreach (var employment in inputEmployments.ToList())
                 {
@@ -382,7 +357,6 @@ namespace DiscoverMoviesProduction
                     if (movie._employmentList.Any(x => x._personId == employment._personId))
                     {
                         int Addscore = 1;
-
 
                         // If match, then pass out score:
                         if (discoverScores.Any(x => x.Movie == movie))
@@ -403,16 +377,13 @@ namespace DiscoverMoviesProduction
             }
 
             discoverScores = discoverScores.OrderByDescending(x => x.Score).ToList();
-            foreach (var score in discoverScores)
-            {
-                Console.WriteLine(score.Movie._title + " has " + score.Score);
-                foreach (var employment in inputEmployments.ToList())
-                {
-                    if (employment._movieId == score.Movie.movieId)
-                        Console.WriteLine(employment.Person._Personname + " was " + employment._job);
-                }
-            }
 
+            int range = 10;
+            if (discoverScores.Count() < 10) range = discoverScores.Count();
+            foreach (var score in discoverScores.GetRange(0, range))
+            {
+                Console.WriteLine(score.Movie._title + " - " + score.Score);
+            }
 
 
             return discoverScores;
@@ -489,39 +460,22 @@ namespace DiscoverMoviesProduction
             }
 
             discoverScores = discoverScores.OrderByDescending(x => x.Score).ToList();
-            
 
-            foreach(var score in discoverScores)
+
+            int rangeb = 10;
+            if (discoverScores.Count() < 10) rangeb = discoverScores.Count();
+            foreach (var score in discoverScores.GetRange(0, rangeb))
             {
-                Console.WriteLine(score.Movie._title + " has " + score.Score);
-                foreach(var employment in inputEmployments.ToList())
-                {
-                    if(employment._movieId == score.Movie.movieId)
-                    Console.WriteLine(employment.Person._Personname + " was " + employment._job);
-                }
+                Console.WriteLine(score.Movie._title + " - " + score.Score);
             }
 
-            
-
-
-            foreach (var person in inputEmployments.ToList())
-            {
-                //Console.WriteLine("Person: " + db.Persons.Find(person._personId)._Personname);
-            }
 
 
             Console.WriteLine("-------------------------------------------------");
 
-            
-
-
-            // Director AND Producer team
-
-            // Director AND Director of Photography team
 
             return discoverScores;
         }
-
 
 
         public List<DiscoverScore> YearFilter(List<Movie> shortlist)
@@ -624,10 +578,11 @@ namespace DiscoverMoviesProduction
 
             }
 
-            discoverScores = discoverScores.OrderByDescending(x => x.Score).ToList();
-            foreach (var score in discoverScores)
+            int rangeb = 10;
+            if (discoverScores.Count() < 10) rangeb = discoverScores.Count();
+            foreach (var score in discoverScores.GetRange(0, rangeb))
             {
-                Console.WriteLine(score.Movie._title + " has " + score.Score);
+                Console.WriteLine(score.Movie._title + " - " + score.Score);
 
             }
 
@@ -635,14 +590,11 @@ namespace DiscoverMoviesProduction
         }
 
 
-
         public List<DiscoverScore> ProdFilter(List<Movie> shortlist)
         {
             var db = new MyDbContext();
 
-
-            // En liste over crew
-            List<Movie> prodList = new List<Movie>();
+            //List<Movie> prodList = new List<Movie>();
 
             // Til at tildele points
             List<DiscoverScore> discoverScores = new List<DiscoverScore>();
@@ -651,60 +603,58 @@ namespace DiscoverMoviesProduction
             Console.WriteLine("FILTER: PRODUCTION");
             Console.WriteLine("-------------------------------------------------");
 
+            // Find ProdCompanies 
+            List<ProducedBy> inputProds = db.ProducedBy.Where(x => inputMovies.Select(c => c.movieId).ToList().Contains(x._movieId)).ToList();
+            dbKald++;
 
+            //foreach (var movie in inputMovies)
+            //{
+            //    Console.WriteLine("Input M P Count: " + movie._prodCompanyList.Count());
+            //    foreach (var prod in db.ProducedBy)
+            //    {
+            //        if (prod._movieId == movie.movieId)
+            //        {
+            //            inputProds.Add(prod);
+            //            //Console.WriteLine("!" + prod.prodCompanyId);
+            //        }
 
-            List<ProdCompany> inputProds = new List<ProdCompany>();
+            //    }
+            //}
 
-
-            foreach (var movie in inputMovies)
-            {
-                //Console.WriteLine(movie._prodCompanyList.Count());
-                foreach (var prod in movie._prodCompanyList.ToList())
-                {
-                    // Console.WriteLine("!" + employment._job);
-                    inputProds.Add(prod);
-
-                }
-            }
             Console.WriteLine("Found {0} prod in input", inputProds.Count);
-
 
             Console.WriteLine("\nSearching for matches in Production:");
 
 
+            //var prods = db.ProducedBy.Where(p => shortList.Select(x => x.movieId));
 
             foreach (var movie in shortList.ToList())
             {
-                //Console.Write(">");
+                Console.WriteLine("Shortlist M P Count: " + movie._prodCompanyList.Count());
 
-                foreach (var prod in inputProds.ToList())
+                var prods = db.ProducedBy.Where(p => p._movieId == movie.movieId);
+                dbKald++;
+                foreach (var p in prods)
                 {
-
-                    if (movie._prodCompanyList.Any(x => x.prodCompanyId == prod.prodCompanyId))
+                    //If match, then pass out score:
+                    if (discoverScores.Any(x => x.Movie == movie))
                     {
-
-                        // If match, then pass out score:
-                        if (discoverScores.Any(x => x.Movie == movie))
-                        {
-                            discoverScores.Find(x => x.Movie == movie).Score++;
-                            //Console.Write(" Match!");
-                        }
-                        else
-                        {
-                            discoverScores.Add(new DiscoverScore(movie, 1));
-                            //Console.Write(" Match!");
-                        }
-                        //Console.WriteLine(discoverScores.Find(x => x.Movie == movie).Movie._title + " has " + discoverScores.Find(x => x.Movie == movie).Score + " points");
-
+                        discoverScores.Find(x => x.Movie == movie).Score++;
+                    }
+                    else
+                    {
+                        discoverScores.Add(new DiscoverScore(movie, 1));
                     }
                 }
-
             }
 
             discoverScores = discoverScores.OrderByDescending(x => x.Score).ToList();
-            foreach (var score in discoverScores)
+
+            int range = 10;
+            if (discoverScores.Count() < 10) range = discoverScores.Count();
+            foreach (var score in discoverScores.GetRange(0, range))
             {
-                Console.WriteLine(score.Movie._title + " has " + score.Score);
+                Console.WriteLine(score.Movie._title + " - " + score.Score);
 
             }
 
@@ -713,6 +663,108 @@ namespace DiscoverMoviesProduction
 
         }
 
+        public List<DiscoverScore> BudgetRevenueFilter(List<Movie> shortlist)
+        {
+            List<Movie> budgetRevenueList = new List<Movie>();
+            List<DiscoverScore> discoverScores = new List<DiscoverScore>();
 
+            Console.WriteLine("");
+            Console.WriteLine("FILTER: BUDGET vs REVENUE");
+            Console.WriteLine("-------------------------------------------------");
+
+            int averageBudget = 0;
+            int totalBudget = 0;
+            int profitableCount = 0;
+            int unProfitableCount = 0;
+            int firstQuartile = 5200000, secondQuartile = 18100000, thirdQuartile = 41000000;
+            int firstQuartileCount = 0, secondQuartileCount = 0, thirdQuartileCount = 0, fourthQuartileCount = 0;
+
+
+            foreach (var movie in inputMovies)
+            {
+                if (movie._budget != 0 && movie._revenue != 0 && movie._budget != null && movie._revenue != null)
+                {
+                    if (movie._budget > movie._revenue)
+                    {
+                        unProfitableCount++;
+                    }
+                    else
+                    {
+                        profitableCount++;
+                    }
+                    totalBudget += movie._budget.GetValueOrDefault();
+                }
+                //https://stephenfollows.com/how-much-does-the-average-movie-cost-to-make/
+                //Ovenstående link fremsætter kvartilerne for filmbudget. Disse bliver brugt til vurdering.
+                if (movie._budget <= firstQuartile)
+                {
+                    firstQuartileCount++;
+                }
+                else if (movie._budget <= secondQuartile && movie._budget > firstQuartile)
+                {
+                    secondQuartileCount++;
+                }
+                else if (movie._budget <= thirdQuartile && movie._budget > secondQuartile)
+                {
+                    thirdQuartileCount++;
+                }
+                else if (movie._budget > thirdQuartile)
+                {
+                    fourthQuartileCount++;
+                }
+            }
+            averageBudget = totalBudget / inputMovies.Count;
+
+            foreach (var movie in shortList)
+            {
+                int score = 0;
+                //if (movie._budget <= firstQuartile)
+                //{
+                //    score += firstQuartileCount;
+                //}
+                //else if (movie._budget <= secondQuartile && movie._budget > firstQuartile)
+                //{
+                //    score += secondQuartileCount;
+                //}
+                //else if (movie._budget <= thirdQuartile && movie._budget > secondQuartile)
+                //{
+                //    score += thirdQuartileCount;
+                //}
+                //else if (movie._budget > thirdQuartile)
+                //{
+                //    score += fourthQuartileCount;
+                //}
+
+                //if (movie._budget > averageBudget - averageBudget * 0.1 && movie._budget < averageBudget + averageBudget * 0.1)
+                //{
+                //    score += 3;
+                //}
+
+                if (movie._budget > movie._revenue)
+                {
+                    score += unProfitableCount;
+                }
+                else
+                {
+                    score += profitableCount;
+                }
+
+                discoverScores.Add(new DiscoverScore(movie, score));
+            }
+
+            discoverScores.Sort(delegate (DiscoverScore x, DiscoverScore y) // denne sortering er vist ikke nødvendig hvis vi bare er efter point.
+            {
+                return y.Score.CompareTo(x.Score);
+            });
+
+            int range = 10;
+            if (discoverScores.Count() < 10) range = discoverScores.Count();
+            foreach (var score in discoverScores.GetRange(0, range))
+            {
+                Console.WriteLine(score.Movie._title + " - " + score.Score);
+            }
+
+            return discoverScores;
+        }
     }
 }
