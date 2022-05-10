@@ -136,7 +136,7 @@ namespace DiscoverMoviesProduction
                 //people.Select(x => x._personId).ToList()
 
                 dbKald++;
-                shortList = (from m in db.Movies.Include(z => z._employmentList).Include(y => y._genreList).Include(x => x._prodCompanyList)
+                shortList = (from m in db.Movies.Include(z => z._employmentList).Include(y => y._genreList)
                              join e in db.Employments.Where(x => personIds.Contains(x._personId))
                              on m.movieId equals e._movieId
                              select m).ToList();
@@ -152,6 +152,8 @@ namespace DiscoverMoviesProduction
                 Console.WriteLine("Shortlist from input has count of: " + shortList.Count);
 
             }
+
+
 
             // spacer
             Console.WriteLine("");
