@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Home page";
 }
+<script src="~/js/autocomplete.js"></script>
 
 <h3>Welcome To Discover Movies application!</h3>
 <p> Discover Movies have provided an application, which you can use to 
@@ -14,12 +15,14 @@
     <br/><br/>
 
 </p>
+
       <p><form method="post">
           <div class="form-group">
-              <p><b>Search Field</b></p>
-              
-              <input id="input1" class="form-control" asp-for="theinput.Name" />
-
+          <p><b>Search Field</b></p>
+          
+              <div class="ui-widget">
+                  <input id="input1" class="form-control" asp-for="theinput.Name" />
+              </div>
               <select id="Select1" asp-items="@(new SelectList(Model.Soegninger))" asp-for="theinput.Searchtype">
                   <option value="">Search Option</option>
               </select>
