@@ -1,5 +1,6 @@
 ﻿@page "/discover/{movieParam1:int?}/{movieParam2:int?}/{movieParam3:int?}/{movieParam4:int?}/{movieParam5:int?}/"
 @using System.Diagnostics.Eventing.Reader
+@using DiscoverMoviesProduction
 @model DiscoverModel
 @{
     ViewData["Title"] = "Discover";
@@ -40,13 +41,23 @@
 
 <h3>Selected movies</h3>
 <div class="row">
-    @foreach (Movie movie in Model.MovieList)
+    @foreach(Movie movie in Model.MovieList)
     {
-        <div class="col-xl-2 col-sm-6 col-md-4">
-            @movie._title : @movie.movieId<br />
-            <img src=@("https://www.themoviedb.org/t/p/w220_and_h330_face" + @movie._posterUrl) height="237" width="165">
+       <a href="/movie/@movie.movieId" class="col-xl-2 col-sm-6 col-md-4"> 
+           @{
+               if(@movie._posterUrl == null)
+                {
+                    @movie._title <br/>
+                    <img src=/Images/MissingPoster.png height="237" width="165">
+                }
 
-        </div>
+                else
+                {
+                     @movie._title <br/>
+                    <img src=@("https://www.themoviedb.org/t/p/w220_and_h330_face" + @movie._posterUrl) height="237" width="165">
+                }
+           }
+        </a>
     }
       </div>
       
@@ -56,5 +67,28 @@
         <form asp-page-handler="clear" method="post">
             <button class = "btn btn-primary">Clear movies</button>
         </form>
+    </div>
+}
+
+@if (Model.AlgorithmMovieResult != null)
+{
+    <div class="align-content-center w-auto text-lg-center">
+    <h3>Resulting movie from discover algorithm</h3>
+        <br/>
+        <a href="/movie/@Model.AlgorithmMovieResult.movieId" class=""> 
+           @{
+               if(@Model.AlgorithmMovieResult._posterUrl == null)
+                {
+                    <h4> @Model.AlgorithmMovieResult._title </h4>
+                    <img src=/Images/MissingPoster.png height="237" width="165">
+                }
+
+                else
+                {
+                    <h4> @Model.AlgorithmMovieResult._title </h4>
+                    <img src=@("https://www.themoviedb.org/t/p/w600_and_h900_bestv2" + @Model.AlgorithmMovieResult._posterUrl) height="525" width="350">
+                }
+           }
+        </a>
     </div>
 }

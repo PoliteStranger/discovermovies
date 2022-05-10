@@ -8,24 +8,6 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ASP_Web_Bootstrap.Pages
 {
-
-    // Mit forslag til et objekt til at holde de nævvendige film data til discover resultats siden:
-    public class MovieReturn
-    {
-        public int MovieId { get; set; }
-        public string Title { get; set; }
-        public string PosterURL { get; set; }
-
-        public MovieReturn(Movie inputMovie)
-        {
-            MovieId = inputMovie.movieId;
-            Title = inputMovie._title;
-            PosterURL = inputMovie._posterUrl;
-        }
-    }
-
-
-
     public class DiscoverModel : PageModel
     {
         [BindProperty] 
@@ -44,7 +26,7 @@ namespace ASP_Web_Bootstrap.Pages
         }
 
         private bool performAlgorithm = false;
-        [BindProperty] public Movie AlgorithmMovieResult { get; set; } =  new Movie();
+        [BindProperty] public Movie AlgorithmMovieResult { get; set; } =  null;
 
         private readonly ILogger<IndexModel> _logger;
 
