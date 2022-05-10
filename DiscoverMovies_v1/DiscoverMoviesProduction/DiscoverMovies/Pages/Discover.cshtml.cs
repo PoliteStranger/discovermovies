@@ -25,6 +25,9 @@ namespace ASP_Web_Bootstrap.Pages
             set { movieList = value; }
         }
 
+        private bool performAlgorithm = false;
+        [BindProperty] public Movie AlgorithmMovieResult { get; set; } =  new Movie();
+
         private readonly ILogger<IndexModel> _logger;
 
         public DiscoverModel(ILogger<IndexModel> logger)
@@ -62,20 +65,44 @@ namespace ASP_Web_Bootstrap.Pages
                                 if (movieParam5 != null)
                                 {
                                     MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam5));
-                                    //use algorithm
+                                    //disable add movie form
                                     displayAddMoveForm = false;
+                                    //use algorithm
+                                    performAlgorithm = true;
                                 }
                             }
                         }
                     }
                 }
-
             }
             //check for duplicate values in movie list - return error to client if they've inputted duplicates
             if (MovieList.Count() != MovieList.Distinct().Count())
                 return Content("ERROR: duplicate movies were added to list");
 
+            if (performAlgorithm)
+            {
+                AlgorithmMovieResult = GetDiscoverdMovie(MovieList);
+            }
+
              return Page();
+        }
+
+        //perform algorithm helper function
+        private Movie GetDiscoverdMovie(List<Movie> MovieParamList)
+        {
+            if (MovieParamList.Count != 5) return null;
+                //create list of movie ids for algorithm
+                List<int> idList = new List<int>();
+                foreach (var movie in MovieList)
+                {
+                    idList.Add(movie.movieId);
+                }
+            //create discover instance
+            Discover discover = new Discover();
+
+                //perform algorithm
+                return discover.DiscoverMovies(idList);
+
         }
 
         public IActionResult OnPost()
