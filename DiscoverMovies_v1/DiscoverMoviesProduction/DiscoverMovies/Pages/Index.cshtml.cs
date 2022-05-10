@@ -1,4 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using AcquireDB_EFcore.Tables;
+using ASP_Web_Bootstrap.Search.Init;
+using ASP_Web_Bootstrap.Search.SearchResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -6,20 +9,23 @@ namespace ASP_Web_Bootstrap.Pages
 {
     public class IndexModel : PageModel
     {
+        //Input klasse fra søgning
         [BindProperty]
         public InputMovie theinput { get; set; } = new InputMovie();
-        public List<Person> Persons { get; set; } = new List<Person>();
+
+        // initializer
+        Iinitializer initsoegning = new soegning();
 
         [BindProperty]
-        //liste til dropdown menu til søgning af film, personer, eller produktionsselskaber.
+        //liste til dropdown menu til søgning af film, eller personer.
         public List<string> Soegninger { get; set; } = new List<string>();
 
         [BindProperty]
-        //liste af alle år.
+        //liste til dropdown af år.
         public List<int> Year { get; set; } = new List<int>();
 
         [BindProperty]
-        //liste til alle genres hentet fra DB.
+        //liste til dropdown af alle genres hentet fra DB.
         public List<Genres> TheOriginaleGenres { get; set; } = new List<Genres>();
 
         // Listen over film som skal vises på en enkelt side:
@@ -48,21 +54,10 @@ namespace ASP_Web_Bootstrap.Pages
 
         public void OnGet()
         {
-            //dropdown menu til søgning af film eller personer
-            Soegninger.Add("Movie");
-            Soegninger.Add("Person");
-
-            //dropdown menu til år
-            for (int j = 1990; j<2020; j++)
-            {
-                Year.Add(j);
-            }
-
-            //henter genres ned til dropdownmenu Genre
-            using (var db = new MyDbContext())
-            {
-                TheOriginaleGenres = db.Genres.ToList();
-            }
+            //dropdown menuer til søgning af film, personer, år, genre.
+            initsoegning.initSearchOption(Soegninger);
+            initsoegning.initYear(Year);
+            TheOriginaleGenres = initsoegning.initGenre();
 
             //loader med vores genres beskrevet i genres db
             using (var db = new MyDbContext())
@@ -80,144 +75,41 @@ namespace ASP_Web_Bootstrap.Pages
                 }
             }
         }
-
+        
         public IActionResult OnPost()
         {
-            //dropdown menu til søgning af film eller personer
-            Soegninger.Add("Movie");
-            Soegninger.Add("Person");
-            templiste.Clear();
-
-            //dropdown menu til år
-            for (int j = 1995; j<2020; j++)
-            {
-                Year.Add(j);
-            }
-
-            //henter genres ned til dropdownmenu Genre
-            using (var db = new MyDbContext())
-            {
-                TheOriginaleGenres = db.Genres.ToList();
-            }
+            //dropdown menuer til søgning af film, personer, år, genre.
+            initsoegning.initSearchOption(Soegninger);
+            initsoegning.initYear(Year);
+            TheOriginaleGenres = initsoegning.initGenre();
 
             if (theinput.Searchtype == "Movie")
             {
-                using (var db = new MyDbContext())
-                {
-                    var query = (from m in db.Movies
-                                 join gm in db.GenresAndMovies
-                                 on m.movieId equals gm._movieId
-                                 join g in db.Genres
-                                 on gm._genreId equals g._genreId
-                                 where (m._title.Contains(theinput.Name) || theinput.Name == "")
-                                 && (theinput.GenreID == "0" || gm._genreId == Int32.Parse(theinput.GenreID))
-                                 && (m._releaseDate.Value.Year == Int32.Parse(theinput.Year) || theinput.Year == "0")
-                                 && (theinput.Searchtype == "Movie" || theinput.Searchtype == "")
-
-                                 select new
-                                 {
-                                     movieid = m.movieId,
-                                     movietitel = m._title,
-                                     movieposter = m._posterUrl,
-                                 }
-                                 ).ToList().Distinct();
-
-                    foreach (var item in query)
-                    {
-                        Movie tempmovie = new Movie();
-                        tempmovie._title = item.movietitel;
-                        tempmovie._posterUrl = item.movieposter;
-                        tempmovie.movieId = item.movieid;
-                        templiste.Add(tempmovie);
-                    }
-                }
-                MovieList = templiste;
+                ISearch filmsoegning = new MovieSearchoption();
+                MovieList = filmsoegning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype);
             }
 
             else if (theinput.Searchtype == "Person")
             {
-                using (var db = new MyDbContext())
-                {
-                    var query = (from p in db.Persons
-                                 join e in db.Employments
-                                 on p._personId equals e._personId
-                                 join m in db.Movies
-                                 on e._movieId equals m.movieId
-                                 join gm in db.GenresAndMovies
-                                 on m.movieId equals gm._movieId
-                                 join g in db.Genres
-                                 on gm._genreId equals g._genreId
-
-                                 where (p._Personname.Contains(theinput.Name) || theinput.Name == "")
-                                 && (theinput.GenreID == "0" || gm._genreId == Int32.Parse(theinput.GenreID))
-                                 && (m._releaseDate.Value.Year == Int32.Parse(theinput.Year) || theinput.Year == "0")
-                                 && (theinput.Searchtype == "Person" || theinput.Searchtype == "")
-                                 select new
-                                 {
-                                     movieid = m.movieId,
-                                     movietitel = m._title,
-                                     movieposter = m._posterUrl,
-                                 }
-                                 ).ToList().Distinct(); // til liste og fjerner samtidig duplikater.
-
-
-                    foreach (var item in query)
-                    {
-                        Movie tempmovie = new Movie();
-                        tempmovie._title = item.movietitel;
-                        tempmovie._posterUrl = item.movieposter;
-                        tempmovie.movieId = item.movieid;
-                        templiste.Add(tempmovie);
-                    }
-                }
-                MovieList = templiste;
+                ISearch filmsoegning = new PersonSearchoption();
+                MovieList = filmsoegning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype);
             }
 
             else if (theinput.Searchtype == "")
             {
-                using (var db = new MyDbContext())
-                {
-                    var query = (from m in db.Movies
-                                 join gm in db.GenresAndMovies
-                                 on m.movieId equals gm._movieId
-                                 join g in db.Genres
-                                 on gm._genreId equals g._genreId
-                                 where (theinput.GenreID == "0" || gm._genreId == Int32.Parse(theinput.GenreID))
-                                  && (m._releaseDate.Value.Year == Int32.Parse(theinput.Year) || theinput.Year == "0")
-
-                                 select new
-                                 {
-                                     movieid = m.movieId,
-                                     movietitel = m._title,
-                                     movieposter = m._posterUrl,
-                                 }
-                                 ).ToList().Distinct(); // til liste og fjerner samtidig duplikater.
-
-                    foreach (var item in query)
-                    {
-                        Movie tempmovie = new Movie();
-                        tempmovie._title = item.movietitel;
-                        tempmovie._posterUrl = item.movieposter;
-                        tempmovie.movieId = item.movieid;
-                        templiste.Add(tempmovie);
-                    }
-
-                    MovieList = templiste;
-                }
+                ISearch filmsoegning = new NullSearchoption();
+                MovieList = filmsoegning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype);                
             }
             return Page();
         }
 
         public class InputMovie
         {
-            [StringLength(100, ErrorMessage = "Maximum length is {1}")]
-            [Display(Name = "Searching Field")]
             public string Name { get; set; } = "";
             public string GenreID { get; set; } = "0";
-
-            [StringLength(100, ErrorMessage = "Maximum length is {1}")]
             public string Searchtype { get; set; } = "";
             public string Year { get; set; } = "0";
+
         }
     }
 }
