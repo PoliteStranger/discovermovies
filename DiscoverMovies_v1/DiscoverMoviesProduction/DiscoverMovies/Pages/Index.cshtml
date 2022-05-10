@@ -21,7 +21,7 @@
           <p><b>Search Field</b></p>
           
               <div class="ui-widget">
-                  <input id="input1" class="form-control" asp-for="theinput.Name" />
+                  <input id="search-field" class="form-control" asp-for="theinput.Name" />
               </div>
               <select id="Select1" asp-items="@(new SelectList(Model.Soegninger))" asp-for="theinput.Searchtype">
                   <option value="">Search Option</option>
