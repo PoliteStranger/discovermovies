@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Specialized;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using DiscoverMoviesProduction;
 using System.Linq;
@@ -8,9 +9,10 @@ namespace ASP_Web_Bootstrap.Pages
 {
     public class DiscoverModel : PageModel
     {
-        [BindProperty]
+        [BindProperty] 
         public IndexModel.InputMovie theinput { get; set; } = new IndexModel.InputMovie();
 
+        [BindProperty] public bool displayAddMoveForm { get; set; } = true;
         // Listen over film som skal vises på en enkelt side:
         private List<Movie> movieList = new List<Movie>();
 
@@ -23,48 +25,46 @@ namespace ASP_Web_Bootstrap.Pages
         }
 
         private readonly ILogger<IndexModel> _logger;
+
         public DiscoverModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
         }
 
-        public void OnGet
-            (
-                [FromRoute] int? movieParam1 = null,
-                [FromRoute] int? movieParam2 = null,
-                [FromRoute] int? movieParam3 = null,
-                [FromRoute] int? movieParam4 = null,
-                [FromRoute] int? movieParam5 = null
-                )
+        public void OnGet(
+            [FromRoute] int? movieParam1 = null,
+            [FromRoute] int? movieParam2 = null,
+            [FromRoute] int? movieParam3 = null,
+            [FromRoute] int? movieParam4 = null,
+            [FromRoute] int? movieParam5 = null
+        )
         {
             using (var db = new MyDbContext())
             {
-                if (movieParam1 != null)
+                if (movieParam1 == null) return;
+                MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam1));
+
+                if (movieParam2 == null) return;
+
+                MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam2));
+
+                if (movieParam3 == null) return;
+
+                MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam3));
+
+                if (movieParam4 == null) return;
+
+                MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam4));
+
+                if (movieParam5 != null)
                 {
-                    MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam1));
-
-                    if (movieParam2 != null)
-                    {
-                        MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam2));
-
-                        if (movieParam3 != null)
-                        {
-                            MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam3));
-
-                            if (movieParam4 != null)
-                            {
-                                MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam4));
-
-                                if (movieParam5 != null)
-                                {
-                                    MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam5));
-                                }
-                            }
-                        }
-                    }
+                    MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam5));
+                    //use algorithm
+                    displayAddMoveForm = false;
                 }
 
             }
+
 
             //            List<Movie> inputMovies = new List<Movie>();
             //            
@@ -88,27 +88,50 @@ namespace ASP_Web_Bootstrap.Pages
 
         public IActionResult OnPost()
         {
-            using (var db = new MyDbContext())
+            //brug Request.RouteValues til at få en dictionary af key-value pairs... lav det om til en liste??
+            Console.WriteLine($"look at this {Request.RouteValues.Values.ToString()}");
+
+            Console.WriteLine($"Size of movie list: {MovieList.Count}");
+
+
+
+            if (MovieList.Count < 5)
             {
-                if (theinput.Name != "")
+                //listen er ikke fyldt - tilføj film til liste
+
+                //add movies from url
+
+                using (var db = new MyDbContext())
                 {
-                    var movieSearchResult = db.Movies.FirstOrDefault(i => i._title == theinput.Name);
-                    if (movieSearchResult != null)
+                    if (theinput.Name != "")
                     {
-                        MovieList.Add(movieSearchResult);
+                        var movieSearchResult = db.Movies.FirstOrDefault(i => i._title == theinput.Name);
+                        if (movieSearchResult != null)
+                        {
+                            string redirectUrl = Request.Path;
+                            if (!redirectUrl.EndsWith('/'))
+                                redirectUrl += '/';
+                            redirectUrl += movieSearchResult.movieId.ToString();
+
+                            return Redirect(redirectUrl);
+                        }
+
                     }
+
+                    //                var theMovies = db.Movies.ToList();
+                    //                //hver film i theMoviesByGenres listen bliver slået op i movie db
+                    //                //film på begge lister bliver tilføjet til temp listen som sættes til Movielisten
+                    //                foreach (var item in theMovies)
+                    //                {
+                    //                    templiste.Add(item);
+                    //                }
+
+
+
                 }
-
-//                var theMovies = db.Movies.ToList();
-//                //hver film i theMoviesByGenres listen bliver slået op i movie db
-//                //film på begge lister bliver tilføjet til temp listen som sættes til Movielisten
-//                foreach (var item in theMovies)
-//                {
-//                    templiste.Add(item);
-//                }
-
-                return Page();
             }
+
+            return Page();
         }
     }
 }
