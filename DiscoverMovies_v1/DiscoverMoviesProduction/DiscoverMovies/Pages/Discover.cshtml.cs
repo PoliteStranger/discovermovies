@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using DiscoverMoviesProduction;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ASP_Web_Bootstrap.Pages
 {
@@ -31,7 +32,7 @@ namespace ASP_Web_Bootstrap.Pages
             _logger = logger;
         }
 
-        public void OnGet(
+        public IActionResult OnGet(
             [FromRoute] int? movieParam1 = null,
             [FromRoute] int? movieParam2 = null,
             [FromRoute] int? movieParam3 = null,
@@ -41,49 +42,40 @@ namespace ASP_Web_Bootstrap.Pages
         {
             using (var db = new MyDbContext())
             {
-                if (movieParam1 == null) return;
-                MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam1));
-
-                if (movieParam2 == null) return;
-
-                MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam2));
-
-                if (movieParam3 == null) return;
-
-                MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam3));
-
-                if (movieParam4 == null) return;
-
-                MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam4));
-
-                if (movieParam5 != null)
+                if (movieParam1 != null)
                 {
-                    MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam5));
-                    //use algorithm
-                    displayAddMoveForm = false;
+
+                    MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam1));
+
+                    if (movieParam2 != null)
+                    {
+                        MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam2));
+
+                        if (movieParam3 != null)
+                        {
+                            MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam3));
+
+                            if (movieParam4 != null)
+                            {
+                                MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam4));
+
+                                if (movieParam5 != null)
+                                {
+                                    MovieList.Add(db.Movies.FirstOrDefault(i => i.movieId == movieParam5));
+                                    //use algorithm
+                                    displayAddMoveForm = false;
+                                }
+                            }
+                        }
+                    }
                 }
 
             }
+            //check for duplicate values in movie list - return error to client if they've inputted duplicates
+            if (MovieList.Count() != MovieList.Distinct().Count())
+                return Content("ERROR: duplicate movies were added to list");
 
-
-            //            List<Movie> inputMovies = new List<Movie>();
-            //            
-            //            Discover discover = new Discover();
-            //
-            //            using (var db = new MyDbContext())
-            //            {
-            //                // 5 random film som er i db!
-            //                // 8374, 1542, 603, 564, 3293
-            //                // Til 27205, 329, 553, 271110, 862
-            //                inputMovies.Add(db.Movies.Where(c => c.movieId == 11398).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
-            //                inputMovies.Add(db.Movies.Where(c => c.movieId == 955).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
-            //                inputMovies.Add(db.Movies.Where(c => c.movieId == 180).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
-            //                inputMovies.Add(db.Movies.Where(c => c.movieId == 2787).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
-            //                inputMovies.Add(db.Movies.Where(c => c.movieId == 107).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).FirstOrDefault());
-            //            }
-            //
-            //
-            //            discover.DiscoverMovies(inputMovies);
+             return Page();
         }
 
         public IActionResult OnPost()
@@ -97,10 +89,6 @@ namespace ASP_Web_Bootstrap.Pages
 
             if (MovieList.Count < 5)
             {
-                //listen er ikke fyldt - tilføj film til liste
-
-                //add movies from url
-
                 using (var db = new MyDbContext())
                 {
                     if (theinput.Name != "")
@@ -115,23 +103,16 @@ namespace ASP_Web_Bootstrap.Pages
 
                             return Redirect(redirectUrl);
                         }
-
                     }
-
-                    //                var theMovies = db.Movies.ToList();
-                    //                //hver film i theMoviesByGenres listen bliver slået op i movie db
-                    //                //film på begge lister bliver tilføjet til temp listen som sættes til Movielisten
-                    //                foreach (var item in theMovies)
-                    //                {
-                    //                    templiste.Add(item);
-                    //                }
-
-
-
                 }
             }
 
             return Page();
+        }
+
+        public IActionResult OnPostClear()
+        {
+            return Redirect("/discover");
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿@page "/discover/{movieParam1:int?}/{movieParam2:int?}/{movieParam3:int?}/{movieParam4:int?}/{movieParam5:int?}/"
+@using System.Diagnostics.Eventing.Reader
 @model DiscoverModel
 @{
     ViewData["Title"] = "Discover";
@@ -22,8 +23,17 @@
                     @*              <span asp-validation-for="theinput.Name" class="text-danger"></span>
                     *@
                 </div>
-                <button type="submit" id="search-button" class="btn btn-primary">Add Movie</button>
 
+                @{
+                    if (Model.MovieList.Count == 4)
+                    {
+                        <button type="submit" id="search-button" class="btn btn-success">Add Movie and discover resulting movie</button>
+                    }
+                    else
+                    {
+                        <button type="submit" id="search-button" class="btn btn-primary">Add Movie</button>
+                    }
+                }
             </form>
         </p>
     </div>
@@ -41,7 +51,11 @@
     }
       </div>
       
-@if (Model.MovieList.Count > 1)
+@if (Model.MovieList.Count > 0)
 {
-
+    <div class="">
+        <form asp-page-handler="clear" method="post">
+            <button class = "btn btn-primary">Clear movies</button>
+        </form>
+    </div>
 }
