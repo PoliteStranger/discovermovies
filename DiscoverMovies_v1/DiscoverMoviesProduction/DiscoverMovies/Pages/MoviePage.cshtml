@@ -105,15 +105,31 @@
 
                 employments = employments.OrderByDescending(x=>x.Person._Personpopularity).ToList();
 
-                for (int j = 0; j <= 10; j++)
+                if (employments.Count < 10)
                 {
-                    <br/>
-                    @(employments.ElementAt(j).Person._Personname + " - " + employments.ElementAt(j)._job)
-                    if (employments.ElementAt(j)._character != null)
+                    for (int j = 0; j <= employments.Count; j++)
                     {
-                        @(" - " + employments.ElementAt(j)._character)
+                        <br/>
+                        @(employments.ElementAt(j).Person._Personname + " - " + employments.ElementAt(j)._job)
+                        if (employments.ElementAt(j)._character != null)
+                        {
+                            @(" - " + employments.ElementAt(j)._character)
+                        }
                     }
                 }
+                else
+                {
+                    for (int j = 0; j <= 10; j++)
+                    {
+                        <br/>
+                        @(employments.ElementAt(j).Person._Personname + " - " + employments.ElementAt(j)._job)
+                        if (employments.ElementAt(j)._character != null)
+                        {
+                            @(" - " + employments.ElementAt(j)._character)
+                        }
+                    } 
+                }
+                
             }
         </p>
         
