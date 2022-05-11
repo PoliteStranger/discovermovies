@@ -3,8 +3,8 @@
 // On load/Ready
 $(document).ready(function () {
 
-   
-        //console.log("ready!");
+
+    //console.log("ready!");
 
 
     // Setup Autocomplete. Uses Post request to perform tag searches on hydrus.
@@ -32,4 +32,3 @@ $(document).ready(function () {
         }
     });
 });
-

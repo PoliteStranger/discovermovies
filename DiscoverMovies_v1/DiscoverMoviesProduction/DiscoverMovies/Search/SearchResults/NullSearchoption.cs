@@ -33,6 +33,8 @@
                     templiste.Add(tempmovie);
                 }
 
+                Console.WriteLine("Search Results: " + query.Count());
+
                 return templiste;
             }
         }

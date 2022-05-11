@@ -39,7 +39,11 @@
                     tempmovie.movieId = item.movieid;
                     templiste.Add(tempmovie);
                 }
+
+                Console.WriteLine("Search Results: " + query.Count());
             }
+
+            
 
             return templiste;
         }

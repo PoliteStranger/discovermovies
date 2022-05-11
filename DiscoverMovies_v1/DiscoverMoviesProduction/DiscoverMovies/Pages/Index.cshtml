@@ -21,9 +21,10 @@
           <p><b>Search Field</b></p>
           
               <div class="ui-widget">
+                  <label asp-for="theinput.Name"></label>
                   <input id="search-field" class="form-control" asp-for="theinput.Name" />
               </div>
-              <select id="Select1" asp-items="@(new SelectList(Model.Soegninger))" asp-for="theinput.Searchtype">
+              <select id="Select2" asp-items="@(new SelectList(Model.Soegninger))" asp-for="theinput.Searchtype">
                   <option value="">Search Option</option>
               </select>
               
@@ -31,11 +32,11 @@
                    <option value="" selected disabled> -- Select genre --</option>
               </select>*@
 
-              <select id="Select2" asp-items="@(new SelectList(Model.TheOriginaleGenres, "_genreId","_Genrename"))" asp-for="theinput.GenreID">
+              <select id="Select3" asp-items="@(new SelectList(Model.TheOriginaleGenres, "_genreId","_Genrename"))" asp-for="theinput.GenreID">
                   <option value="0"> Select genre </option>
               </select>
 
-              <select id="Select3" asp-items="@(new SelectList(Model.Year))" asp-for="theinput.Year">
+              <select id="Select4" asp-items="@(new SelectList(Model.Year))" asp-for="theinput.Year">
                   <option value="0">Select Year of creation</option>
               </select>
 

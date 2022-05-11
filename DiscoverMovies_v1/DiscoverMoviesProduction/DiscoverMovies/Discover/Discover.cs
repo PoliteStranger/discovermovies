@@ -106,7 +106,6 @@ namespace DiscoverMoviesProduction
             // læg input movies over i den variabel som vi arbejder med.
             inputMovies = IntsToMovies.GetInputMovies(inputMovieInts);
 
-            
 
             using (var db = new MyDbContext())
             {
@@ -118,6 +117,7 @@ namespace DiscoverMoviesProduction
                                        where emp._job == "Acting"
                                        select pers).ToList();
 
+                timer.StopTimer();
                 dbKald++;
                 people.AddRange((from pers in db.Persons
                                        join emp in db.Employments.Where(x => inputMovieInts.Contains(x._movieId))
@@ -125,7 +125,7 @@ namespace DiscoverMoviesProduction
                                        where emp._job == "Director" || emp._job == "Producer"
                                        select pers).ToList());
 
-
+                timer.StopTimer();
                 Console.WriteLine("Persons found: " + people.Count);
 
                 List<int> personIds = new List<int>();
@@ -136,13 +136,36 @@ namespace DiscoverMoviesProduction
 
                 //people.Select(x => x._personId).ToList()
 
+
+
                 dbKald++;
+
                 shortList = (from m in db.Movies.Include(z => z._employmentList).Include(y => y._genreList)
                              join e in db.Employments.Where(x => personIds.Contains(x._personId))
                              on m.movieId equals e._movieId
                              select m).ToList();
-
+                timer.StopTimer();
                 shortList = shortList.Distinct().ToList();
+
+                //foreach(var personId in personIds)
+                //{
+                //    dbKald++;
+
+                //    Console.WriteLine("Getting person no.: " + personId);
+
+                //    shortList.Concat((from m in db.Movies.Include(z => z._employmentList).Include(y => y._genreList)
+                //                 join e in db.Employments
+                //                 on m.movieId equals e._movieId
+                //                 where e._personId == personId && m._popularity > moviePopularityMin
+                //                 select m).ToList());
+
+
+                //    timer.StopTimer();
+                //    shortList = shortList.Distinct().ToList();
+                //}
+
+
+
 
                 Console.WriteLine("Input Movies:");
                 foreach (var movie in inputMovies)
@@ -166,11 +189,16 @@ namespace DiscoverMoviesProduction
             List<DiscoverScore> castMovies = CastFilter(shortList);
             List<DiscoverScore> crewMovies = CrewFilter(shortList);
             List<DiscoverScore> yearMovies = YearFilter(shortList);
+            Console.WriteLine("DB Kald: " + dbKald);
             List<DiscoverScore> ProdMovies = ProdFilter(shortList);
+            Console.WriteLine("DB Kald: " + dbKald);
             List<DiscoverScore> BudgetRevenueMovies = BudgetRevenueFilter(shortList);
+
+            timer.StopTimer();
 
             // Samlede score liste
             List<DiscoverScore> finalScore = new List<DiscoverScore>();
+
 
             Console.WriteLine("");
             Console.WriteLine("Tallying scores...");
@@ -274,22 +302,22 @@ namespace DiscoverMoviesProduction
             {
 
                 int score = 0;
-                using (var db = new MyDbContext())
-                {
-                    var genres = db.GenresAndMovies.Where(Genre => Genre._movieId == _Movie.movieId);
-                    dbKald++;
+                //using (var db = new MyDbContext())
+                //{
+                    //var genres = db.GenresAndMovies.Where(Genre => Genre._movieId == _Movie.movieId);
+                    //dbKald++;
 
-                    foreach (var genre in genres)
+                    foreach (var genre in _Movie._genreList)
                     {
                         if (genreCounted.Find(x => x.Id == genre._genreId) != null)
                         {
-                            dbKald++;
+                            //dbKald++;
 
                             score = score + genreCounted.Find(x => x.Id == genre._genreId).Count;
                         }
                     }
                     discoverScores.Add(new DiscoverScore(_Movie, score));
-                }
+                //}
 
             }
             discoverScores = discoverScores.OrderByDescending(x => x.Score).ToList();
@@ -483,7 +511,7 @@ namespace DiscoverMoviesProduction
 
         public List<DiscoverScore> YearFilter(List<Movie> shortlist)
         {
-            var db = new MyDbContext();
+            //var db = new MyDbContext();
 
             List<Movie> yearList = new List<Movie>();
 
@@ -595,7 +623,7 @@ namespace DiscoverMoviesProduction
 
         public List<DiscoverScore> ProdFilter(List<Movie> shortlist)
         {
-            var db = new MyDbContext();
+            //var db = new MyDbContext();
 
             //List<Movie> prodList = new List<Movie>();
 
@@ -606,9 +634,22 @@ namespace DiscoverMoviesProduction
             Console.WriteLine("FILTER: PRODUCTION");
             Console.WriteLine("-------------------------------------------------");
 
-            // Find ProdCompanies 
-            List<ProducedBy> inputProds = db.ProducedBy.Where(x => inputMovies.Select(c => c.movieId).ToList().Contains(x._movieId)).ToList();
-            dbKald++;
+
+            List<ProducedBy> inputProds;
+
+            List<ProducedBy> prods;
+
+            using (var db = new MyDbContext())
+            {
+                // Find ProdCompanies 
+                inputProds = db.ProducedBy.Where(x => inputMovies.Select(c => c.movieId).ToList().Contains(x._movieId)).ToList();
+                dbKald++;
+
+                //prods = db.ProducedBy.Where(p => shortList.Select(x => x.movieId).ToList().Contains(p._movieId)).ToList();
+
+                //dbKald++;
+            }
+
 
             //foreach (var movie in inputMovies)
             //{
@@ -629,14 +670,19 @@ namespace DiscoverMoviesProduction
             Console.WriteLine("\nSearching for matches in Production:");
 
 
-            //var prods = db.ProducedBy.Where(p => shortList.Select(x => x.movieId));
+            // db.ProducedBy.Where(c => InputMovieIds.Contains(c.movieId))
+
 
             foreach (var movie in shortList.ToList())
             {
-                Console.WriteLine("Shortlist M P Count: " + movie._prodCompanyList.Count());
+                //Console.WriteLine("Shortlist M P Count: " + movie._prodCompanyList.Count());
 
-                var prods = db.ProducedBy.Where(p => p._movieId == movie.movieId);
-                dbKald++;
+                using (var db = new MyDbContext())
+                {
+                    prods = db.ProducedBy.Where(p => p._movieId == movie.movieId).ToList();
+                    dbKald++;
+                }
+                    
                 foreach (var p in prods)
                 {
                     //If match, then pass out score:

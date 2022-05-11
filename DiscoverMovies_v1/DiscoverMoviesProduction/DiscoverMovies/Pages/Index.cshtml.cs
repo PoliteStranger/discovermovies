@@ -65,13 +65,13 @@ namespace ASP_Web_Bootstrap.Pages
                 //en counter på, da jeg ikke vil hente ALLE film (1500+!!!) + mere !!!!!!!
                 int i = 0;
                 // Vi gennemgår listen af film fra databasen
-                foreach (Movie movie in db.Movies)
+                foreach (Movie movie in db.Movies.Take(200).ToList())
                 {
                     // og lægger dem over i listen over film som skal vises:
                     movieList.Add(movie);
-                    i++;
+                    //i++;
                     // Når den har hentet 100 film'ish, så stopper vi!
-                    if (i == 201) break;
+                    //if (i == 201) break;
                 }
             }
         }
