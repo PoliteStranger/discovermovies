@@ -5,10 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DiscoverMoviesProduction
 {
-
-
-
-
+  
     /// <summary>
     /// Normalisere scores i et MovieScore objekt
     /// </summary>
@@ -41,7 +38,7 @@ namespace DiscoverMoviesProduction
         {
             foreach (var scoreList in allScores)
             {
-                foreach(var movieScore in scoreList)
+                foreach (var movieScore in scoreList)
                 {
                     // Tjek om filmen allerede findes på listen
                     if (finalScores.Any(x => x.Movie == movieScore.Movie))
@@ -58,6 +55,22 @@ namespace DiscoverMoviesProduction
             }
         }
     }
+
+    public class PrintScores
+    {
+        public static void PrintTopTen(List<DiscoverScore> discoverScores)
+        {
+            discoverScores = discoverScores.OrderByDescending(x => x.Score).ToList();
+
+            int range = 10;
+            if (discoverScores.Count() < 10) range = discoverScores.Count();
+            foreach (var score in discoverScores.GetRange(0, range))
+            {
+                Console.WriteLine(score.Movie._title + " - " + score.Score);
+            }
+        }
+    }
+
 
 
 }

@@ -63,7 +63,7 @@ namespace ASP_Web_Bootstrap.Pages
             using (var db = new MyDbContext())
             {
                 //en counter på, da jeg ikke vil hente ALLE film (1500+!!!) + mere !!!!!!!
-                int i = 0;
+                //int i = 0;
                 // Vi gennemgår listen af film fra databasen
                 foreach (Movie movie in db.Movies.Take(200).ToList())
                 {

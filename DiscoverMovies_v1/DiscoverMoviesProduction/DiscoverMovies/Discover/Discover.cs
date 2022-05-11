@@ -120,22 +120,6 @@ namespace DiscoverMoviesProduction
                 timer.StopTimer();
                 shortList = shortList.Distinct().ToList();
 
-                //foreach(var personId in personIds)
-                //{
-                //    dbKald++;
-
-                //    Console.WriteLine("Getting person no.: " + personId);
-
-                //    shortList.Concat((from m in db.Movies.Include(z => z._employmentList).Include(y => y._genreList)
-                //                 join e in db.Employments
-                //                 on m.movieId equals e._movieId
-                //                 where e._personId == personId && m._popularity > moviePopularityMin
-                //                 select m).ToList());
-
-
-                //    timer.StopTimer();
-                //    shortList = shortList.Distinct().ToList();
-                //}
 
 
 

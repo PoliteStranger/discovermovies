@@ -8,20 +8,6 @@ using AcquireDB_EFcore.Tables;
 namespace DiscoverMoviesProduction
 {
 
-    /// <summary>
-    /// Visitor Filter Interface
-    /// </summary>
-    public interface IFilterVisitor
-    {
-
-        public void visit(Filters filter);
-        public void visit(GenreFilter genre);
-        public void visit(CastFilter cast);
-        public void visit(CrewFilter crew);
-        public void visit(YearFilter year);
-        public void visit(ProdFilter prod);
-        public void visit(BudgetRevenueFilter BuRe);
-    }
 
     /// <summary>
     /// Filter interface
@@ -31,118 +17,6 @@ namespace DiscoverMoviesProduction
         public void accept(IFilterVisitor filterVisitor);
     }
 
-    /// <summary>
-    /// Gennemgang af alle filtre
-    /// </summary>
-    public class FilterVisitor : IFilterVisitor
-    {
-
-        List<List<DiscoverScore>> AllScores = new List<List<DiscoverScore>>();
-        List<DiscoverScore> FinalScores = new List<DiscoverScore>();
-
-        public Movie FinalResult { get; set; }
-
-
-        public void visit(Filters filters)
-        {
-
-            // Læg scores sammen:
-            AddingScores.AddScores(AllScores, FinalScores);
-
-
-            // Udskriv en liste over final scores:
-            Console.WriteLine("");
-            Console.WriteLine("Final scores:");
-            Console.WriteLine("-------------------------------------------------");
-
-            List<DiscoverScore> finalScore = FinalScores.OrderByDescending(x => x.Score).ToList().GetRange(0, 10).ToList();
-            foreach (var score in finalScore)
-            {
-                Console.WriteLine(score.Movie._title + ": " + score.Score.ToString("0.00") + " - " + score.Movie._popularity);
-            }
-
-            // Sorter efter Score, og returner så den med højeste score:
-            FinalResult = FinalScores.OrderByDescending(x => x.Score).FirstOrDefault().Movie;
-
-
-            // Generate Report of result!
-
-            //...
-        }
-
-        public void visit(GenreFilter filter)
-        {
-            // Do stuff with filter!
-
-            // Get scores, normalize
-
-            NormalizingScores.Normalize(filter.discoverScores);
-            // Add to scores
-            AllScores.Add(filter.discoverScores);
-
-        }
-
-        public void visit(CastFilter filter)
-        {
-            // Do stuff with filter!
-
-            // Get scores, normalize
-            NormalizingScores.Normalize(filter.discoverScores);
-
-            // Add to scores
-            AllScores.Add(filter.discoverScores);
-
-        }
-
-        public void visit(CrewFilter filter)
-        {
-            // Do stuff with filter!
-
-            // Get scores, normalize
-            NormalizingScores.Normalize(filter.discoverScores);
-
-            // Add to scores
-            AllScores.Add(filter.discoverScores);
-
-        }
-
-        public void visit(YearFilter filter)
-        {
-            // Do stuff with filter!
-
-            // Get scores, normalize
-            NormalizingScores.Normalize(filter.discoverScores);
-
-            // Add to scores
-            AllScores.Add(filter.discoverScores);
-
-        }
-
-        public void visit(ProdFilter filter)
-        {
-            // Do stuff with filter!
-
-            // Get scores, normalize
-            NormalizingScores.Normalize(filter.discoverScores);
-
-            // Add to scores
-            AllScores.Add(filter.discoverScores);
-
-        }
-
-        public void visit(BudgetRevenueFilter filter)
-        {
-            // Do stuff with filter!
-
-            // Get scores, normalize
-            NormalizingScores.Normalize(filter.discoverScores);
-
-            // Add to scores
-            AllScores.Add(filter.discoverScores);
-
-        }
-
-    }
 
 
     /// <summary>
@@ -218,35 +92,20 @@ namespace DiscoverMoviesProduction
 
             foreach (var _Movie in shortlist)
             {
-
                 int score = 0;
-                //using (var db = new MyDbContext())
-                //{
-                //var genres = db.GenresAndMovies.Where(Genre => Genre._movieId == _Movie.movieId);
-                //dbKald++;
 
                 foreach (var genre in _Movie._genreList)
                 {
                     if (genreCounted.Find(x => x.Id == genre._genreId) != null)
                     {
-                        //dbKald++;
-
                         score = score + genreCounted.Find(x => x.Id == genre._genreId).Count;
                     }
                 }
                 discoverScores.Add(new DiscoverScore(_Movie, score));
-                //}
-
             }
-            discoverScores = discoverScores.OrderByDescending(x => x.Score).ToList();
 
-
-            int range = 10;
-            if (discoverScores.Count() < 10) range = discoverScores.Count();
-            foreach (var score in discoverScores.GetRange(0, range))
-            {
-                Console.WriteLine(score.Movie._title + " - " + score.Score);
-            }
+            // Sortere og printer scores:
+            PrintScores.PrintTopTen(discoverScores);
         }
 
         public void accept(IFilterVisitor FilterVisitor)
@@ -314,14 +173,8 @@ namespace DiscoverMoviesProduction
                 }
             }
 
-            discoverScores = discoverScores.OrderByDescending(x => x.Score).ToList();
-
-            int range = 10;
-            if (discoverScores.Count() < 10) range = discoverScores.Count();
-            foreach (var score in discoverScores.GetRange(0, range))
-            {
-                Console.WriteLine(score.Movie._title + " - " + score.Score);
-            }
+            // Sortere og printer scores:
+            PrintScores.PrintTopTen(discoverScores);
         }
 
         public void accept(IFilterVisitor FilterVisitor)
@@ -403,17 +256,8 @@ namespace DiscoverMoviesProduction
 
             }
 
-            discoverScores = discoverScores.OrderByDescending(x => x.Score).ToList();
-
-
-            int rangeb = 10;
-            if (discoverScores.Count() < 10) rangeb = discoverScores.Count();
-            foreach (var score in discoverScores.GetRange(0, rangeb))
-            {
-                Console.WriteLine(score.Movie._title + " - " + score.Score);
-            }
-
-            Console.WriteLine("-------------------------------------------------");
+            // Sortere og printer scores:
+            PrintScores.PrintTopTen(discoverScores);
         }
 
 
@@ -511,13 +355,8 @@ namespace DiscoverMoviesProduction
             }
 
 
-            int rangeb = 10;
-            if (discoverScores.Count() < 10) rangeb = discoverScores.Count();
-            foreach (var score in discoverScores.GetRange(0, rangeb))
-            {
-                Console.WriteLine(score.Movie._title + " - " + score.Score);
-
-            }
+            // Sortere og printer scores:
+            PrintScores.PrintTopTen(discoverScores);
         }
 
         public void accept(IFilterVisitor FilterVisitor)
@@ -599,14 +438,8 @@ namespace DiscoverMoviesProduction
                 }
             }
 
-            discoverScores = discoverScores.OrderByDescending(x => x.Score).ToList();
-
-            int range = 10;
-            if (discoverScores.Count() < 10) range = discoverScores.Count();
-            foreach (var score in discoverScores.GetRange(0, range))
-            {
-                Console.WriteLine(score.Movie._title + " - " + score.Score);
-            }
+            // Sortere og printer scores:
+            PrintScores.PrintTopTen(discoverScores);
         }
 
         public void accept(IFilterVisitor FilterVisitor)
@@ -713,12 +546,8 @@ namespace DiscoverMoviesProduction
                 return y.Score.CompareTo(x.Score);
             });
 
-            int range = 10;
-            if (discoverScores.Count() < 10) range = discoverScores.Count();
-            foreach (var score in discoverScores.GetRange(0, range))
-            {
-                Console.WriteLine(score.Movie._title + " - " + score.Score);
-            }
+            // Sortere og printer scores:
+            PrintScores.PrintTopTen(discoverScores);
         }
 
         public void accept(IFilterVisitor FilterVisitor)
