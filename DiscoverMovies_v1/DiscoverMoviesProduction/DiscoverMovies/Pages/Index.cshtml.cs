@@ -10,8 +10,7 @@ namespace ASP_Web_Bootstrap.Pages
     public class IndexModel : PageModel
     {
         //Input klasse fra søgning
-        [BindProperty]
-        public InputMovie theinput { get; set; } = new InputMovie();
+        [BindProperty] public InputMovie theinput { get; set; } = new InputMovie();
 
         // initializer
         Iinitializer initsoegning = new soegning();
@@ -34,6 +33,9 @@ namespace ASP_Web_Bootstrap.Pages
         // Listen over film som skal vises men sorteres i før den bliver vist på en enkeltside:
         private List<Movie> templiste = new List<Movie>();
 
+        //number of movies loaded on each page
+        private int moviesPerPage = 36;
+
         // Den bindes, så vi kan tilgå den inde fra vores Razor page
         [BindProperty]
         public List<Movie> MovieList
@@ -48,16 +50,17 @@ namespace ASP_Web_Bootstrap.Pages
         {
             _logger = logger;
         }
-
+        
         // Når vi besøger forsiden får vi følgende:
         //public void OnGet(int size = 50, int no = 4)
 
-        public void OnGet()
+        public void OnGet(int PageNum)
         {
             //dropdown menuer til søgning af film, personer, år, genre.
             initsoegning.initSearchOption(Soegninger);
             initsoegning.initYear(Year);
             TheOriginaleGenres = initsoegning.initGenre();
+            
 
             //loader med vores genres beskrevet i genres db
             using (var db = new MyDbContext())
@@ -65,7 +68,7 @@ namespace ASP_Web_Bootstrap.Pages
                 //en counter på, da jeg ikke vil hente ALLE film (1500+!!!) + mere !!!!!!!
                 int i = 0;
                 // Vi gennemgår listen af film fra databasen
-                foreach (Movie movie in db.Movies.Take(200).ToList())
+                foreach (Movie movie in db.Movies.Skip(moviesPerPage * PageNum).Take(moviesPerPage).ToList())
                 {
                     // og lægger dem over i listen over film som skal vises:
                     movieList.Add(movie);
