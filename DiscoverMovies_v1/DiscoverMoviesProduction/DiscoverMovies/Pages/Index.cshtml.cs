@@ -82,6 +82,7 @@ namespace ASP_Web_Bootstrap.Pages
             initsoegning.initSearchOption(Soegninger);
             initsoegning.initYear(Year);
             TheOriginaleGenres = initsoegning.initGenre();
+            var db = new MyDbContext();
 
             if (theinput.Searchtype == "Movie")
             {
@@ -92,13 +93,16 @@ namespace ASP_Web_Bootstrap.Pages
             else if (theinput.Searchtype == "Person")
             {
                 ISearch filmsoegning = new PersonSearchoption();
-                MovieList = filmsoegning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype);
+                MovieList = filmsoegning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype );
             }
 
-            else if (theinput.Searchtype == "")
+            else if (theinput.Searchtype == "0")
             {
+                Console.WriteLine("tjek");
                 ISearch filmsoegning = new NullSearchoption();
-                MovieList = filmsoegning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype);                
+                MovieList = filmsoegning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype );
+                Console.WriteLine("tjek2");
+
             }
             return Page();
         }
@@ -107,7 +111,7 @@ namespace ASP_Web_Bootstrap.Pages
         {
             public string Name { get; set; } = "";
             public string GenreID { get; set; } = "0";
-            public string Searchtype { get; set; } = "";
+            public string Searchtype { get; set; } = "0";
             public string Year { get; set; } = "0";
 
         }

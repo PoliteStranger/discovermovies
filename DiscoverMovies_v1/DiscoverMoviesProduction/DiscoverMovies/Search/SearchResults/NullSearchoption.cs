@@ -14,7 +14,7 @@
                              join g in db.Genres
                              on gm._genreId equals g._genreId
                              where (theinputGenreID == "0" || gm._genreId == Int32.Parse(theinputGenreID))
-                              && (m._releaseDate.Value.Year == Int32.Parse(theinputYear) || theinputYear == "0")
+                              && (theinputYear == "0" || m._releaseDate.Value.Year == Int32.Parse(theinputYear))
 
                              select new
                              {

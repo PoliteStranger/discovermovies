@@ -17,7 +17,6 @@ namespace ASP_Web_Bootstrap
         public DbSet<Genre> GenresAndMovies { get; set; }
         public DbSet<ProdCompany> ProdCompanies { get; set; }
         public DbSet<Employment> Employments { get; set; }
-
         public DbSet<ProducedBy> ProducedBy { get; set; }
     }
 

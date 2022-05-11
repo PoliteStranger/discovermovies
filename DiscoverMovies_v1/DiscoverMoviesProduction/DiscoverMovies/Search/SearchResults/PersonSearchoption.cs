@@ -10,6 +10,7 @@
             Console.WriteLine(theinputGenreID);
             Console.WriteLine(theinputYear);
             Console.WriteLine(theinputSearchtype);
+
             using (var db = new MyDbContext())
             {
                 var query = (from p in db.Persons
@@ -42,6 +43,8 @@
                     tempmovie.movieId = item.movieid;
                     templiste.Add(tempmovie);
                 }
+                Console.WriteLine("Search Results: " + query.Count());
+
             }
 
             return templiste;

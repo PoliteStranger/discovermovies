@@ -43,7 +43,7 @@
                 Console.WriteLine("Search Results: " + query.Count());
             }
 
-            
+
 
             return templiste;
         }
