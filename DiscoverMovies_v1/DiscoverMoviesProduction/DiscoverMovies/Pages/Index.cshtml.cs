@@ -82,7 +82,9 @@ namespace ASP_Web_Bootstrap.Pages
             initsoegning.initSearchOption(Soegninger);
             initsoegning.initYear(Year);
             TheOriginaleGenres = initsoegning.initGenre();
-            var db = new MyDbContext();
+
+
+
 
             if (theinput.Searchtype == "Movie")
             {

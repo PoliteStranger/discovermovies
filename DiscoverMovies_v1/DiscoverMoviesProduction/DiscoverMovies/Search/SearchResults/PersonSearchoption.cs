@@ -38,26 +38,11 @@
                              && (genreidattribute == "0" || gm._genreId == Int32.Parse(genreidattribute))
                              && (m._releaseDate.Value.Year == Int32.Parse(yearattribute) || yearattribute == "0")
                              && (searchattribute == "Person" || searchattribute == "")
-                             select new
-                             {
-                                 movieid = m.movieId,
-                                 movietitel = m._title,
-                                 movieposter = m._posterUrl,
-                             }
+                             select m
                             ).ToList().Distinct(); // til liste og fjerner samtidig duplikater.
 
-                foreach (var item in query)
-                {
-                    Movie tempmovie = new Movie();
-                    tempmovie.movieId = item.movieid;
-                    tempmovie._posterUrl = item.movieposter;
-                    tempmovie._title = item.movietitel;
-                    templiste.Add(tempmovie);
-                }
-
-                Console.WriteLine("Search Results: " + query.Count());
+                return query.ToList();
             }
-            return templiste;
         }
     }
 }

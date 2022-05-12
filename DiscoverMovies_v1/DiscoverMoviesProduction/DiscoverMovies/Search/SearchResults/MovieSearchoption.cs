@@ -4,8 +4,6 @@ namespace ASP_Web_Bootstrap.Search.SearchResults
 {
     public class MovieSearchoption : ISearch
     {
-        private List<Movie> templiste = new List<Movie>();
-
         private string nameattribute;
         private string genreidattribute;
         private string yearattribute;
@@ -40,25 +38,12 @@ namespace ASP_Web_Bootstrap.Search.SearchResults
                              && (genreidattribute == "0" || gm._genreId == Int32.Parse(genreidattribute))
                              && (m._releaseDate.Value.Year == Int32.Parse(yearattribute) || yearattribute == "0")
                              && (searchattribute == "Movie" || searchattribute == "")
-                             select new
-                             {
-                                 movieid = m.movieId,
-                                 movietitel = m._title,
-                                 movieposter = m._posterUrl,
-                             }
+                             select m
                     ).ToList().Distinct();
 
-                foreach (var item in query)
-                {
-                    Movie tempmovie = new Movie();
-                    tempmovie.movieId = item.movieid;
-                    tempmovie._posterUrl = item.movieposter;
-                    tempmovie._title = item.movietitel;
-                    templiste.Add(tempmovie);
-                }
-            }
-            return templiste;
+                return query.ToList();
 
+            }
         }
 
     }
