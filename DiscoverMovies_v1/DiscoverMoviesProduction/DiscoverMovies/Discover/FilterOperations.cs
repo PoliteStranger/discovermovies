@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ASP_Web_Bootstrap;
 using Microsoft.EntityFrameworkCore;
+using AcquireDB_EFcore.Tables;
 
 namespace DiscoverMoviesProduction
 {
@@ -71,6 +72,21 @@ namespace DiscoverMoviesProduction
         }
     }
 
-
+    public class GetCrew
+    {
+        public GetCrew(List<Movie> inputMovies, List<Employment> inputEmployments)
+        {
+            foreach (var movie in inputMovies.ToList())
+            {
+                foreach (var employment in movie._employmentList.ToList())
+                {
+                    if (employment._job != "Acting")
+                    {
+                        inputEmployments.Add(employment);
+                    }
+                }
+            }
+        }
+    }
 
 }

@@ -6,8 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AcquireDB_EFcore.Tables
-{
+
     public class Employment
     {
         [Key]
@@ -25,4 +24,4 @@ namespace AcquireDB_EFcore.Tables
         public string? _character { get; set; }
 
     }
-}
+

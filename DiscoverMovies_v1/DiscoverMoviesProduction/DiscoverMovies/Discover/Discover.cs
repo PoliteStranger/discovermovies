@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ASP_Web_Bootstrap;
 using Microsoft.EntityFrameworkCore;
 using AcquireDB_EFcore.Tables;
+using Newtonsoft.Json;
 
 namespace DiscoverMoviesProduction
 {
@@ -30,6 +31,7 @@ namespace DiscoverMoviesProduction
             {
                 InputMovies = db.Movies.Where(c => InputMovieIds.Contains(c.movieId)).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).ToList();
             }
+
 
             return InputMovies;
         }
@@ -132,6 +134,29 @@ namespace DiscoverMoviesProduction
                 Console.WriteLine(movie._title);
             }
             Console.WriteLine("Shortlist from input has count of: " + shortList.Count);
+
+
+
+
+
+            //Console.WriteLine("SAVING JSON!!!!!");
+
+            //string json = JsonConvert.SerializeObject(shortList, Formatting.None,
+            //            new JsonSerializerSettings()
+            //            {
+            //                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            //            });
+
+
+            //string[] jsonToText = { json };
+
+            //System.IO.File.WriteAllLines("../DiscoverMoviesProduction.NUnit/JsonStubs/5InputMoviesReturn.json", jsonToText);
+
+
+            //Console.WriteLine("DONE!!!");
+
+
+
 
 
             // Kør filtering:

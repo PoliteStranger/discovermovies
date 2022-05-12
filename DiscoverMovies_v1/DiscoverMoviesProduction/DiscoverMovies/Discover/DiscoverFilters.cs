@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ASP_Web_Bootstrap;
 using Microsoft.EntityFrameworkCore;
 using AcquireDB_EFcore.Tables;
-
+using Newtonsoft.Json;
 
 namespace DiscoverMoviesProduction
 {
@@ -185,14 +185,11 @@ namespace DiscoverMoviesProduction
 
     public class CrewFilter : IFilter
     {
-
-        // En liste over crew
-        List<Movie> crewList = new List<Movie>();
-
         // Til at tildele points
         public List<DiscoverScore> discoverScores = new List<DiscoverScore>();
 
         List<Employment> inputEmployments = new List<Employment>();
+
 
         // Filtrer Crew
         public CrewFilter(List<Movie> inputMovies, List<Movie> shortList)
@@ -200,61 +197,54 @@ namespace DiscoverMoviesProduction
             Console.WriteLine("");
             Console.WriteLine("FILTER: CREW");
             Console.WriteLine("-------------------------------------------------");
+            
+            GetCrew getCrew = new GetCrew(inputMovies,inputEmployments);
 
-
-            foreach (var movie in inputMovies.ToList())
-            {
-                foreach (var employment in movie._employmentList.ToList())
-                {
-                    if (employment._job != "Acting")
-                    {
-                        inputEmployments.Add(employment);
-                    }
-
-                }
-            }
             Console.WriteLine("Found {0} employments in input", inputEmployments.Count);
+            Console.WriteLine("\nSearching Shortlist for matches in crew:");
 
-
-            Console.WriteLine("\nSearching for matches in crew:");
-
-
-
+            // For hver film på Shortlisten, 
             foreach (var movie in shortList.ToList())
             {
-                //Console.Write(">");
-
+                // Ser vi gennem alle jobs, og
                 foreach (var employment in inputEmployments.ToList())
                 {
-
+                    // ser om de matcher en person
                     if (movie._employmentList.Any(x => x._personId == employment._personId))
                     {
                         int AddScore = 1;
-
-                        // Vi vægter instruktøre højere!
-                        if (employment._job == "Director" || employment._job == "Producer")
-                        {
-                            //AddScore = 3;
-                            //Console.WriteLine("Director/Producer spottet!");
-                        }
 
                         // If match, then pass out score:
                         if (discoverScores.Any(x => x.Movie == movie))
                         {
                             discoverScores.Find(x => x.Movie == movie).Score += AddScore;
-                            //Console.Write(" Match!");
                         }
                         else
                         {
                             discoverScores.Add(new DiscoverScore(movie, AddScore));
-                            //Console.Write(" Match!");
                         }
-                        //Console.WriteLine(discoverScores.Find(x => x.Movie == movie).Movie._title + " has " + discoverScores.Find(x => x.Movie == movie).Score + " points");
-
                     }
                 }
-
             }
+
+
+            //Console.WriteLine("SAVING JSON!!!!!");
+
+            //string json = JsonConvert.SerializeObject(discoverScores, Formatting.None,
+            //            new JsonSerializerSettings()
+            //            {
+            //                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            //            });
+
+
+            //string[] jsonToText = { json };
+
+            //System.IO.File.WriteAllLines("../DiscoverMoviesProduction.NUnit/JsonStubs/CastFilterReturn.json", jsonToText);
+
+
+            //Console.WriteLine("DONE!!!");
+
+
 
             // Sortere og printer scores:
             PrintScores.PrintTopTen(discoverScores);
@@ -283,8 +273,8 @@ namespace DiscoverMoviesProduction
             int range;
 
 
-            Console.WriteLine("Max year: " + shortlist.Max(x => x._releaseDate.Value.Year));
-            Console.WriteLine("Min year: " + shortlist.Min(x => x._releaseDate.Value.Year));
+            Console.WriteLine("Shortlist Max year: " + shortlist.Max(x => x._releaseDate.Value.Year) + 
+                             " Min year: " + shortlist.Min(x => x._releaseDate.Value.Year));
 
             foreach (var movie in inputMovies)
             {
