@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AcquireDB_EFcore.Tables;
 using ASP_Web_Bootstrap.Search.Init;
+using ASP_Web_Bootstrap.Search.MovieList;
 using ASP_Web_Bootstrap.Search.SearchResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -86,20 +87,32 @@ namespace ASP_Web_Bootstrap.Pages
 
             if (theinput.Searchtype == "Movie")
             {
-                ISearch filmsoegning = new MovieSearchoption();
-                MovieList = filmsoegning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype);
+                ISearch filmsøgning = new MovieSearchoption();
+                List<Searchclass> templistetilfilm = filmsøgning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype);
+                IMovielist themovies = new MovieListFromDB();
+                MovieList = themovies.ListOfMovies(templistetilfilm);
+
+
+                //ISearch filmsoegning = new MovieSearchoption();
+                //MovieList = filmsoegning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype);
             }
 
             else if (theinput.Searchtype == "Person")
             {
-                ISearch filmsoegning = new PersonSearchoption();
-                MovieList = filmsoegning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype );
+                ISearch personsøgning = new PersonSearchoption();
+                List<Searchclass> templistetilfilm = personsøgning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype);
+                IMovielist themovies = new MovieListFromDB();
+                MovieList = themovies.ListOfMovies(templistetilfilm);
             }
 
             else if (theinput.Searchtype == "0")
             {
-                ISearch filmsoegning = new NullSearchoption();
-                MovieList = filmsoegning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype );
+                //ISearch filmsoegning = new NullSearchoption();
+                //MovieList = filmsoegning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype );
+                ISearch nullsøgning = new NullSearchoption();
+                List<Searchclass> templistetilfilm = nullsøgning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype);
+                IMovielist themovies = new MovieListFromDB();
+                MovieList = themovies.ListOfMovies(templistetilfilm);
             }
             return Page();
         }

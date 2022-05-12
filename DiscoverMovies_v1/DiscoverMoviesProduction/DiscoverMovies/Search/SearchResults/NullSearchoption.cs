@@ -2,9 +2,9 @@
 {
     public class NullSearchoption : ISearch
     {
-        private List<Movie> templiste = new List<Movie>();
+        private List<Searchclass> templiste = new List<Searchclass>();
 
-        public List<Movie> SearchInput(string theinputName, string theinputGenreID, string theinputYear, string theinputSearchtype)
+        public List<Searchclass> SearchInput(string theinputName, string theinputGenreID, string theinputYear, string theinputSearchtype)
         {
             using (var db = new MyDbContext())
             {
@@ -24,19 +24,18 @@
                              }
                              ).ToList().Distinct(); // til liste og fjerner samtidig duplikater.
 
-                foreach (var item in query)
+                foreach (var searchitem in query)
                 {
-                    Movie tempmovie = new Movie();
-                    tempmovie._title = item.movietitel;
-                    tempmovie._posterUrl = item.movieposter;
-                    tempmovie.movieId = item.movieid;
+                    Searchclass tempmovie = new Searchclass();
+                    tempmovie.movieid = searchitem.movieid;
+                    tempmovie.movieposter = searchitem.movieposter;
+                    tempmovie.movietitel = searchitem.movietitel;
                     templiste.Add(tempmovie);
                 }
 
                 Console.WriteLine("Search Results: " + query.Count());
-
-                return templiste;
             }
+            return templiste;
         }
 
     }
