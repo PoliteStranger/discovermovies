@@ -27,7 +27,7 @@ namespace DiscoverMoviesProduction
 
         // Kunne have filter vægtning her...
 
-        List<IFilter> DiscoverFilters;
+        public List<IFilter> DiscoverFilters;
 
         /// <summary>
         /// Grundfilteret, som skal have input Movies, og shortlist Movies, og deler det så ud til de andre filtre.
@@ -43,7 +43,7 @@ namespace DiscoverMoviesProduction
             DiscoverFilters.Add(new CrewFilter(inputMovies, shortlist));
             DiscoverFilters.Add(new CastFilter(inputMovies, shortlist));
             DiscoverFilters.Add(new YearFilter(inputMovies, shortlist));
-            DiscoverFilters.Add(new ProdFilter(inputMovies, shortlist));
+            //DiscoverFilters.Add(new ProdFilter(inputMovies, shortlist));
             DiscoverFilters.Add(new BudgetRevenueFilter(inputMovies, shortlist));
 
         }
