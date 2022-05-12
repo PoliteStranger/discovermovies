@@ -43,7 +43,7 @@ namespace DiscoverMoviesProduction
             DiscoverFilters.Add(new CrewFilter(inputMovies, shortlist));
             DiscoverFilters.Add(new CastFilter(inputMovies, shortlist));
             DiscoverFilters.Add(new YearFilter(inputMovies, shortlist));
-            DiscoverFilters.Add(new ProdFilter(inputMovies, shortlist));
+            //DiscoverFilters.Add(new ProdFilter(inputMovies, shortlist));
             DiscoverFilters.Add(new BudgetRevenueFilter(inputMovies, shortlist));
 
         }
