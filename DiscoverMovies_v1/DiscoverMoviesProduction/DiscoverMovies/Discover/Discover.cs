@@ -139,21 +139,7 @@ namespace DiscoverMoviesProduction
 
 
 
-            //Console.WriteLine("SAVING JSON!!!!!");
 
-            //string json = JsonConvert.SerializeObject(shortList, Formatting.None,
-            //            new JsonSerializerSettings()
-            //            {
-            //                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            //            });
-
-
-            //string[] jsonToText = { json };
-
-            //System.IO.File.WriteAllLines("../DiscoverMoviesProduction.NUnit/JsonStubs/5InputMoviesReturn.json", jsonToText);
-
-
-            //Console.WriteLine("DONE!!!");
 
 
 
