@@ -4,6 +4,7 @@ namespace ASP_Web_Bootstrap.Search.SearchResults
 {
     public interface ISearch
     {
-        public List <Searchclass> SearchInput(string theinputName, string theinputGenreID, string theinputYear, string theinputSearchtype);
+        public bool Setattributes(string theinputName, string theinputGenreID, string theinputYear, string theinputSearchtype);
+        public List <Movie> SearchInput();
     }
 }

@@ -2,9 +2,25 @@
 {
     public class NullSearchoption : ISearch
     {
-        private List<Searchclass> templiste = new List<Searchclass>();
+        private List<Movie> templiste = new List<Movie>();
 
-        public List<Searchclass> SearchInput(string theinputName, string theinputGenreID, string theinputYear, string theinputSearchtype)
+        private string nameattribute;
+        private string genreidattribute;
+        private string yearattribute;
+        private string searchattribute;
+
+        public bool Setattributes(string theinputName, string theinputGenreID, string theinputYear,
+            string theinputSearchtype)
+        {
+            nameattribute = theinputName;
+            genreidattribute = theinputGenreID;
+            yearattribute = theinputYear;
+            searchattribute = theinputSearchtype;
+
+            return true;
+        }
+
+        public List<Movie> SearchInput()
         {
             using (var db = new MyDbContext())
             {
@@ -13,8 +29,8 @@
                              on m.movieId equals gm._movieId
                              join g in db.Genres
                              on gm._genreId equals g._genreId
-                             where (theinputGenreID == "0" || gm._genreId == Int32.Parse(theinputGenreID))
-                              && (theinputYear == "0" || m._releaseDate.Value.Year == Int32.Parse(theinputYear))
+                             where (genreidattribute == "0" || gm._genreId == Int32.Parse(genreidattribute))
+                              && (yearattribute == "0" || m._releaseDate.Value.Year == Int32.Parse(yearattribute))
 
                              select new
                              {
@@ -24,12 +40,12 @@
                              }
                              ).ToList().Distinct(); // til liste og fjerner samtidig duplikater.
 
-                foreach (var searchitem in query)
+                foreach (var item in query)
                 {
-                    Searchclass tempmovie = new Searchclass();
-                    tempmovie.movieid = searchitem.movieid;
-                    tempmovie.movieposter = searchitem.movieposter;
-                    tempmovie.movietitel = searchitem.movietitel;
+                    Movie tempmovie = new Movie();
+                    tempmovie.movieId = item.movieid;
+                    tempmovie._posterUrl = item.movieposter;
+                    tempmovie._title = item.movietitel;
                     templiste.Add(tempmovie);
                 }
 

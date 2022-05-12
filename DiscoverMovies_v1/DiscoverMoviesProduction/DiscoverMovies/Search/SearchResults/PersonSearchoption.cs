@@ -2,15 +2,26 @@
 {
     public class PersonSearchoption : ISearch
     {
-        private List<Searchclass> templiste = new List<Searchclass>();
+        private List<Movie> templiste = new List<Movie>();
 
-        public List<Searchclass> SearchInput(string theinputName, string theinputGenreID, string theinputYear, string theinputSearchtype)
+        private string nameattribute;
+        private string genreidattribute;
+        private string yearattribute;
+        private string searchattribute;
+
+        public bool Setattributes(string theinputName, string theinputGenreID, string theinputYear,
+            string theinputSearchtype)
         {
-            Console.WriteLine(theinputName);
-            Console.WriteLine(theinputGenreID);
-            Console.WriteLine(theinputYear);
-            Console.WriteLine(theinputSearchtype);
+            nameattribute = theinputName;
+            genreidattribute = theinputGenreID;
+            yearattribute = theinputYear;
+            searchattribute = theinputSearchtype;
 
+            return true;
+        }
+
+        public List<Movie> SearchInput()
+        {
             using (var db = new MyDbContext())
             {
                 var query = (from p in db.Persons
@@ -23,32 +34,30 @@
                              join g in db.Genres
                              on gm._genreId equals g._genreId
 
-                             where (p._Personname.Contains(theinputName) || theinputName == "")
-                             && (theinputGenreID == "0" || gm._genreId == Int32.Parse(theinputGenreID))
-                             && (m._releaseDate.Value.Year == Int32.Parse(theinputYear) || theinputYear == "0")
-                             && (theinputSearchtype == "Person" || theinputSearchtype == "")
+                             where (p._Personname.Contains(nameattribute) || nameattribute == "")
+                             && (genreidattribute == "0" || gm._genreId == Int32.Parse(genreidattribute))
+                             && (m._releaseDate.Value.Year == Int32.Parse(yearattribute) || yearattribute == "0")
+                             && (searchattribute == "Person" || searchattribute == "")
                              select new
                              {
                                  movieid = m.movieId,
                                  movietitel = m._title,
                                  movieposter = m._posterUrl,
                              }
-                             ).ToList().Distinct(); // til liste og fjerner samtidig duplikater.
+                            ).ToList().Distinct(); // til liste og fjerner samtidig duplikater.
 
-                foreach (var searchitem in query)
+                foreach (var item in query)
                 {
-                    Searchclass tempmovie = new Searchclass();
-                    tempmovie.movieid = searchitem.movieid;
-                    tempmovie.movieposter = searchitem.movieposter;
-                    tempmovie.movietitel = searchitem.movietitel;
+                    Movie tempmovie = new Movie();
+                    tempmovie.movieId = item.movieid;
+                    tempmovie._posterUrl = item.movieposter;
+                    tempmovie._title = item.movietitel;
                     templiste.Add(tempmovie);
                 }
 
                 Console.WriteLine("Search Results: " + query.Count());
             }
             return templiste;
-
-            //return templiste;
         }
     }
 }
