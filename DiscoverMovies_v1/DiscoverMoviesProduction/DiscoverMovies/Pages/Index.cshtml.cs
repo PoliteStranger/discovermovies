@@ -98,11 +98,8 @@ namespace ASP_Web_Bootstrap.Pages
 
             else if (theinput.Searchtype == "0")
             {
-                Console.WriteLine("tjek");
                 ISearch filmsoegning = new NullSearchoption();
                 MovieList = filmsoegning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype );
-                Console.WriteLine("tjek2");
-
             }
             return Page();
         }

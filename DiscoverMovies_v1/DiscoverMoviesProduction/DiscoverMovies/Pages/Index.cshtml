@@ -28,10 +28,6 @@
               <select id="Select2" asp-items="@(new SelectList(Model.Soegninger))" asp-for="theinput.Searchtype">
                   <option value="0">Search Option</option>
               </select>
-              
-              @* <select id="Select2" asp-items="@(new SelectList(Model.TheOriginaleGenres, "_genreId","_Genrename"))" asp-for="theinput.GenreID">
-                   <option value="" selected disabled> -- Select genre --</option>
-              </select>*@
 
               <select id="Select3" asp-items="@(new SelectList(Model.TheOriginaleGenres, "_genreId","_Genrename"))" asp-for="theinput.GenreID">
                   <option value="0"> Select genre </option>
