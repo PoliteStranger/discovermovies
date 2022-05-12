@@ -31,7 +31,7 @@ namespace DiscoverMoviesProduction.NUnit
             Filters uut = new Filters(inputMovies, Shortlist);
 
             // ASSERT - Vi tjekker om Filtrene eksistere
-            Assert.That(uut.DiscoverFilters.Count, Is.EqualTo(6));
+            Assert.That(uut.DiscoverFilters.Count, Is.EqualTo(5));
 
         }
 
