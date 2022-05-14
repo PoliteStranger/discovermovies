@@ -91,6 +91,8 @@ namespace DiscoverMoviesProduction.NUnit
 
         }
 
+        #region-NORMALZING SCORES
+
         [Test]
         public void TestNormalizing()
         {
@@ -101,16 +103,30 @@ namespace DiscoverMoviesProduction.NUnit
             Assert.AreEqual(ScoresList, ScoresListResult);
         }
 
+        #endregion
+
+        #region-ADDING SCORES
+
+        // TESTING OUTPUT, Addere den scores korrekt?
         [Test]
         public void TestAddingScores()
         {
+            // ARRANGE, ACT
             // Vi tæller alle scores op fra allScores, og lægger resultatet ind i finalScores
             AddingScores.AddScores(allScores, finalScores);
             
+            // ASSERT
             // og sammenligner så listerne med en korrekt Stub.
             Assert.AreEqual(finalScores, finalScoresResult);
         }
 
+
+
+        #endregion
+
+        #region-PRINTING TOP TEN
+
+        // TESTING OUTPUT, når input kun er 10, er output også kun 10?
         [Test]
         public void TestPrintingTopTenExact()
         {
@@ -146,6 +162,7 @@ namespace DiscoverMoviesProduction.NUnit
             Assert.That(outputLines.Length, Is.EqualTo(10));
         }
 
+        // TESTING OUTPUT, når input kun er 2, er output også kun 2? Burde slås sammen med testen ovenover!
         [Test]
         public void TestPrintingOnlyTwo()
         {
@@ -176,7 +193,7 @@ namespace DiscoverMoviesProduction.NUnit
 
         }
 
-
+        // TESTING OUTPUT, trods mere end 10 ting på listen, viser den KUN 10 ting i print?
         [Test]
         public void TestPrintingOnlyTen()
         {
@@ -216,7 +233,7 @@ namespace DiscoverMoviesProduction.NUnit
 
         }
 
-
+        // TESTING OUTPUT, ændre den rækkefølgen korrekt?
         [Test]
         public void TestPrintingCheckOrder()
         {
@@ -251,6 +268,9 @@ namespace DiscoverMoviesProduction.NUnit
 
 
         }
+
+        #endregion
+
 
     }
 }

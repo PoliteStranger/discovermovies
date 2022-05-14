@@ -29,6 +29,7 @@ namespace DiscoverMoviesProduction
 
         public List<IFilter> DiscoverFilters;
 
+
         /// <summary>
         /// Grundfilteret, som skal have input Movies, og shortlist Movies, og deler det så ud til de andre filtre.
         /// </summary>
@@ -36,8 +37,10 @@ namespace DiscoverMoviesProduction
         /// <param name="shortlist">Shortlisten</param>
         public Filters(List<Movie> inputMovies, List<Movie> shortlist)
         {
-            // Skab samtlige filtre
+            // Er inputtet ok?
+            Guard.CheckDiscoverLists(inputMovies, shortlist, "Main Filter");
 
+            // Skab samtlige filtre
             DiscoverFilters = new List<IFilter>();
             DiscoverFilters.Add(new GenreFilter(inputMovies, shortlist));
             DiscoverFilters.Add(new CrewFilter(inputMovies, shortlist));
@@ -72,7 +75,8 @@ namespace DiscoverMoviesProduction
 
         public GenreFilter(List<Movie> inputMovies, List<Movie> shortlist)
         {
-            // List<DiscoverScore> GenreFilter(List<Movie> shortlist)
+            // Er inputtet ok?
+            Guard.CheckDiscoverLists(inputMovies, shortlist, "Genre Filter");
 
             Console.WriteLine("");
             Console.WriteLine("FILTER: GENRE");
@@ -120,10 +124,13 @@ namespace DiscoverMoviesProduction
         // Til at tildele points
         public List<DiscoverScore> discoverScores = new List<DiscoverScore>();
 
-        List<Employment> inputEmployments = new List<Employment>();
+        public List<Employment> inputEmployments = new List<Employment>();
 
         public CastFilter(List<Movie> inputMovies, List<Movie> shortList)
         {
+            // Er inputtet ok?
+            Guard.CheckDiscoverLists(inputMovies, shortList, "Cast Filter");
+
 
             Console.WriteLine("");
             Console.WriteLine("FILTER: CAST");
@@ -194,6 +201,9 @@ namespace DiscoverMoviesProduction
         // Filtrer Crew
         public CrewFilter(List<Movie> inputMovies, List<Movie> shortList)
         {
+            // Er inputtet ok?
+            Guard.CheckDiscoverLists(inputMovies, shortList, "Crew Filter");
+
             Console.WriteLine("");
             Console.WriteLine("FILTER: CREW");
             Console.WriteLine("-------------------------------------------------");
@@ -264,6 +274,10 @@ namespace DiscoverMoviesProduction
 
         public YearFilter(List<Movie> inputMovies, List<Movie> shortlist)
         {
+            // Er inputtet ok?
+            Guard.CheckDiscoverLists(inputMovies, shortlist, "Year Filter");
+
+
             Console.WriteLine("");
             Console.WriteLine("FILTER: ReleaseDate");
             Console.WriteLine("-------------------------------------------------");
@@ -368,6 +382,9 @@ namespace DiscoverMoviesProduction
         public ProdFilter(List<Movie> inputMovies, List<Movie> shortlist)
         {
 
+            // Er inputtet ok?
+            Guard.CheckDiscoverLists(inputMovies, shortlist, "Prod Filter");
+
             Console.WriteLine("");
             Console.WriteLine("FILTER: PRODUCTION");
             Console.WriteLine("-------------------------------------------------");
@@ -446,6 +463,9 @@ namespace DiscoverMoviesProduction
 
         public BudgetRevenueFilter(List<Movie> inputMovies, List<Movie> shortList)
         {
+            // Er inputtet ok?
+            Guard.CheckDiscoverLists(inputMovies, shortList, "BudgetRevenue Filter");
+
             Console.WriteLine("");
             Console.WriteLine("FILTER: BUDGET vs REVENUE");
             Console.WriteLine("-------------------------------------------------");

@@ -46,12 +46,12 @@ namespace DiscoverMoviesProduction
     public class Discover
     {
         // Listen som holder alle film som kan vælges imellem.
-        List<Movie> shortList = new List<Movie>();
+        public List<Movie> shortList = new List<Movie>();
 
         // De fem film valgt inde på Discover siden.
-        List<Movie> inputMovies;
+        public List<Movie> inputMovies;
 
-        DiscoverIntsToMovies IntsToMovies = new DiscoverIntsToMovies();
+        public DiscoverIntsToMovies IntsToMovies = new DiscoverIntsToMovies();
 
         
 
