@@ -20,19 +20,19 @@ namespace DiscoverMoviesProduction.NUnit
             uut = new MovieSearchoption();
         }
 
-        [Test]
-        public void TestCountWithAllSearchParameters()
-        {
-            string theinputName = "the";
-            string theinputGenreID = "12";//adventure
-            string theinputYear = "2001";
-            string theinputSearchtype = "Movie";
+        //[Test]
+        //public void TestCountWithAllSearchParameters()
+        //{
+        //    string theinputName = "the";
+        //    string theinputGenreID = "12";//adventure
+        //    string theinputYear = "2001";
+        //    string theinputSearchtype = "Movie";
 
-            List<Movie> movieTESTliste = new List<Movie>();
-            movieTESTliste = uut.SearchInput(theinputName, theinputGenreID, theinputYear, theinputSearchtype);
+        //    List<Movie> movieTESTliste = new List<Movie>();
+        //    movieTESTliste = uut.SearchInput(theinputName, theinputGenreID, theinputYear, theinputSearchtype);
 
-            Assert.That(movieTESTliste.Count, Is.EqualTo(36));
-        }
+        //    Assert.That(movieTESTliste.Count, Is.EqualTo(36));
+        //}
 
         //    [Test]
         //    public void TestWithAllSearchParametersContainsSpecificMovie()
