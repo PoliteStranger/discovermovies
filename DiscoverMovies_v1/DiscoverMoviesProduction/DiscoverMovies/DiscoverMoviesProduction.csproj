@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>ASP_Web_Bootstrap</RootNamespace>
+    <RootNamespace>DiscoverMoviesProduction</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

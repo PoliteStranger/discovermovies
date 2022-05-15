@@ -5,8 +5,11 @@ using NSubstitute;
 using NUnit.Framework;
 using DiscoverMoviesProduction.Search.Init;
 using DiscoverMoviesProduction.Search.SearchResults;
-
-
+using DiscoverMoviesProduction.Search;
+using Moq;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 
 namespace DiscoverMoviesProduction.NUnit
 {
@@ -14,13 +17,61 @@ namespace DiscoverMoviesProduction.NUnit
     {
         private MovieSearchoption uut;
 
-        private ISearch search;
 
         [SetUp]
         public void Setup()
         {
-            uut = new MovieSearchoption();
+            
         }
+
+        [Test]
+        [TestCase("", "", "", "Movie", "MovieSearch")]
+        [TestCase("", "", "", "Person", "PersonSearch")]
+        public void TestMovieSearchInput(string Name, string GenreID, string Year, string Searchtype, string resultString)
+        {
+            // ARRANGE
+            ResolveSearch uut = new ResolveSearch();
+
+            var MockMovieSearch = new Mock<ISearch>();
+            var MockPersonSearch = new Mock<ISearch>();
+            var MockNullSearch = new Mock<ISearch>();
+
+            // Kun til Movie Search
+            MockMovieSearch.Setup(x => x.SearchInput()).Returns(new List<Movie>()
+            {
+                new Movie()
+                {
+                    movieId = 1,
+                    _title = "MovieSearch",
+                }
+            });
+
+            // Kun til Movie Search
+            MockPersonSearch.Setup(x => x.SearchInput()).Returns(new List<Movie>()
+            {
+                new Movie()
+                {
+                    movieId = 1,
+                    _title = "PersonSearch",
+                }
+            });
+
+            List<Movie> returnMovieList = new List<Movie>();
+
+
+            // ACT
+            returnMovieList = uut.Resolve(Name, GenreID, Year, Searchtype, MockMovieSearch.Object, MockPersonSearch.Object, MockNullSearch.Object);
+
+            // ASSERT
+
+            Assert.That(returnMovieList.ToArray()[0]._title, Is.EqualTo(resultString));
+
+
+        }
+
+
+
+
 
         //[Test]
         //public void TestCountWithAllSearchParameters()

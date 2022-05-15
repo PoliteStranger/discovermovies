@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using DiscoverMoviesProduction;
-
+using DiscoverMoviesProduction.Search;
 using DiscoverMoviesProduction.Search.Init;
 using DiscoverMoviesProduction.Search.SearchResults;
 using Microsoft.AspNetCore.Mvc;
@@ -87,26 +87,16 @@ namespace DiscoverMoviesProduction.Pages
 
 
 
-            if (theinput.Searchtype == "Movie")
-            {
-                ISearch filmsoegning = new MovieSearchoption();
-                filmsoegning.Setattributes(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype);
-                MovieList = filmsoegning.SearchInput();
-            }
+            ResolveSearch resolveSearch = new ResolveSearch();
 
-            else if (theinput.Searchtype == "Person")
-            {
-                ISearch personsøgning = new PersonSearchoption();
-                personsøgning.Setattributes(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype);
-                MovieList = personsøgning.SearchInput();
-            }
+            MovieSearchoption film = new MovieSearchoption();
+            PersonSearchoption person = new PersonSearchoption();
+            NullSearchoption nul = new NullSearchoption();
 
-            else if (theinput.Searchtype == "0")
-            {
-                ISearch nullsøgning = new NullSearchoption();
-                nullsøgning.Setattributes(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype);
-                MovieList = nullsøgning.SearchInput();
-            }
+            MovieList = resolveSearch.Resolve(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype, film, person, nul);
+
+
+
             return Page();
         }
 
