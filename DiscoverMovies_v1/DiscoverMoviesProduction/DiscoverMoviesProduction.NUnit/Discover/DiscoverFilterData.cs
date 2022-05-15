@@ -41,5 +41,21 @@ namespace DiscoverMoviesProduction.NUnit
             }
         }
 
+        public static List<Person> GetJsonPeople(string file)
+        {
+            if (System.IO.File.Exists(file + ".json") == true)
+            {
+                Console.WriteLine("Loading file: " + file + ".json");
+
+                return JsonConvert.DeserializeObject<List<Person>>(File.ReadAllText(file + ".json"));
+            }
+            else
+            {
+                Console.WriteLine("Error: File " + file + ".json, does not exist!");
+
+                return new List<Person>();
+            }
+        }
+
     }
 }

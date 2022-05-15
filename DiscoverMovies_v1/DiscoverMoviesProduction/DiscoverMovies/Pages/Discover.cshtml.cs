@@ -109,8 +109,10 @@ namespace DiscoverMoviesProduction.Pages
             //create discover instance
             Discover discover = new Discover();
 
+            DiscoverDB db = new DiscoverDB();
+
             //perform algorithm
-            return discover.DiscoverMovies(idList);
+            return discover.DiscoverMovies(idList, db);
 
         }
 

@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Moq;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -12,6 +13,8 @@ namespace DiscoverMoviesProduction.NUnit
 
         List<Movie> Shortlist;
 
+        List<Person> persons;
+
         [SetUp]
         public void Setup()
         {
@@ -20,6 +23,8 @@ namespace DiscoverMoviesProduction.NUnit
             inputMovies = DiscoverFilterData.GetJsonMovies("../../../JsonStubs/5InputMovies");
 
             Shortlist = DiscoverFilterData.GetJsonMovies("../../../JsonStubs/5InputMoviesReturn");
+
+            persons = DiscoverFilterData.GetJsonPeople("../../../JsonStubs/people");
 
         }
 
@@ -42,6 +47,30 @@ namespace DiscoverMoviesProduction.NUnit
 
             // ASSERT
             Assert.That(uut.Shortlist, Is.Null);
+
+        }
+
+        [Test]
+        public void TestDiscoverOutput()
+        {
+            // ARRANGE
+            DiscoverMoviesProduction.Discover uut = new DiscoverMoviesProduction.Discover();
+            var MockDiscoverDB = new Mock<IDiscoverDB>();
+
+            Console.WriteLine("Person count: " + persons.Count);
+            Console.WriteLine("ShortList count: " + Shortlist.Count);
+            List<int> movieInts = new List<int> { 199, 1571, 1639, 1893, 2787 };
+
+
+            MockDiscoverDB.Setup(x => x.GetPeople(It.IsAny<List<int>>())).Returns(persons);
+            MockDiscoverDB.Setup(z => z.GetMovies(It.IsAny<List<int>>())).Returns(Shortlist);
+
+
+            // ACT
+            Movie newMovie = uut.DiscoverMovies(movieInts, MockDiscoverDB.Object);
+
+            // ASSERT
+            Assert.That(newMovie, Is.Not.Null);
 
         }
 

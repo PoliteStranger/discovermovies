@@ -7,7 +7,6 @@ namespace DiscoverMoviesProduction
 {
 
 
-
     /// <summary>
     /// Interface til DiscoverIntsToMovies, som konvertere en liste af filmId'er til en movieliste med samtlige films data.
     /// </summary>
@@ -36,6 +35,63 @@ namespace DiscoverMoviesProduction
     }
 
 
+    /// <summary>
+    /// Interface til Discover DB, formålet er nemmere tests.
+    /// </summary>
+    public interface IDiscoverDB
+    {
+        public List<Person> GetPeople(List<int> inputMovieInts);
+        public List<Movie> GetMovies(List<int> personIds);
+    }
+
+    /// <summary>
+    /// Til at fortage DB kald på vejende af Discover
+    /// </summary>
+    public class DiscoverDB : IDiscoverDB
+    {
+        public List<Person> GetPeople(List<int> inputMovieInts)
+        {
+            List<Person> people;
+
+            using (var db = new MyDbContext())
+            {
+                Console.WriteLine("Henter alle skuespillere involveret:");
+                // Ny liste over personer, som skal bruges til at finde alle VIP fra de fem inputfilm
+                people = (from pers in db.Persons.Where(x => x._Personpopularity > 20)
+                          join emp in db.Employments.Where(x => inputMovieInts.Contains(x._movieId))
+                          on pers._personId equals emp._personId
+                          where emp._job == "Acting"
+                          select pers).ToList();
+
+                Console.WriteLine("Henter alle instruktørere og Producere involveret:");
+                people.AddRange((from pers in db.Persons
+                                 join emp in db.Employments.Where(x => inputMovieInts.Contains(x._movieId))
+                                 on pers._personId equals emp._personId
+                                 where emp._job == "Director" || emp._job == "Producer"
+                                 select pers).ToList());
+            }
+            return people;
+        }
+
+        public List<Movie> GetMovies(List<int> personIds)
+        {
+            List<Movie> shortList;
+
+            using (var db = new MyDbContext())
+            {
+                shortList = (from m in db.Movies.Include(z => z._employmentList).Include(y => y._genreList)
+                             join e in db.Employments.Where(x => personIds.Contains(x._personId))
+                             on m.movieId equals e._movieId
+                             select m).ToList();
+
+
+                shortList = shortList.Distinct().ToList();
+            }
+
+            return shortList;
+        }
+    }
+
 
 
     /// <summary>
@@ -51,21 +107,10 @@ namespace DiscoverMoviesProduction
 
         public DiscoverIntsToMovies IntsToMovies = new DiscoverIntsToMovies();
 
-        
-
-
-        // Settings:
-
-        // Hvor populær skal en skuespiller være før vi vil bruge dem på shortlisten:
-        private double actorPopularityMin = 20.0;
-
-        private double moviePopularityMin = 10.0;
 
         // Vi holder styr på hvor lang tid at Discover tager at beregne/hente data!
         private LoadTimer timer = new LoadTimer();
 
-        // Vi tager tid på hvor lang tid siden er om at beregne resultatet
-        public int dbKald = 0;
 
 
         /// <summary>
@@ -74,72 +119,56 @@ namespace DiscoverMoviesProduction
         /// </summary>
         /// <param name="inputMovieInts"></param>
         /// <returns></returns>
-        public Movie DiscoverMovies(List<int> inputMovieInts)
+        public Movie DiscoverMovies(List<int> inputMovieInts, IDiscoverDB getDB)
         {
+            IDiscoverDB db = getDB;
+
             // Log time:
             timer.StartTimer();
 
             // læg input movies over i den variabel som vi arbejder med.
             inputMovies = IntsToMovies.GetInputMovies(inputMovieInts);
 
-            // Finder personer, derefter alle film som de har med til at lave, og lægger dem i shortListen.
-            using (var db = new MyDbContext())
+
+            Console.WriteLine("Henter alle skuespillere involveret:");
+            // Ny liste over personer, som skal bruges til at finde alle VIP fra de fem inputfilm
+            List<Person> people = db.GetPeople(inputMovieInts);
+
+            // TEMP, lægger personer i json fil
+            //ObjectToJson json = new ObjectToJson(people, "people");
+
+
+            // Tager en mellemtid!
+            timer.StopTimer();
+
+
+            Console.WriteLine("Persons found: " + people.Count);
+            List<int> personIds = new List<int>();
+            foreach (var person in people)
             {
-                Console.WriteLine("Henter alle skuespillere involveret:");
-                // Ny liste over personer, som skal bruges til at finde alle VIP fra de fem inputfilm
-                List<Person> people = (from pers in db.Persons.Where(x => x._Personpopularity > actorPopularityMin)
-                                       join emp in db.Employments.Where(x => inputMovieInts.Contains(x._movieId))
-                                       on pers._personId equals emp._personId
-                                       where emp._job == "Acting"
-                                       select pers).ToList();
-                
-                timer.StopTimer();
-                Console.WriteLine("Henter alle instruktørere og Producere involveret:");
-                people.AddRange((from pers in db.Persons
-                                       join emp in db.Employments.Where(x => inputMovieInts.Contains(x._movieId))
-                                       on pers._personId equals emp._personId
-                                       where emp._job == "Director" || emp._job == "Producer"
-                                       select pers).ToList());
-
-                timer.StopTimer();
-                Console.WriteLine("Persons found: " + people.Count);
-
-                List<int> personIds = new List<int>();
-                foreach (var person in people)
-                {
-                    personIds.Add(person._personId);
-                }
-
-
-                Console.WriteLine("Henter alle film som de har været involveret i");
-                shortList = (from m in db.Movies.Include(z => z._employmentList).Include(y => y._genreList)
-                             join e in db.Employments.Where(x => personIds.Contains(x._personId))
-                             on m.movieId equals e._movieId
-                             select m).ToList();
-
-                timer.StopTimer();
-                shortList = shortList.Distinct().ToList();
-
-
-
-
+                personIds.Add(person._personId);
             }
+
+
+            Console.WriteLine("Henter alle film som de har været involveret i");
+            shortList = db.GetMovies(personIds);
+
+            Console.WriteLine("Shortlist from input has count of: " + shortList.Count);
+
+            // Tager en mellemtid!
+            timer.StopTimer();
+
 
             Console.WriteLine("Input Movies:");
             foreach (var movie in inputMovies)
             {
-                shortList.Remove(shortList.Find(x => x.movieId == movie.movieId));
                 Console.WriteLine(movie._title);
+                if(shortList.Any(x => x.movieId == movie.movieId))
+                {
+                    shortList.Remove(shortList.Find(x => x.movieId == movie.movieId));
+                }
             }
             Console.WriteLine("Shortlist from input has count of: " + shortList.Count);
-
-
-
-
-
-
-
-
 
 
 

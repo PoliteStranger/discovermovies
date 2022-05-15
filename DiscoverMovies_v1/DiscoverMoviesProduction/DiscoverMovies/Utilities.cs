@@ -17,12 +17,21 @@ namespace DiscoverMoviesProduction
         public void StartTimer()
         {
             Start = DateTime.Now;
+            Console.WriteLine("Starting time now: " + Start);
         }
 
         public void StopTimer()
         {
-            End = DateTime.Now;
-            Console.WriteLine("Time taken: " + (End - Start));
+            if(Start != default)
+            {
+                End = DateTime.Now;
+                Console.WriteLine("Time taken: " + (End - Start));
+            }
+            else
+            {
+                Console.WriteLine("Must start timer, before stopping it!");
+            }
+
         }
 
     }
@@ -90,6 +99,25 @@ namespace DiscoverMoviesProduction
         }
 
         public ObjectToJson(List<Employment> inputMovies, string filename)
+        {
+            Console.WriteLine("SAVING JSON!!!!!");
+
+            string json = JsonConvert.SerializeObject(inputMovies, Formatting.None,
+                        new JsonSerializerSettings()
+                        {
+                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                        });
+
+
+            string[] jsonToText = { json };
+
+            System.IO.File.WriteAllLines("../DiscoverMoviesProduction.NUnit/JsonStubs/" + filename + ".json", jsonToText);
+
+
+            Console.WriteLine("DONE!!!");
+        }
+
+        public ObjectToJson(List<Person> inputMovies, string filename)
         {
             Console.WriteLine("SAVING JSON!!!!!");
 
