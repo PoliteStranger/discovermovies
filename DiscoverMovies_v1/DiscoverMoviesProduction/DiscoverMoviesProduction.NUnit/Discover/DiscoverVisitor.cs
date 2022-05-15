@@ -40,57 +40,57 @@ namespace DiscoverMoviesProduction.NUnit
         }
 
         //TESTER at der kommer en film ud af Visitoren
-       [Test]
-        public void TestDiscoverOutput()
-        {
-            // Ti lister
-            for (int i = 1; i > 11; i++)
-            {
-                List<DiscoverScore> newScore = new List<DiscoverScore>();
+       //[Test]
+       // public void TestDiscoverOutput()
+       // {
+       //     // Ti lister
+       //     for (int i = 1; i > 11; i++)
+       //     {
+       //         List<DiscoverScore> newScore = new List<DiscoverScore>();
 
-                // med hver ti film
-                for (int j = 1; j > 11; j++)
-                {
-                    // Vi laver en liste med IKKE-Normaliserede scores
-                    newScore.Add(new DiscoverScore()
-                    {
-                        Movie = new Movie()
-                        {
-                            movieId = j,
-                            _title = "Movie " + j
-                        },
-                        Score = j
-                    });
+       //         // med hver ti film
+       //         for (int j = 1; j > 11; j++)
+       //         {
+       //             // Vi laver en liste med IKKE-Normaliserede scores
+       //             newScore.Add(new DiscoverScore()
+       //             {
+       //                 Movie = new Movie()
+       //                 {
+       //                     movieId = j,
+       //                     _title = "Movie " + j
+       //                 },
+       //                 Score = j
+       //             });
 
-                    finalScoresResult.Add(new DiscoverScore()
-                    {
-                        Movie = new Movie()
-                        {
-                            movieId = j,
-                            _title = "Movie " + j
-                        },
-                        Score = j * 10
-                    });
-                }
+       //             finalScoresResult.Add(new DiscoverScore()
+       //             {
+       //                 Movie = new Movie()
+       //                 {
+       //                     movieId = j,
+       //                     _title = "Movie " + j
+       //                 },
+       //                 Score = j * 10
+       //             });
+       //         }
 
-                allScores.Add(newScore);
-                allScores.Add(newScore);
-                allScores.Add(newScore);
+       //         allScores.Add(newScore);
+       //         allScores.Add(newScore);
+       //         allScores.Add(newScore);
 
-            }
+       //     }
 
 
-            // ARRANGE
-            FilterVisitor uut = new FilterVisitor(allScores, finalScores);
-            Filters filters = new Filters(inputMovies, Shortlist);
+       //     // ARRANGE
+       //     FilterVisitor uut = new FilterVisitor(allScores, finalScores);
+       //     Filters filters = new Filters(inputMovies, Shortlist);
 
-            // ACT
-            uut.visit(filters);
+       //     // ACT
+       //     uut.visit(filters);
 
-            // ASSERT
-            //Assert.That(uut.GetType(), Is.TypeOf<Movie>());
+       //     // ASSERT
+       //     //Assert.That(uut.GetType(), Is.TypeOf<Movie>());
 
-        }
+       // }
 
 
 
