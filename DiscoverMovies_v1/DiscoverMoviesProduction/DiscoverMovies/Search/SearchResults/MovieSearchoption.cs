@@ -30,23 +30,19 @@ namespace DiscoverMoviesProduction.Search.SearchResults
         public string Nameattribute
         {
             get { return _nameattribute; }
-            set { _nameattribute = value; }
         }
 
         public string Genreattribute
         {
             get { return _genreidattribute; }
-            set { _genreidattribute = value; }
         }
         public string Yearattribute
         {
             get { return _yearattribute; }
-            set { _yearattribute = value; }
         }
         public string Searchattribute
         {
             get { return _searchattribute; }
-            set { _searchattribute = value; }
         }
 
         public List<Movie> SearchInput()
