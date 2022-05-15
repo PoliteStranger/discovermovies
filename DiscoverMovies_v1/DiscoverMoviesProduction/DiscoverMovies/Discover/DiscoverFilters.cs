@@ -103,7 +103,11 @@ namespace DiscoverMoviesProduction
                         score = score + genreCounted.Find(x => x.Id == genre._genreId).Count;
                     }
                 }
-                discoverScores.Add(new DiscoverScore(_Movie, score));
+                if(score != 0) // Vi vil kun se film som faktisk HAR fået en score.
+                {
+                    discoverScores.Add(new DiscoverScore(_Movie, score));
+
+                }
             }
 
             // Sortere og printer scores:
