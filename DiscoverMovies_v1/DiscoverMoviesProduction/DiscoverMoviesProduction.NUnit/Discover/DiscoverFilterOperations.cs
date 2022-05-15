@@ -21,33 +21,7 @@ namespace DiscoverMoviesProduction.NUnit
         [SetUp]
         public void Setup()
         {
-            // TIL TEST AF NORMALIZING
 
-            // Lav STUBs til Normaliseringsfunktionen
-            for (int i = 1; i > 11; i++)
-            {
-                // Vi laver en liste med IKKE-Normaliserede scores
-                ScoresList.Add(new DiscoverScore()
-                {
-                    Movie = new Movie()
-                    {
-                        movieId = i,
-                        _title = "Movie " + i
-                    },
-                    Score = i
-                });
-
-                // Vi laver en tilsvarende liste MED normaliserede scores
-                ScoresListResult.Add(new DiscoverScore()
-                {
-                    Movie = new Movie()
-                    {
-                        movieId = i,
-                        _title = "Movie " + i
-                    },
-                    Score = 10/i
-                });
-            }
 
             // Til test af Adding Scores
 
@@ -93,13 +67,41 @@ namespace DiscoverMoviesProduction.NUnit
 
         #region-NORMALZING SCORES
 
+        // TIL TEST AF NORMALIZING
         [Test]
         public void TestNormalizing()
         {
-            // Vi normalisere scores på den ikke-normaliserede
+
+            // Lav STUBs til Normaliseringsfunktionen
+            for (int i = 1; i > 11; i++)
+            {
+                // Vi laver en liste med IKKE-Normaliserede scores
+                ScoresList.Add(new DiscoverScore()
+                {
+                    Movie = new Movie()
+                    {
+                        movieId = i,
+                        _title = "Movie " + i
+                    },
+                    Score = i
+                });
+
+                // Vi laver en tilsvarende liste MED normaliserede scores
+                ScoresListResult.Add(new DiscoverScore()
+                {
+                    Movie = new Movie()
+                    {
+                        movieId = i,
+                        _title = "Movie " + i
+                    },
+                    Score = 10 / i
+                });
+            }
+
+            // ACT, Vi normalisere scores på den ikke-normaliserede
             NormalizingScores.Normalize(ScoresList);
 
-            // og sammenligner så de normaliserede lister
+            // ASSERT, sammenligner så de normaliserede lister
             Assert.AreEqual(ScoresList, ScoresListResult);
         }
 
