@@ -1,6 +1,7 @@
 ﻿using System.Collections;
+using DiscoverMoviesProduction;
 
-namespace ASP_Web_Bootstrap.Search.SearchResults
+namespace DiscoverMoviesProduction.Search.SearchResults
 {
     public class MovieSearchoption : ISearch
     {

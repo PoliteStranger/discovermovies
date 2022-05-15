@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ASP_Web_Bootstrap;
+using DiscoverMoviesProduction;
 using NSubstitute;
 using NUnit.Framework;
-using ASP_Web_Bootstrap.Search.Init;
-using ASP_Web_Bootstrap.Search.SearchResults;
+using DiscoverMoviesProduction.Search.Init;
+using DiscoverMoviesProduction.Search.SearchResults;
 
 namespace DiscoverMoviesProduction.NUnit
 {

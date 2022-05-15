@@ -1,8 +1,6 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
-using ASP_Web_Bootstrap;
 using Microsoft.EntityFrameworkCore;
-using AcquireDB_EFcore.Tables;
 
 namespace DiscoverMoviesProduction
 {

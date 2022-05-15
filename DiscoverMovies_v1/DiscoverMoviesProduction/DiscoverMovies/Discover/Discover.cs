@@ -1,8 +1,6 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
-using ASP_Web_Bootstrap;
 using Microsoft.EntityFrameworkCore;
-using AcquireDB_EFcore.Tables;
 using Newtonsoft.Json;
 
 namespace DiscoverMoviesProduction
@@ -153,7 +151,7 @@ namespace DiscoverMoviesProduction
             Filters filters = new Filters(inputMovies, shortList);
 
             // Opret filter visitor, som vil gennemløbe alle filtre:
-            FilterVisitor newFilterVisitor = new FilterVisitor();
+            FilterVisitor newFilterVisitor = new FilterVisitor(new List<List<DiscoverScore>>(), new List<DiscoverScore>());
 
             // Sæt processen igang:
             filters.accept(newFilterVisitor);

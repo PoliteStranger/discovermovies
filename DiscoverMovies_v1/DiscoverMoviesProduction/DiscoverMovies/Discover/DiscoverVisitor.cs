@@ -1,8 +1,6 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
-using ASP_Web_Bootstrap;
 using Microsoft.EntityFrameworkCore;
-using AcquireDB_EFcore.Tables;
 
 namespace DiscoverMoviesProduction
 {
@@ -27,11 +25,16 @@ namespace DiscoverMoviesProduction
     public class FilterVisitor : IFilterVisitor
     {
 
-        List<List<DiscoverScore>> AllScores = new List<List<DiscoverScore>>();
-        List<DiscoverScore> FinalScores = new List<DiscoverScore>();
+        List<List<DiscoverScore>> AllScores;
+        List<DiscoverScore> FinalScores;
 
         public Movie FinalResult { get; set; }
 
+        public FilterVisitor(List<List<DiscoverScore>> allScores, List<DiscoverScore> finalScores)
+        {
+            AllScores = allScores;
+            FinalScores = finalScores;
+        }
 
         public void visit(Filters filters)
         {
@@ -45,7 +48,12 @@ namespace DiscoverMoviesProduction
             Console.WriteLine("Final scores:");
             Console.WriteLine("-------------------------------------------------");
 
-            List<DiscoverScore> finalScore = FinalScores.OrderByDescending(x => x.Score).ToList().GetRange(0, 10).ToList();
+            Console.WriteLine("FinalScores: " + FinalScores.Count());
+
+            int range = 10;
+            if (FinalScores.Count() < 10) range = FinalScores.Count();
+
+            List<DiscoverScore> finalScore = FinalScores.OrderByDescending(x => x.Score).ToList().GetRange(0, range).ToList();
             foreach (var score in finalScore)
             {
                 Console.WriteLine(score.Movie._title + ": " + score.Score.ToString("0.00") + " - " + score.Movie._popularity);

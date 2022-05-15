@@ -6,7 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
+namespace DiscoverMoviesProduction
+{
     public class Employment
     {
         [Key]
@@ -24,4 +25,4 @@ using System.Threading.Tasks;
         public string? _character { get; set; }
 
     }
-
+}

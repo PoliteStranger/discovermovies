@@ -33,6 +33,16 @@ namespace DiscoverMoviesProduction.NUnit
             Shortlist = DiscoverFilterData.GetJsonMovies("../../../JsonStubs/5InputMoviesReturn");
 
 
+ 
+
+
+
+        }
+
+        //TESTER at der kommer en film ud af Visitoren
+       [Test]
+        public void TestDiscoverOutput()
+        {
             // Ti lister
             for (int i = 1; i > 11; i++)
             {
@@ -64,28 +74,23 @@ namespace DiscoverMoviesProduction.NUnit
                 }
 
                 allScores.Add(newScore);
+                allScores.Add(newScore);
+                allScores.Add(newScore);
 
             }
 
 
+            // ARRANGE
+            FilterVisitor uut = new FilterVisitor(allScores, finalScores);
+            Filters filters = new Filters(inputMovies, Shortlist);
+
+            // ACT
+            uut.visit(filters);
+
+            // ASSERT
+            //Assert.That(uut.GetType(), Is.TypeOf<Movie>());
 
         }
-
-        // TESTER at der kommer en film ud af Visitoren
-        //[Test]
-        //public void TestDiscoverOutput()
-        //{
-        //    // ARRANGE
-        //    FilterVisitor uut = new FilterVisitor();
-        //    Filters filters = new Filters(inputMovies, Shortlist);
-
-        //    // ACT
-        //    uut.visit(filters);
-
-        //    // ASSERT
-        //    Assert.That(uut.GetType(), Is.TypeOf<Movie>());
-
-        //}
 
 
 

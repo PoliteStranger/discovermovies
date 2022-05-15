@@ -1,6 +1,6 @@
-﻿using static ASP_Web_Bootstrap.Pages.IndexModel;
+﻿using static DiscoverMoviesProduction.Pages.IndexModel;
 
-namespace ASP_Web_Bootstrap.Search.SearchResults
+namespace DiscoverMoviesProduction.Search.SearchResults
 {
     public interface ISearch
     {

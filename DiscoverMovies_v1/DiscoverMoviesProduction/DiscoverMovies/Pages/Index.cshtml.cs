@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using AcquireDB_EFcore.Tables;
-using ASP_Web_Bootstrap.Search.Init;
-using ASP_Web_Bootstrap.Search.SearchResults;
+using DiscoverMoviesProduction;
+
+using DiscoverMoviesProduction.Search.Init;
+using DiscoverMoviesProduction.Search.SearchResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ASP_Web_Bootstrap.Pages
+namespace DiscoverMoviesProduction.Pages
 {
     public class IndexModel : PageModel
     {
