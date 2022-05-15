@@ -8,58 +8,9 @@ namespace DiscoverMoviesProduction.NUnit
     public class DiscoverFilterOperations
     {
 
-        // Original score liste
-        public List<DiscoverScore> ScoresList = new List<DiscoverScore>();
-        public List<DiscoverScore> ScoresListResult = new List<DiscoverScore>();
-
-        // TIL TEST AF ADDING SCORES
-        public List<List<DiscoverScore>> allScores = new List<List<DiscoverScore>>();
-        public List<DiscoverScore> finalScores = new List<DiscoverScore>();
-        public List<DiscoverScore> finalScoresResult = new List<DiscoverScore>();
-
-
         [SetUp]
         public void Setup()
         {
-
-
-            // Til test af Adding Scores
-
-            // Ti lister
-            for (int i = 1; i > 11; i++)
-            {
-                List<DiscoverScore> newScore = new List<DiscoverScore>();
-
-                // med hver ti film
-                for (int j = 1; j > 11; j++)
-                {
-                    // Vi laver en liste med IKKE-Normaliserede scores
-                    newScore.Add(new DiscoverScore()
-                    {
-                        Movie = new Movie()
-                        {
-                            movieId = j,
-                            _title = "Movie " + j
-                        },
-                        Score = j
-                    });
-
-                    finalScoresResult.Add(new DiscoverScore()
-                    {
-                        Movie = new Movie()
-                        {
-                            movieId = j,
-                            _title = "Movie " + j
-                        },
-                        Score = j*10
-                    });
-                }
-
-                allScores.Add(newScore);
-
-            }
-
-            // Til Console Print
 
 
 
@@ -69,40 +20,33 @@ namespace DiscoverMoviesProduction.NUnit
 
         // TIL TEST AF NORMALIZING
         [Test]
-        public void TestNormalizing()
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(2)]
+        public void TestNormalizing(int idNum)
         {
+            // ARRANGE
 
-            // Lav STUBs til Normaliseringsfunktionen
-            for (int i = 1; i > 11; i++)
-            {
-                // Vi laver en liste med IKKE-Normaliserede scores
-                ScoresList.Add(new DiscoverScore()
-                {
-                    Movie = new Movie()
-                    {
-                        movieId = i,
-                        _title = "Movie " + i
-                    },
-                    Score = i
-                });
+            // Scoreliste uden og med endelige resultater
+            List<DiscoverScore> ScoresList = new List<DiscoverScore>();
+            List<DiscoverScore> ScoresListResult = new List<DiscoverScore>();
 
-                // Vi laver en tilsvarende liste MED normaliserede scores
-                ScoresListResult.Add(new DiscoverScore()
-                {
-                    Movie = new Movie()
-                    {
-                        movieId = i,
-                        _title = "Movie " + i
-                    },
-                    Score = 10 / i
-                });
-            }
+            // originale scores
+            ScoresList.Add(new DiscoverScore() { Movie = new Movie() { movieId = 1, _title = "Movie " + 1 }, Score = 1 });
+            ScoresList.Add(new DiscoverScore() { Movie = new Movie() { movieId = 2, _title = "Movie " + 2 }, Score = 2 });
+            ScoresList.Add(new DiscoverScore() { Movie = new Movie() { movieId = 3, _title = "Movie " + 3 }, Score = 3 });
+
+            // endelige resultater
+            ScoresListResult.Add(new DiscoverScore() { Movie = new Movie() { movieId = 1, _title = "Movie " + 1 }, Score = 0.5 });
+            ScoresListResult.Add(new DiscoverScore() { Movie = new Movie() { movieId = 2, _title = "Movie " + 2 }, Score = 1 });
+            ScoresListResult.Add(new DiscoverScore() { Movie = new Movie() { movieId = 3, _title = "Movie " + 3 }, Score = 1.5 });
+
 
             // ACT, Vi normalisere scores på den ikke-normaliserede
             NormalizingScores.Normalize(ScoresList);
 
-            // ASSERT, sammenligner så de normaliserede lister
-            Assert.AreEqual(ScoresList, ScoresListResult);
+            // ASSERT, sammenligner så værdierne i listerne:
+            Assert.AreEqual(ScoresListResult.ToArray()[idNum].Score, ScoresList.ToArray()[idNum].Score);
         }
 
         #endregion
@@ -111,15 +55,45 @@ namespace DiscoverMoviesProduction.NUnit
 
         // TESTING OUTPUT, Addere den scores korrekt?
         [Test]
-        public void TestAddingScores()
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(2)]
+        public void TestAddingScores(int idNum)
         {
-            // ARRANGE, ACT
+            // ARRANGE
+            // TIL TEST AF ADDING SCORES
+            List<List<DiscoverScore>> allScores = new List<List<DiscoverScore>>();
+            List<DiscoverScore> finalScores = new List<DiscoverScore>();
+            List<DiscoverScore> finalScoresResult;
+
+            // originale scores, tilføjer 2 sæt scores
+            allScores.Add(
+                new List<DiscoverScore>() { 
+                    new DiscoverScore() { Movie = new Movie() { movieId = 1, _title = "Movie " + 1 }, Score = 1 } ,
+                    new DiscoverScore() { Movie = new Movie() { movieId = 2, _title = "Movie " + 2 }, Score = 2 } ,
+                    new DiscoverScore() { Movie = new Movie() { movieId = 3, _title = "Movie " + 3 }, Score = 3 } ,
+                });
+            allScores.Add(
+                new List<DiscoverScore>() {
+                    new DiscoverScore() { Movie = new Movie() { movieId = 1, _title = "Movie " + 1 }, Score = 1 } ,
+                    new DiscoverScore() { Movie = new Movie() { movieId = 2, _title = "Movie " + 2 }, Score = 2 } ,
+                    new DiscoverScore() { Movie = new Movie() { movieId = 3, _title = "Movie " + 3 }, Score = 3 } ,
+                });
+
+            // Vi lægger de manuelt sammenlagte scores ind
+            finalScoresResult = new List<DiscoverScore>() {
+                    new DiscoverScore() { Movie = new Movie() { movieId = 1, _title = "Movie " + 1 }, Score = 2 } ,
+                    new DiscoverScore() { Movie = new Movie() { movieId = 2, _title = "Movie " + 2 }, Score = 4 } ,
+                    new DiscoverScore() { Movie = new Movie() { movieId = 3, _title = "Movie " + 3 }, Score = 6 } ,
+                };
+
+            // ACT
             // Vi tæller alle scores op fra allScores, og lægger resultatet ind i finalScores
             AddingScores.AddScores(allScores, finalScores);
-            
+
             // ASSERT
-            // og sammenligner så listerne med en korrekt Stub.
-            Assert.AreEqual(finalScores, finalScoresResult);
+            // og sammenligner så listerne.
+            Assert.AreEqual(finalScoresResult.ToArray()[idNum].Score, finalScores.ToArray()[idNum].Score);
         }
 
 
