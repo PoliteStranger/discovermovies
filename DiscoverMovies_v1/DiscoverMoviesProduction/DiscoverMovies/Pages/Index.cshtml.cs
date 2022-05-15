@@ -84,9 +84,6 @@ namespace DiscoverMoviesProduction.Pages
             initsoegning.initYear(Year);
             TheOriginaleGenres = initsoegning.initGenre();
 
-
-
-
             ResolveSearch resolveSearch = new ResolveSearch();
 
             MovieSearchoption film = new MovieSearchoption();

@@ -4,20 +4,52 @@
     {
         private List<Movie> templiste = new List<Movie>();
 
-        private string nameattribute;
-        private string genreidattribute;
-        private string yearattribute;
-        private string searchattribute;
+        private string _nameattribute;
+        private string _genreidattribute;
+        private string _yearattribute;
+        private string _searchattribute;
 
-        public bool Setattributes(string theinputName, string theinputGenreID, string theinputYear,
+        public void Setattributes(string theinputName, string theinputGenreID, string theinputYear,
             string theinputSearchtype)
         {
-            nameattribute = theinputName;
-            genreidattribute = theinputGenreID;
-            yearattribute = theinputYear;
-            searchattribute = theinputSearchtype;
+            _nameattribute = theinputName;
+            _genreidattribute = theinputGenreID;
+            _yearattribute = theinputYear;
+            _searchattribute = theinputSearchtype;
 
-            return true;
+            if (theinputSearchtype=="Person")
+            {
+                _nameattribute = theinputName;
+                _genreidattribute = theinputGenreID;
+                _yearattribute = theinputYear;
+                _searchattribute = theinputSearchtype;
+            }
+            else
+            {
+                throw new NullReferenceException();
+            }
+        }
+
+        public string Nameattribute
+        {
+            get { return _nameattribute; }
+            set { _nameattribute = value; }
+        }
+
+        public string Genreattribute
+        {
+            get { return _genreidattribute; }
+            set { _genreidattribute = value; }
+        }
+        public string Yearattribute
+        {
+            get { return _yearattribute; }
+            set { _yearattribute = value; }
+        }
+        public string Searchattribute
+        {
+            get { return _searchattribute; }
+            set { _searchattribute = value; }
         }
 
         public List<Movie> SearchInput()
@@ -34,13 +66,12 @@
                              join g in db.Genres
                              on gm._genreId equals g._genreId
 
-                             where (p._Personname.Contains(nameattribute) || nameattribute == "")
-                             && (genreidattribute == "0" || gm._genreId == Int32.Parse(genreidattribute))
-                             && (m._releaseDate.Value.Year == Int32.Parse(yearattribute) || yearattribute == "0")
-                             && (searchattribute == "Person" || searchattribute == "")
+                             where (_nameattribute == ""  || p._Personname.Contains(_nameattribute))
+                             && (_genreidattribute == "0" || gm._genreId == Int32.Parse(_genreidattribute))
+                             && (m._releaseDate.Value.Year == Int32.Parse(_yearattribute) || _yearattribute == "0")
+                             && (_searchattribute == "Person" || _searchattribute == "")
                              select m
                             ).ToList().Distinct(); // til liste og fjerner samtidig duplikater.
-
                 return query.ToList();
             }
         }

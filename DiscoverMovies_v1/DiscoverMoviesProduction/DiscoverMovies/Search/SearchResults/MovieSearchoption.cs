@@ -5,29 +5,52 @@ namespace DiscoverMoviesProduction.Search.SearchResults
 {
     public class MovieSearchoption : ISearch
     {
-        private string nameattribute;
-        private string genreidattribute;
-        private string yearattribute;
-        private string searchattribute;
+        private string _nameattribute;
+        private string _genreidattribute;
+        private string _yearattribute;
+        private string _searchattribute;
 
-        public bool Setattributes(string theinputName, string theinputGenreID, string theinputYear,
+        public void Setattributes(string theinputName, string theinputGenreID, string theinputYear,
             string theinputSearchtype)
         {
-            nameattribute = theinputName;
-            genreidattribute = theinputGenreID;
-            yearattribute = theinputYear;
-            searchattribute = theinputSearchtype;
 
-            return true;
+            if (theinputSearchtype=="Movie")
+            {
+                _nameattribute = theinputName;
+                _genreidattribute = theinputGenreID;
+                _yearattribute = theinputYear;
+                _searchattribute = theinputSearchtype;
+            }
+            else
+            {
+                throw new NullReferenceException();
+            }
+        }
+
+        public string Nameattribute
+        {
+            get { return _nameattribute; }
+            set { _nameattribute = value; }
+        }
+
+        public string Genreattribute
+        {
+            get { return _genreidattribute; }
+            set { _genreidattribute = value; }
+        }
+        public string Yearattribute
+        {
+            get { return _yearattribute; }
+            set { _yearattribute = value; }
+        }
+        public string Searchattribute
+        {
+            get { return _searchattribute; }
+            set { _searchattribute = value; }
         }
 
         public List<Movie> SearchInput()
         {
-            Console.WriteLine(nameattribute);
-            Console.WriteLine(genreidattribute);
-            Console.WriteLine(yearattribute);
-            Console.WriteLine(searchattribute);
-
             using (var db = new MyDbContext())
             {
                 var query = (from m in db.Movies
@@ -35,17 +58,15 @@ namespace DiscoverMoviesProduction.Search.SearchResults
                              on m.movieId equals gm._movieId
                              join g in db.Genres
                              on gm._genreId equals g._genreId
-                             where (m._title.Contains(nameattribute) || nameattribute == "")
-                             && (genreidattribute == "0" || gm._genreId == Int32.Parse(genreidattribute))
-                             && (m._releaseDate.Value.Year == Int32.Parse(yearattribute) || yearattribute == "0")
-                             && (searchattribute == "Movie" || searchattribute == "")
+                             where _nameattribute == "" || (m._title.Contains(_nameattribute))
+                                   && (_genreidattribute == "0" || gm._genreId == Int32.Parse(_genreidattribute))
+                                   && (m._releaseDate.Value.Year == Int32.Parse(_yearattribute) || _yearattribute == "0")
+                                   && (_searchattribute == "Movie" || _searchattribute == "")
                              select m
                     ).ToList().Distinct();
 
                 return query.ToList();
-
             }
         }
-
     }
 }

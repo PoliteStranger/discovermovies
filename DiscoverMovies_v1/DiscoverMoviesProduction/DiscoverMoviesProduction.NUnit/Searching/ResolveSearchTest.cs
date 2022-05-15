@@ -27,7 +27,9 @@ namespace DiscoverMoviesProduction.NUnit
         [Test]
         [TestCase("", "", "", "Movie", "MovieSearch")]
         [TestCase("", "", "", "Person", "PersonSearch")]
-        public void TestMovieSearchInput(string Name, string GenreID, string Year, string Searchtype, string resultString)
+        [TestCase("", "", "", "0", "NullSearch")]
+
+        public void TestSearchInputsLogic(string Name, string GenreID, string Year, string Searchtype, string resultString)
         {
             // ARRANGE
             ResolveSearch uut = new ResolveSearch();
@@ -46,13 +48,23 @@ namespace DiscoverMoviesProduction.NUnit
                 }
             });
 
-            // Kun til Movie Search
+            // Kun til Person Search
             MockPersonSearch.Setup(x => x.SearchInput()).Returns(new List<Movie>()
             {
                 new Movie()
                 {
                     movieId = 1,
                     _title = "PersonSearch",
+                }
+            });
+
+            // Kun til null Search
+            MockNullSearch.Setup(x => x.SearchInput()).Returns(new List<Movie>()
+            {
+                new Movie()
+                {
+                    movieId = 1,
+                    _title = "NullSearch",
                 }
             });
 
@@ -63,14 +75,10 @@ namespace DiscoverMoviesProduction.NUnit
             returnMovieList = uut.Resolve(Name, GenreID, Year, Searchtype, MockMovieSearch.Object, MockPersonSearch.Object, MockNullSearch.Object);
 
             // ASSERT
-
             Assert.That(returnMovieList.ToArray()[0]._title, Is.EqualTo(resultString));
-
-
         }
 
-
-
+        
 
 
         //[Test]
