@@ -40,10 +40,10 @@ namespace DiscoverMoviesProduction
                 foreach (var movieScore in scoreList)
                 {
                     // Tjek om filmen allerede findes på listen
-                    if (finalScores.Any(x => x.Movie == movieScore.Movie))
+                    if (finalScores.Any(x => x.Movie.movieId == movieScore.Movie.movieId))
                     {
                         // Brug nuværende film, og føj til score
-                        finalScores.Find(x => x.Movie == movieScore.Movie).Score += movieScore.Score;
+                        finalScores.Find(x => x.Movie.movieId == movieScore.Movie.movieId).Score += movieScore.Score;
                     }
                     else
                     {
