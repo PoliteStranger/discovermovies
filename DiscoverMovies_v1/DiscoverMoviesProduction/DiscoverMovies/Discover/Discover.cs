@@ -105,7 +105,6 @@ namespace DiscoverMoviesProduction
         // De fem film valgt inde på Discover siden.
         public List<Movie> inputMovies;
 
-        public DiscoverIntsToMovies IntsToMovies = new DiscoverIntsToMovies();
 
 
         // Vi holder styr på hvor lang tid at Discover tager at beregne/hente data!
@@ -119,7 +118,7 @@ namespace DiscoverMoviesProduction
         /// </summary>
         /// <param name="inputMovieInts"></param>
         /// <returns></returns>
-        public Movie DiscoverMovies(List<int> inputMovieInts, IDiscoverDB getDB)
+        public Movie DiscoverMovies(List<int> inputMovieInts, IDiscoverDB getDB, IDiscoverInputMovies InputMoviesObj)
         {
             IDiscoverDB db = getDB;
 
@@ -127,7 +126,9 @@ namespace DiscoverMoviesProduction
             timer.StartTimer();
 
             // læg input movies over i den variabel som vi arbejder med.
-            inputMovies = IntsToMovies.GetInputMovies(inputMovieInts);
+            IDiscoverInputMovies obj = InputMoviesObj;
+            
+            List<Movie> inputMovies = obj.GetInputMovies(inputMovieInts);
 
 
             Console.WriteLine("Henter alle skuespillere involveret:");

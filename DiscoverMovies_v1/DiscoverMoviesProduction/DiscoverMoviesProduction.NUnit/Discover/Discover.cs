@@ -56,6 +56,7 @@ namespace DiscoverMoviesProduction.NUnit
             // ARRANGE
             DiscoverMoviesProduction.Discover uut = new DiscoverMoviesProduction.Discover();
             var MockDiscoverDB = new Mock<IDiscoverDB>();
+            var MockDiscoverIntsToMovies = new Mock<IDiscoverInputMovies>();
 
             Console.WriteLine("Person count: " + persons.Count);
             Console.WriteLine("ShortList count: " + Shortlist.Count);
@@ -65,9 +66,11 @@ namespace DiscoverMoviesProduction.NUnit
             MockDiscoverDB.Setup(x => x.GetPeople(It.IsAny<List<int>>())).Returns(persons);
             MockDiscoverDB.Setup(z => z.GetMovies(It.IsAny<List<int>>())).Returns(Shortlist);
 
+            MockDiscoverIntsToMovies.Setup(y => y.GetInputMovies(movieInts)).Returns(inputMovies);
+
 
             // ACT
-            Movie newMovie = uut.DiscoverMovies(movieInts, MockDiscoverDB.Object);
+            Movie newMovie = uut.DiscoverMovies(movieInts, MockDiscoverDB.Object, MockDiscoverIntsToMovies.Object);
 
             // ASSERT
             Assert.That(newMovie, Is.Not.Null);
