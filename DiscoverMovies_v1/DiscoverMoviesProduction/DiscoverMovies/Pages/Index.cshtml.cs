@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using AcquireDB_EFcore.Tables;
-using ASP_Web_Bootstrap.Search.Init;
-using ASP_Web_Bootstrap.Search.SearchResults;
+using DiscoverMoviesProduction;
+using DiscoverMoviesProduction.Search;
+using DiscoverMoviesProduction.Search.Init;
+using DiscoverMoviesProduction.Search.SearchResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ASP_Web_Bootstrap.Pages
+namespace DiscoverMoviesProduction.Pages
 {
     public class IndexModel : PageModel
     {
@@ -66,7 +67,7 @@ namespace ASP_Web_Bootstrap.Pages
             using (var db = new MyDbContext())
             {
                 //en counter på, da jeg ikke vil hente ALLE film (1500+!!!) + mere !!!!!!!
-                int i = 0;
+                //int i = 0;
                 // Vi gennemgår listen af film fra databasen
                 foreach (Movie movie in db.Movies.Skip(moviesPerPage * PageNum).Take(moviesPerPage).ToList())
                 {
@@ -85,28 +86,17 @@ namespace ASP_Web_Bootstrap.Pages
             initsoegning.initSearchOption(Soegninger);
             initsoegning.initYear(Year);
             TheOriginaleGenres = initsoegning.initGenre();
-            var db = new MyDbContext();
 
-            if (theinput.Searchtype == "Movie")
-            {
-                ISearch filmsoegning = new MovieSearchoption();
-                MovieList = filmsoegning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype);
-            }
+            ResolveSearch resolveSearch = new ResolveSearch();
 
-            else if (theinput.Searchtype == "Person")
-            {
-                ISearch filmsoegning = new PersonSearchoption();
-                MovieList = filmsoegning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype );
-            }
+            MovieSearchoption film = new MovieSearchoption();
+            PersonSearchoption person = new PersonSearchoption();
+            NullSearchoption nul = new NullSearchoption();
 
-            else if (theinput.Searchtype == "0")
-            {
-                Console.WriteLine("tjek");
-                ISearch filmsoegning = new NullSearchoption();
-                MovieList = filmsoegning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype );
-                Console.WriteLine("tjek2");
+            MovieList = resolveSearch.Resolve(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype, film, person, nul);
 
-            }
+
+
             return Page();
         }
 

@@ -1,6 +1,7 @@
-﻿using AcquireDB_EFcore.Tables;
+﻿using DiscoverMoviesProduction;
 
-namespace ASP_Web_Bootstrap.Search.Init
+
+namespace DiscoverMoviesProduction.Search.Init
 {
     public interface Iinitializer
     {

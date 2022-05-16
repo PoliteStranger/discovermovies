@@ -1,9 +1,10 @@
-﻿using static ASP_Web_Bootstrap.Pages.IndexModel;
+﻿using static DiscoverMoviesProduction.Pages.IndexModel;
 
-namespace ASP_Web_Bootstrap.Search.SearchResults
+namespace DiscoverMoviesProduction.Search.SearchResults
 {
     public interface ISearch
     {
-        public List<Movie> SearchInput(string theinputName, string theinputGenreID, string theinputYear, string theinputSearchtype);
+        public void Setattributes(string theinputName, string theinputGenreID, string theinputYear, string theinputSearchtype);
+        public List <Movie> SearchInput();
     }
 }

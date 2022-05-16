@@ -6,7 +6,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace ASP_Web_Bootstrap.Pages
+namespace DiscoverMoviesProduction.Pages
 {
     public class DiscoverModel : PageModel
     {
@@ -110,7 +110,7 @@ namespace ASP_Web_Bootstrap.Pages
             Discover discover = new Discover();
 
             //perform algorithm
-            return discover.DiscoverMovies(idList);
+            return discover.DiscoverMovies(idList, new DiscoverDB(), new DiscoverIntsToMovies());
 
         }
 

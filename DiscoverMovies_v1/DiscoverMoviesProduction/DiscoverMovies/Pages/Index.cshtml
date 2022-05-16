@@ -1,4 +1,6 @@
 ﻿@page "/{PageNum:int?}/"
+@using DiscoverMoviesProduction.Pages;
+@using DiscoverMoviesProduction;
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
@@ -22,16 +24,12 @@
           
               <div class="ui-widget">
                   <label asp-for="theinput.Name"></label>
-                  <input id="search-field" class="form-control" asp-for="theinput.Name" />
+                  <input id="search-field" placeholder="For Search Select SearchOption" class="form-control" asp-for="theinput.Name" />
               </div>
 
               <select id="Select2" asp-items="@(new SelectList(Model.Soegninger))" asp-for="theinput.Searchtype">
                   <option value="0">Search Option</option>
               </select>
-              
-              @* <select id="Select2" asp-items="@(new SelectList(Model.TheOriginaleGenres, "_genreId","_Genrename"))" asp-for="theinput.GenreID">
-                   <option value="" selected disabled> -- Select genre --</option>
-              </select>*@
 
               <select id="Select3" asp-items="@(new SelectList(Model.TheOriginaleGenres, "_genreId","_Genrename"))" asp-for="theinput.GenreID">
                   <option value="0"> Select genre </option>

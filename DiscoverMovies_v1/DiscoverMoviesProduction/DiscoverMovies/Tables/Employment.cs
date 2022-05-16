@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AcquireDB_EFcore.Tables
+namespace DiscoverMoviesProduction
 {
     public class Employment
     {
