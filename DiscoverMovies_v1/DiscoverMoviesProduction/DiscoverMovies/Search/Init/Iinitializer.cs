@@ -6,6 +6,6 @@ namespace ASP_Web_Bootstrap.Search.Init
     {
         public void initSearchOption(List<string> soegningsliste);
         public void initYear(List<int> yearliste);
-        public List<Genres> initGenre(List<Genres> liste);
+        public List<Genres> initGenre();
     }
 }

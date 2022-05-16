@@ -18,11 +18,11 @@
 
       <p><form method="post">
           <div class="form-group">
+          <p><b>Search Field</b></p>
           
               <div class="ui-widget">
-                  <label> Searchfield</label>
-@*                  <label asp-for="theinput.Name"></label>
-*@                  <input id="search-field" placeholder="For Search Select SearchOption" class="form-control" asp-for="theinput.Name"/>
+                  <label asp-for="theinput.Name"></label>
+                  <input id="search-field" class="form-control" asp-for="theinput.Name" placeholder="Select search option to use search bar"/>
               </div>
 
               <select id="Select2" asp-items="@(new SelectList(Model.Soegninger))" asp-for="theinput.Searchtype">
