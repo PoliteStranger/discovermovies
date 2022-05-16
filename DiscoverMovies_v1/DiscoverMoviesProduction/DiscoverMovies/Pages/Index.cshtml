@@ -22,7 +22,7 @@
           
               <div class="ui-widget">
                   <label asp-for="theinput.Name"></label>
-                  <input id="search-field" class="form-control" asp-for="theinput.Name" />
+                  <input id="search-field" class="form-control" asp-for="theinput.Name" placeholder="Select search option to use search bar"/>
               </div>
 
               <select id="Select2" asp-items="@(new SelectList(Model.Soegninger))" asp-for="theinput.Searchtype">
@@ -52,9 +52,9 @@
           <br/>
 
           <input type="submit" id="btnSubmit" value="Submit"/>
+         
           <input type="button" id="btnReset" value="Reset" onclick="Reset();"/>
           <p>Search result count: @Model.MovieList.Count</p>
-
           <script type="text/javascript">
               function Reset() 
               {
@@ -69,7 +69,25 @@
           </script>
 
       </form></p>
+<div class="row">
+    @{ 
+        int NextPageNum = Model.CurrentPageNumber + 1;
+        int PrevPageNum = 0;
+        if (Model.CurrentPageNumber > 0)
+        {
+            PrevPageNum = Model.CurrentPageNumber - 1;
+        }
+    }
 
+    <a type="button" href="/@PrevPageNum" class="col-4 text-center">
+       Previous Page
+    </a>
+    <p class="col-4 text-center">Current Page: @Model.CurrentPageNumber</p>
+    <a type="button" href="/@NextPageNum" class="col-4 text-center"> 
+        Next Page
+    </a>
+
+</div>
 <div class="row">
     @foreach(Movie movie in Model.MovieList)
     {
@@ -97,4 +115,15 @@
            Please try changing the search options, and check for misspelled words.
        </p>
    }
+    <div class="row">
+        
+        <a type="button" href="/@PrevPageNum" class="col-4 text-center">
+            Previous Page
+        </a>
+        <p class="col-4 text-center">Current Page: @Model.CurrentPageNumber</p>
+        <a type="button" href="/@NextPageNum" class="col-4 text-center"> 
+            Next Page
+        </a>
+
+    </div>
 </div>

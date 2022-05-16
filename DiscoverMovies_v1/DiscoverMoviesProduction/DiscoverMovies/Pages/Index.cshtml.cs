@@ -33,6 +33,8 @@ namespace ASP_Web_Bootstrap.Pages
         // Listen over film som skal vises men sorteres i før den bliver vist på en enkeltside:
         private List<Movie> templiste = new List<Movie>();
 
+        public int CurrentPageNumber;
+
         //number of movies loaded on each page
         private int moviesPerPage = 36;
 
@@ -54,13 +56,22 @@ namespace ASP_Web_Bootstrap.Pages
         // Når vi besøger forsiden får vi følgende:
         //public void OnGet(int size = 50, int no = 4)
 
-        public void OnGet(int PageNum)
+        public void OnGet(int? pageNum)
         {
             //dropdown menuer til søgning af film, personer, år, genre.
             initsoegning.initSearchOption(Soegninger);
             initsoegning.initYear(Year);
             TheOriginaleGenres = initsoegning.initGenre();
-            
+            if (pageNum != null)
+            {
+                CurrentPageNumber = pageNum.GetValueOrDefault();
+            }
+            else
+            {
+                CurrentPageNumber = 0;
+            }
+
+
 
             //loader med vores genres beskrevet i genres db
             using (var db = new MyDbContext())
@@ -68,7 +79,7 @@ namespace ASP_Web_Bootstrap.Pages
                 //en counter på, da jeg ikke vil hente ALLE film (1500+!!!) + mere !!!!!!!
                 int i = 0;
                 // Vi gennemgår listen af film fra databasen
-                foreach (Movie movie in db.Movies.Skip(moviesPerPage * PageNum).Take(moviesPerPage).ToList())
+                foreach (Movie movie in db.Movies.Skip(moviesPerPage * CurrentPageNumber).Take(moviesPerPage).ToList())
                 {
                     // og lægger dem over i listen over film som skal vises:
                     movieList.Add(movie);
@@ -79,34 +90,46 @@ namespace ASP_Web_Bootstrap.Pages
             }
         }
         
-        public IActionResult OnPost()
+        public IActionResult OnPost(int? pageNum)
         {
             //dropdown menuer til søgning af film, personer, år, genre.
             initsoegning.initSearchOption(Soegninger);
             initsoegning.initYear(Year);
             TheOriginaleGenres = initsoegning.initGenre();
+            pageNum = 0;
+            if (pageNum != null)
+            {
+                CurrentPageNumber = pageNum.GetValueOrDefault();
+            }
+            else
+            {
+                CurrentPageNumber = 0;
+            }
+            
             var db = new MyDbContext();
-
+            
             if (theinput.Searchtype == "Movie")
             {
                 ISearch filmsoegning = new MovieSearchoption();
-                MovieList = filmsoegning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype);
+                MovieList = filmsoegning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype).Skip(CurrentPageNumber*moviesPerPage).Take(moviesPerPage).ToList();
             }
 
             else if (theinput.Searchtype == "Person")
             {
                 ISearch filmsoegning = new PersonSearchoption();
-                MovieList = filmsoegning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype );
+                MovieList = filmsoegning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype).Skip(CurrentPageNumber * moviesPerPage).Take(moviesPerPage).ToList();
             }
 
             else if (theinput.Searchtype == "0")
             {
                 Console.WriteLine("tjek");
                 ISearch filmsoegning = new NullSearchoption();
-                MovieList = filmsoegning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype );
+                MovieList = filmsoegning.SearchInput(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype).Skip(CurrentPageNumber * moviesPerPage).Take(moviesPerPage).ToList();
                 Console.WriteLine("tjek2");
 
             }
+
+            
             return Page();
         }
 
