@@ -63,7 +63,10 @@ namespace DiscoverMoviesProduction.NUnit
             public void TestInitGenres()
             {
                 List<Genres> soegningsliste = new List<Genres>();
-                soegningsliste = søge.initGenre();
+
+                soegningsliste = søge.initGenre(soegningsliste);
+                
+                
                 Assert.That(soegningsliste.Count == 19);
             }
         }

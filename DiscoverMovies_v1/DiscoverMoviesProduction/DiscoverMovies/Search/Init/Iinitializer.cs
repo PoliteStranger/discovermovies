@@ -7,6 +7,6 @@ namespace DiscoverMoviesProduction.Search.Init
     {
         public void initSearchOption(List<string> soegningsliste);
         public void initYear(List<int> yearliste);
-        public List<Genres> initGenre();
+        public List<Genres> initGenre(List<Genres> liste);
     }
 }

@@ -55,7 +55,12 @@ namespace DiscoverMoviesProduction.Pages
             //dropdown menuer til søgning af film, personer, år, genre.
             initsoegning.initSearchOption(Soegninger);
             initsoegning.initYear(Year);
-            TheOriginaleGenres = initsoegning.initGenre();
+            List<Genres> liste = new List<Genres>();
+            liste = initsoegning.initGenre(liste);
+            TheOriginaleGenres = liste;
+            //TheOriginaleGenres = initsoegning.initGenre(liste);
+
+
 
             //loader med vores genres beskrevet i genres db
             using (var db = new MyDbContext())
@@ -79,18 +84,19 @@ namespace DiscoverMoviesProduction.Pages
             //dropdown menuer til søgning af film, personer, år, genre.
             initsoegning.initSearchOption(Soegninger);
             initsoegning.initYear(Year);
-            TheOriginaleGenres = initsoegning.initGenre();
+            //TheOriginaleGenres = initsoegning.initGenre();
+
+            List<Genres> liste = new List<Genres>();
+            liste = initsoegning.initGenre(liste);
+            TheOriginaleGenres = liste;
 
             ResolveSearch resolveSearch = new ResolveSearch();
-
             MovieSearchoption film = new MovieSearchoption();
             PersonSearchoption person = new PersonSearchoption();
             NullSearchoption nul = new NullSearchoption();
 
             MovieList = resolveSearch.Resolve(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype, film, person, nul);
-
-
-
+            
             return Page();
         }
 
