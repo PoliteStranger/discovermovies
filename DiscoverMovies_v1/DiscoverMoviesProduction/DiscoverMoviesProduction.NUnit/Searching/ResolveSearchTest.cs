@@ -1,15 +1,8 @@
 using System.Collections.Generic;
-using System.Linq;
-using DiscoverMoviesProduction;
-using NSubstitute;
 using NUnit.Framework;
-using DiscoverMoviesProduction.Search.Init;
 using DiscoverMoviesProduction.Search.SearchResults;
 using DiscoverMoviesProduction.Search;
 using Moq;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 
 namespace DiscoverMoviesProduction.NUnit
 {

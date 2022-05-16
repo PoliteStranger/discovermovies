@@ -32,9 +32,6 @@ namespace DiscoverMoviesProduction.Pages
         // Listen over film som skal vises på en enkelt side:
         private List<Movie> movieList = new List<Movie>();
 
-        // Listen over film som skal vises men sorteres i før den bliver vist på en enkeltside:
-        private List<Movie> templiste = new List<Movie>();
-
         // Den bindes, så vi kan tilgå den inde fra vores Razor page
         [BindProperty]
         public List<Movie> MovieList
