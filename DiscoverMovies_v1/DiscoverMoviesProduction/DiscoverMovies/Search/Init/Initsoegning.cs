@@ -23,15 +23,13 @@ namespace ASP_Web_Bootstrap.Search.Init
             }
         }
 
-        public List<Genres> initGenre()
+        public List<Genres> initGenre(List<Genres>liste)
         {
-            List <Genres> tempgenres = new List<Genres>();
-            //henter genres ned til dropdownmenu Genre
             using (var db = new MyDbContext())
             {
-                tempgenres = db.Genres.ToList();
+                liste = db.Genres.ToList();
             }
-            return tempgenres;
+            return liste;
         }
     }
 }
