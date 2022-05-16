@@ -59,16 +59,16 @@ namespace DiscoverMoviesProduction.NUnit
                 Assert.AreEqual(soegningsliste[1], "Person");
             }
 
-            [Test]
-            public void TestInitGenres()
-            {
-                List<Genres> soegningsliste = new List<Genres>();
+            //[Test]
+            //public void TestInitGenres()
+            //{
+            //    List<Genres> soegningsliste = new List<Genres>();
 
-                soegningsliste = søge.initGenre(soegningsliste);
+            //    soegningsliste = søge.initGenre(soegningsliste);
                 
                 
-                Assert.That(soegningsliste.Count == 19);
-            }
+            //    Assert.That(soegningsliste.Count == 19);
+            //}
         }
 }
 
