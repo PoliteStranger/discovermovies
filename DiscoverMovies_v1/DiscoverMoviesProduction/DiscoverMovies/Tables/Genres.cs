@@ -1,9 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DiscoverMoviesProduction
-{
-    public class Genres
+public class Genres
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Required]
@@ -12,4 +10,3 @@ namespace DiscoverMoviesProduction
         public string _Genrename { get; set; }
     }
 
-}

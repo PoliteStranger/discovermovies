@@ -1,4 +1,10 @@
-﻿namespace DiscoverMoviesProduction.Search.Init
+﻿using System.ComponentModel.DataAnnotations;
+using AcquireDB_EFcore.Tables;
+using ASP_Web_Bootstrap.Search.Init;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
+namespace ASP_Web_Bootstrap.Search.Init
 {
     public class soegning : Iinitializer
     {

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using AcquireDB_EFcore.Tables;
 
-namespace DiscoverMoviesProduction
+namespace ASP_Web_Bootstrap
 {
     public class MyDbContext : DbContext {
         protected override void OnConfiguring(

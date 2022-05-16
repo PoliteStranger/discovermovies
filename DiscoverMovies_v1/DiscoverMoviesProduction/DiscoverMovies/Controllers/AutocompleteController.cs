@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace DiscoverMoviesProduction.Controllers
+namespace ASP_Web_Bootstrap.Controllers
 {
     // Autocomplete til søgningssiden
     [Route("api/autocomplete/")]

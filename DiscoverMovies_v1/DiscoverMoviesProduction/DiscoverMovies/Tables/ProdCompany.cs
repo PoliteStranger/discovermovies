@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DiscoverMoviesProduction
+namespace AcquireDB_EFcore.Tables
 {
     public class ProdCompany
     {

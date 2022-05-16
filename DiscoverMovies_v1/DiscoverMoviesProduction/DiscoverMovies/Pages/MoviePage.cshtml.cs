@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using AcquireDB_EFcore.Tables;
+using AcquireDB_EFcore;
 using Microsoft.EntityFrameworkCore;
 
-namespace DiscoverMoviesProduction.Pages
+namespace ASP_Web_Bootstrap.Pages
 {
     public class MoviePageModel : PageModel
     {
