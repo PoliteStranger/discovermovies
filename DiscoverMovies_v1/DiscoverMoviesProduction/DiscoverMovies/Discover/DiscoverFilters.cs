@@ -133,7 +133,6 @@ namespace DiscoverMoviesProduction
             // Er inputtet ok?
             Guard.CheckDiscoverLists(inputMovies, shortList, "Cast Filter");
 
-
             Console.WriteLine("");
             Console.WriteLine("FILTER: CAST");
             Console.WriteLine("-------------------------------------------------");
@@ -154,14 +153,11 @@ namespace DiscoverMoviesProduction
             }
             Console.WriteLine("Found {0} cast in input", inputEmployments.Count);
 
-
             Console.WriteLine("\nSearching for matches in cast:");
-
             foreach (var movie in shortList.ToList())
             {
                 foreach (var employment in inputEmployments.ToList())
                 {
-
                     if (movie._employmentList.Any(x => x._personId == employment._personId))
                     {
                         int Addscore = 1;
@@ -170,14 +166,11 @@ namespace DiscoverMoviesProduction
                         if (discoverScores.Any(x => x.Movie == movie))
                         {
                             discoverScores.Find(x => x.Movie == movie).Score += Addscore;
-                            //Console.Write(" Match!");
                         }
                         else
                         {
                             discoverScores.Add(new DiscoverScore(movie, 1));
-                            //Console.Write(" Match!");
                         }
-                        //Console.WriteLine(discoverScores.Find(x => x.Movie == movie).Movie._title + " has " + discoverScores.Find(x => x.Movie == movie).Score + " points");
                     }
                 }
             }

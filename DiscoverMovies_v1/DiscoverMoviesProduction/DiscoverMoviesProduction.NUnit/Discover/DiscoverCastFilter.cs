@@ -19,12 +19,10 @@ namespace DiscoverMoviesProduction.NUnit
         [SetUp]
         public void Setup()
         {
-
             // Fylder listerne med relevant data
             inputMovies = DiscoverFilterData.GetJsonMovies("../../../JsonStubs/5InputMovies");
 
             Shortlist = DiscoverFilterData.GetJsonMovies("../../../JsonStubs/5InputMoviesReturn");
-
         }
 
 

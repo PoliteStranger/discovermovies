@@ -93,7 +93,6 @@ namespace DiscoverMoviesProduction.NUnit
             inputMovies = DiscoverFilterData.GetJsonMovies("../../../JsonStubs/5InputMovies");
 
             Shortlist = DiscoverFilterData.GetJsonMovies("../../../JsonStubs/5InputMoviesReturn");
-
         }
 
 

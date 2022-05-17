@@ -75,7 +75,6 @@ namespace DiscoverMoviesProduction
 
             System.IO.File.WriteAllLines("../DiscoverMoviesProduction.NUnit/JsonStubs/" + filename + ".json", jsonToText);
 
-
             Console.WriteLine("DONE!!!");
         }
 
