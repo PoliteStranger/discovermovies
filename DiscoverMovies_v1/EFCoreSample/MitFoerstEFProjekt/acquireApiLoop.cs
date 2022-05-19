@@ -58,18 +58,12 @@ namespace AcquireDB_EFcore
                             // Træk data ud af json resultat, og tilføj til listen.
                             foreach (var movieResults in SearchResultsObj.results)
                             {
-
-                                //Console.WriteLine("T: " + movieResults.title);
                                 // Findes den allerede?
                                 if(!movieTitlesList.Contains((int)movieResults.id))
                                     movieTitlesList.Add((int)movieResults.id);
-                                
-
                             }
-
                             ApiCalls++; // Tæller Api kald!
                         }
-
                     }
 
                     Console.WriteLine("<DONE> Got: " + (int)jsonObj.total_results + " Movies");

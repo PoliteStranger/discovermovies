@@ -33,13 +33,8 @@ namespace AcquireDB_EFcore
             // Læg resultatet over i en string (json)
             string jsonMovie = apiResult.Result;
 
-            // Til debugging, hvis der er fejl i json retur strengen
-            //Console.WriteLine(jsonMovie);
-
             // json svar til dynamisk objekt
             dynamic jsonObj = JsonConvert.DeserializeObject(jsonMovie);
-
-
 
             Console.WriteLine("Getting Movie:   " + movieId + ": " + (string)jsonObj.title + " ("+ (double)jsonObj.popularity + ") ");
 
@@ -78,7 +73,7 @@ namespace AcquireDB_EFcore
                 //Console.Write(db.Genres.Find((int)genre.id)._Genrename + ", ");
                 newMovie._genreList.Add(new Genre() { _genreId = (int)genre.id, _movieId = movieId});
             }
-            //Console.WriteLine("");
+            
 
 
             // *********************************************************************
@@ -103,7 +98,13 @@ namespace AcquireDB_EFcore
                 // Hvis firmaet ikke findes i databasen, så kan vi både tilføje det og lægge det i filmens firma liste
                 if (db.ProdCompanies.Find((int)company.id) == null)
                 {
-                    ProdCompany newComp = new ProdCompany() { ProdCompanyId = (int)company.id, _ProdCompanyname = (string)company.name, _ProdCompanycountry = (string)company.origin_country };
+                    ProdCompany newComp = new ProdCompany() 
+                    { 
+                        ProdCompanyId = (int)company.id, 
+                        _ProdCompanyname = (string)company.name, 
+                        _ProdCompanycountry = (string)company.origin_country 
+                    };
+
                     db.ProdCompanies.Add(newComp);  
                     newMovie._ProdCompaniesList.Add(new ProducedBy() { prodCompanyId = (int)company.id, _movieId = movieId });
                     statsProds++;
@@ -113,14 +114,11 @@ namespace AcquireDB_EFcore
                     // Den findes allerede, så vi bruger referencen fra den som er der.
                     newMovie._ProdCompaniesList.Add(new ProducedBy() { prodCompanyId = (int)company.id, _movieId = movieId });
                 }
-
-                
             }
-            //Console.WriteLine("");
+            
 
 
             // <--------------------------------------------------------------- Film Credits info!
-            //Console.WriteLine("API-Credits: " + newMovie._title);
 
             // Henter overordnede film detaljer fra TMDB, som json
             Task<string> apiResultCredits = ApiOps.RunApiMovieCredits(movieId);
@@ -131,11 +129,7 @@ namespace AcquireDB_EFcore
             // json svar til dynamisk objekt
             dynamic jsonObjCredits = JsonConvert.DeserializeObject(jsonMovieCredits);
 
-
-
             // <---------------------------------------------------------------Film Crew!
-            //Console.Write("API-Pers: ");
-
 
             foreach (var credit in jsonObjCredits.crew)
             {
@@ -154,7 +148,6 @@ namespace AcquireDB_EFcore
                        credit.job == "Art Direction"
                    )
                 {
-
                     // Hvis personen IKKE findes, så gemmer vi den person:
                     if (db.Persons.Find((int)credit.id) == null)
                     {
@@ -165,7 +158,13 @@ namespace AcquireDB_EFcore
                     }
 
                     // Personens job tilføjes:
-                    newMovie._employmentList.Add(new Employment() { _personId = (int)credit.id, _movieId = movieId, _job = (string)credit.job, _character = "N/A"});
+                    newMovie._employmentList.Add(new Employment()
+                    { 
+                        _personId = (int)credit.id, 
+                        _movieId = movieId, 
+                        _job = (string)credit.job, 
+                        _character = "N/A"
+                    });
                     statsEmployments++;
                 }
             }
@@ -173,41 +172,33 @@ namespace AcquireDB_EFcore
             // <---------------------------------------------------------------Film Cast!
             foreach (var credit in jsonObjCredits.cast)
             {
-
-                // Vi gemmer ALLE skuespillere!
-
-                //int id = (int)credit.id;
-
                 // Hvis personen IKKE findes, så gemmer vi den person:
                 if (db.Persons.Find((int)credit.id) == null)
                 {
-                    
-                    
                     Person newPerson = GetPerson((int)credit.id);
                     
                     db.Persons.Add(newPerson);
                     statsPers++;
                 }
 
-                newMovie._employmentList.Add(new Employment() { _personId = (int)credit.id, _movieId = movieId, _job = "Acting", _character =  (string)credit.character });
+                newMovie._employmentList.Add(new Employment()
+                { 
+                    _personId = (int)credit.id, 
+                    _movieId = movieId, 
+                    _job = "Acting", 
+                    _character =  (string)credit.character }
+                );
                 statsEmployments++;
-                
             }
 
 
-            // Vi gemmer allerede nu! Fordi at vi skal have alle personerne ind, så deres foreign keys kan referes til!
+            // Vi gemmer allerede nu! Fordi at vi skal have alle personerne ind,
+            // så deres foreign keys kan referes til!
             db.SaveChanges();
             Console.WriteLine("");
             Console.WriteLine("New Persons:     " + statsPers);
             Console.WriteLine("New Employments: " + statsEmployments);
             Console.WriteLine("New Companies:   " + statsEmployments);
-
-
-
-
-
-
-
 
             db.Movies.Add(newMovie);
             db.SaveChanges();
@@ -220,50 +211,28 @@ namespace AcquireDB_EFcore
 
         public Person GetPerson(int personId)
         {
-            // <--------------------------------------------------------------- Film Persons info!
-            //Console.WriteLine("Downloading person info for: " + personId);
-
             string personJson;
-            Console.Write("   ");
-            if (File.Exists("../../../DataStore/APIcalls/Persons/Person_" + personId + ".json") == true)
-            {
-                // Dette år findes:
-                Console.Write("v");
 
-                // Loader json filen ind i et dynamisk objekt
-                personJson = File.ReadAllText("../../../DataStore/APIcalls/Persons/Person_" + personId + ".json");
+            // Henter overordnede film detaljer fra TMDB, som json
+            Task<string> personApi = ApiOps.RunApiPerson(personId);
 
-
-            }
-            else
-            {            
-                // Henter overordnede film detaljer fra TMDB, som json
-                Task<string> personApi = ApiOps.RunApiPerson(personId);
-
-                // Læg resultatet over i en string (json)
-                personJson = personApi.Result;
-
-                //string[] jsonToText = { personJson };
-                //File.WriteAllLines("../../../DataStore/APIcalls/Persons/Person_" + personId + ".json", jsonToText);
-                Console.Write(">");
-
-            }
-            
-
-
+            // Læg resultatet over i en string (json)
+            personJson = personApi.Result;
 
             // json svar til dynamisk objekt
             dynamic p = JsonConvert.DeserializeObject(personJson);
 
-            Person newPerson = new Person() {   _personId = (int)p.id, 
-                                                _Personname = (string)p.name, 
-                                                _dob = dateFromJson((string)p.birthday),
-                                                _dod = dateFromJson((string)p.deathday), 
-                                                _biography = (string)p.biography, 
-                                                _gender = (int)p.gender, 
-                                                _imageUrl = (string)p.profile_path, 
-                                                _Personpopularity = (double)p.popularity 
-                                            };
+            Person newPerson = new Person() 
+            {   
+                _personId = (int)p.id, 
+                _Personname = (string)p.name, 
+                _dob = dateFromJson((string)p.birthday),
+                _dod = dateFromJson((string)p.deathday), 
+                _biography = (string)p.biography, 
+                _gender = (int)p.gender, 
+                _imageUrl = (string)p.profile_path, 
+                _Personpopularity = (double)p.popularity 
+            };
 
             return newPerson;
         }
