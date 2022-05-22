@@ -62,7 +62,7 @@ namespace DiscoverMoviesProduction.NUnit
             Console.WriteLine("ShortList count: " + Shortlist.Count);
             List<int> movieInts = new List<int> { 199, 1571, 1639, 1893, 2787 };
 
-
+            // Mock setup m. DB stubs
             MockDiscoverDB.Setup(x => x.GetPeople(It.IsAny<List<int>>())).Returns(persons);
             MockDiscoverDB.Setup(z => z.GetMovies(It.IsAny<List<int>>())).Returns(Shortlist);
 
@@ -72,7 +72,7 @@ namespace DiscoverMoviesProduction.NUnit
             // ACT
             Movie newMovie = uut.DiscoverMovies(movieInts, MockDiscoverDB.Object, MockDiscoverIntsToMovies.Object);
 
-            // ASSERT
+            // ASSERT - Den skal vende tilbage med en film!
             Assert.That(newMovie, Is.Not.Null);
 
         }
