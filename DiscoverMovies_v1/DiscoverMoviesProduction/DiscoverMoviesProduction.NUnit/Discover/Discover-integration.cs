@@ -68,13 +68,11 @@ namespace DiscoverMoviesProduction.NUnit
 
             MockDiscoverIntsToMovies.Setup(y => y.GetInputMovies(movieInts)).Returns(inputMovies);
 
-
             // ACT
             Movie newMovie = uut.DiscoverMovies(movieInts, MockDiscoverDB.Object, MockDiscoverIntsToMovies.Object);
 
             // ASSERT - Den skal vende tilbage med en film!
             Assert.That(newMovie, Is.Not.Null);
-
         }
 
 

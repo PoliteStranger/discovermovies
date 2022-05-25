@@ -6,9 +6,6 @@ using System.IO;
 namespace DiscoverMoviesProduction.NUnit
 {
    
-
-
-
     public class Utilities
     {
         [SetUp]
