@@ -198,7 +198,7 @@ namespace AcquireDB_EFcore
             Console.WriteLine("");
             Console.WriteLine("New Persons:     " + statsPers);
             Console.WriteLine("New Employments: " + statsEmployments);
-            Console.WriteLine("New Companies:   " + statsEmployments);
+            Console.WriteLine("New Companies:   " + statsProds);
 
             db.Movies.Add(newMovie);
             db.SaveChanges();

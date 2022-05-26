@@ -9,7 +9,7 @@ Console.WriteLine("Ripping TMDB movies database");
 acquireApiLoop loop = new acquireApiLoop();
 
 // Åres: 1999 vælges, og listen laves
-List<int> moviesList = loop.getYear(1995);
+List<int> moviesList = loop.getYear(1994);
 
 
 // 27205, 329, 553, 271110, 862
@@ -58,11 +58,7 @@ using (var db = new MyDbContext())
             Console.Write(".");
 
         }
-
     }
-
-
-
 }
 
 //using (var db = new MyDbContext())
