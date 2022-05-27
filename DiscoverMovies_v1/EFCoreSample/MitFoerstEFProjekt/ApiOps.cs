@@ -13,7 +13,12 @@ namespace AcquireDB_EFcore
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                HttpResponseMessage response = await client.GetAsync("3/search/movie?api_key=4e00a65a5badd5659a449269be8fcd80&language=en-US&query=" + letter + "&page=" + page + "&include_adult=false&primary_release_year=" + year);
+                HttpResponseMessage response = await client.GetAsync(
+                    "3/search/movie?api_key=4e00a65a5badd5659a449269be8fcd80&language=en-US&query=" + 
+                    letter + "&page=" + 
+                    page + "&include_adult=false&primary_release_year=" + 
+                    year
+                    );
 
                 if (response.IsSuccessStatusCode)
                 {

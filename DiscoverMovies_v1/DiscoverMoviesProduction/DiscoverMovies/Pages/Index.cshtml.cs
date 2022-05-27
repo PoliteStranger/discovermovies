@@ -1,32 +1,36 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using DiscoverMoviesProduction;
+using DiscoverMoviesProduction.Search;
+using DiscoverMoviesProduction.Search.Init;
+using DiscoverMoviesProduction.Search.SearchResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ASP_Web_Bootstrap.Pages
+namespace DiscoverMoviesProduction.Pages
 {
     public class IndexModel : PageModel
     {
+        //Input klasse fra søgning
         [BindProperty]
         public InputMovie theinput { get; set; } = new InputMovie();
-        public List<Person> Persons { get; set; } = new List<Person>();
+
+        // initializer
+        Iinitializer initsoegning = new soegning();
 
         [BindProperty]
-        //liste til dropdown menu til søgning af film, personer, eller produktionsselskaber.
+        //liste til dropdown menu til søgning af film, eller personer.
         public List<string> Soegninger { get; set; } = new List<string>();
 
         [BindProperty]
-        //liste af alle år.
+        //liste til dropdown af år.
         public List<int> Year { get; set; } = new List<int>();
 
         [BindProperty]
-        //liste til alle genres hentet fra DB.
+        //liste til dropdown af alle genres hentet fra DB.
         public List<Genres> TheOriginaleGenres { get; set; } = new List<Genres>();
 
         // Listen over film som skal vises på en enkelt side:
         private List<Movie> movieList = new List<Movie>();
-
-        // Listen over film som skal vises men sorteres i før den bliver vist på en enkeltside:
-        private List<Movie> templiste = new List<Movie>();
 
         // Den bindes, så vi kan tilgå den inde fra vores Razor page
         [BindProperty]
@@ -48,176 +52,61 @@ namespace ASP_Web_Bootstrap.Pages
 
         public void OnGet()
         {
-            //dropdown menu til søgning af film eller personer
-            Soegninger.Add("Movie");
-            Soegninger.Add("Person");
+            //dropdown menuer til søgning af film, personer, år, genre.
+            initsoegning.initSearchOption(Soegninger);
+            initsoegning.initYear(Year);
+            List<Genres> liste = new List<Genres>();
+            liste = initsoegning.initGenre(liste);
+            TheOriginaleGenres = liste;
+            //TheOriginaleGenres = initsoegning.initGenre(liste);
 
-            //dropdown menu til år
-            for (int j = 1990; j<2020; j++)
-            {
-                Year.Add(j);
-            }
 
-            //henter genres ned til dropdownmenu Genre
-            using (var db = new MyDbContext())
-            {
-                TheOriginaleGenres = db.Genres.ToList();
-            }
 
             //loader med vores genres beskrevet i genres db
             using (var db = new MyDbContext())
             {
                 //en counter på, da jeg ikke vil hente ALLE film (1500+!!!) + mere !!!!!!!
-                int i = 0;
+                //int i = 0;
                 // Vi gennemgår listen af film fra databasen
-                foreach (Movie movie in db.Movies)
+                foreach (Movie movie in db.Movies.Take(200).ToList())
                 {
                     // og lægger dem over i listen over film som skal vises:
                     movieList.Add(movie);
-                    i++;
+                    //i++;
                     // Når den har hentet 100 film'ish, så stopper vi!
-                    if (i == 201) break;
+                    //if (i == 201) break;
                 }
             }
         }
-
+        
         public IActionResult OnPost()
         {
-            //dropdown menu til søgning af film eller personer
-            Soegninger.Add("Movie");
-            Soegninger.Add("Person");
-            templiste.Clear();
+            //dropdown menuer til søgning af film, personer, år, genre.
+            initsoegning.initSearchOption(Soegninger);
+            initsoegning.initYear(Year);
+            //TheOriginaleGenres = initsoegning.initGenre();
 
-            //dropdown menu til år
-            for (int j = 1995; j<2020; j++)
-            {
-                Year.Add(j);
-            }
+            List<Genres> liste = new List<Genres>();
+            liste = initsoegning.initGenre(liste);
+            TheOriginaleGenres = liste;
 
-            //henter genres ned til dropdownmenu Genre
-            using (var db = new MyDbContext())
-            {
-                TheOriginaleGenres = db.Genres.ToList();
-            }
+            ResolveSearch resolveSearch = new ResolveSearch();
+            MovieSearchoption film = new MovieSearchoption();
+            PersonSearchoption person = new PersonSearchoption();
+            NullSearchoption nul = new NullSearchoption();
 
-            if (theinput.Searchtype == "Movie")
-            {
-                using (var db = new MyDbContext())
-                {
-                    var query = (from m in db.Movies
-                                 join gm in db.GenresAndMovies
-                                 on m.movieId equals gm._movieId
-                                 join g in db.Genres
-                                 on gm._genreId equals g._genreId
-                                 where (m._title.Contains(theinput.Name) || theinput.Name == "")
-                                 && (theinput.GenreID == "0" || gm._genreId == Int32.Parse(theinput.GenreID))
-                                 && (m._releaseDate.Value.Year == Int32.Parse(theinput.Year) || theinput.Year == "0")
-                                 && (theinput.Searchtype == "Movie" || theinput.Searchtype == "")
-
-                                 select new
-                                 {
-                                     movieid = m.movieId,
-                                     movietitel = m._title,
-                                     movieposter = m._posterUrl,
-                                 }
-                                 ).ToList().Distinct();
-
-                    foreach (var item in query)
-                    {
-                        Movie tempmovie = new Movie();
-                        tempmovie._title = item.movietitel;
-                        tempmovie._posterUrl = item.movieposter;
-                        tempmovie.movieId = item.movieid;
-                        templiste.Add(tempmovie);
-                    }
-                }
-                MovieList = templiste;
-            }
-
-            else if (theinput.Searchtype == "Person")
-            {
-                using (var db = new MyDbContext())
-                {
-                    var query = (from p in db.Persons
-                                 join e in db.Employments
-                                 on p._personId equals e._personId
-                                 join m in db.Movies
-                                 on e._movieId equals m.movieId
-                                 join gm in db.GenresAndMovies
-                                 on m.movieId equals gm._movieId
-                                 join g in db.Genres
-                                 on gm._genreId equals g._genreId
-
-                                 where (p._Personname.Contains(theinput.Name) || theinput.Name == "")
-                                 && (theinput.GenreID == "0" || gm._genreId == Int32.Parse(theinput.GenreID))
-                                 && (m._releaseDate.Value.Year == Int32.Parse(theinput.Year) || theinput.Year == "0")
-                                 && (theinput.Searchtype == "Person" || theinput.Searchtype == "")
-                                 select new
-                                 {
-                                     movieid = m.movieId,
-                                     movietitel = m._title,
-                                     movieposter = m._posterUrl,
-                                 }
-                                 ).ToList().Distinct(); // til liste og fjerner samtidig duplikater.
-
-
-                    foreach (var item in query)
-                    {
-                        Movie tempmovie = new Movie();
-                        tempmovie._title = item.movietitel;
-                        tempmovie._posterUrl = item.movieposter;
-                        tempmovie.movieId = item.movieid;
-                        templiste.Add(tempmovie);
-                    }
-                }
-                MovieList = templiste;
-            }
-
-            else if (theinput.Searchtype == "")
-            {
-                using (var db = new MyDbContext())
-                {
-                    var query = (from m in db.Movies
-                                 join gm in db.GenresAndMovies
-                                 on m.movieId equals gm._movieId
-                                 join g in db.Genres
-                                 on gm._genreId equals g._genreId
-                                 where (theinput.GenreID == "0" || gm._genreId == Int32.Parse(theinput.GenreID))
-                                  && (m._releaseDate.Value.Year == Int32.Parse(theinput.Year) || theinput.Year == "0")
-
-                                 select new
-                                 {
-                                     movieid = m.movieId,
-                                     movietitel = m._title,
-                                     movieposter = m._posterUrl,
-                                 }
-                                 ).ToList().Distinct(); // til liste og fjerner samtidig duplikater.
-
-                    foreach (var item in query)
-                    {
-                        Movie tempmovie = new Movie();
-                        tempmovie._title = item.movietitel;
-                        tempmovie._posterUrl = item.movieposter;
-                        tempmovie.movieId = item.movieid;
-                        templiste.Add(tempmovie);
-                    }
-
-                    MovieList = templiste;
-                }
-            }
+            MovieList = resolveSearch.Resolve(theinput.Name, theinput.GenreID, theinput.Year, theinput.Searchtype, film, person, nul);
+            
             return Page();
         }
 
         public class InputMovie
         {
-            [StringLength(100, ErrorMessage = "Maximum length is {1}")]
-            [Display(Name = "Searching Field")]
             public string Name { get; set; } = "";
             public string GenreID { get; set; } = "0";
-
-            [StringLength(100, ErrorMessage = "Maximum length is {1}")]
-            public string Searchtype { get; set; } = "";
+            public string Searchtype { get; set; } = "0";
             public string Year { get; set; } = "0";
+
         }
     }
 }

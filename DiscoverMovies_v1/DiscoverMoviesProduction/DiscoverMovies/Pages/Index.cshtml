@@ -1,51 +1,72 @@
 ﻿@page
+@using DiscoverMoviesProduction.Pages;
+@using DiscoverMoviesProduction;
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
+<script src="~/js/autocomplete.js"></script>
 
-<h3>Heading</h3>
-<p>Result count: @Model.MovieList.Count</p>
+<h3>Welcome To Discover Movies application!</h3>
+<p> Discover Movies have provided an application, which you can use to 
+    find a specific movie, by <br/> 
+    using the search field and options down below.
+    <br/><br/>
+    You can also try our Discover movie function by pressing the <a href="/discover">Discover tab</a>. Here you'll provide <br/> our algorithm with five movies 
+    of your choice, and our algorithm will provide you with a qualified <br/> guess of the sixth movie you'll like. This is based on the movies you provided to the algorithm.
+    <br/><br/>
+
+</p>
+
       <p><form method="post">
           <div class="form-group">
-              <label asp-for="theinput.Name"></label>
-              <input class="form-control" asp-for="theinput.Name" />
+          
+              <div class="ui-widget">
+                  <label> Searchfield</label>
+@*                  <label asp-for="theinput.Name"></label>
+*@                  <input id="search-field" placeholder="For Search Select SearchOption" class="form-control" asp-for="theinput.Name"/>
+              </div>
 
-              @*<label asp-for="theinput.IsPerson"></label>
-              <input id="Checkbox1" type="checkbox" asp-for="theinput.IsPerson"/>
-              *@
-              
-              <select id="Select1" asp-items="@(new SelectList(Model.Soegninger))" asp-for="theinput.Searchtype">
-                   <option value="" selected disabled>Search Option</option>
-              </select>
-@*
-              <select id="Select2" asp-items="@(new SelectList(Model.TheOriginaleGenres, "_genreId","_Genrename"))" asp-for="theinput.GenreID">
-                   <option value="" selected disabled> -- Select genre --</option>
-              </select>*@
-
-              <select id="Select2" asp-items="@(new SelectList(Model.TheOriginaleGenres, "_genreId","_Genrename"))" asp-for="theinput.GenreID">
-                   @*<option value=""> -- Select genre --</option>*@
-                   <option value="" selected disabled> Select genre </option>
-
-                  @* <option selected disabled hidden value="">Genre</option>.*@
+              <select id="Select2" asp-items="@(new SelectList(Model.Soegninger))" asp-for="theinput.Searchtype">
+                  <option value="0">Search Option</option>
               </select>
 
-              <select id="Select3" asp-items="@(new SelectList(Model.Year))" asp-for="theinput.Year">
-                   <option value="" selected disabled>Select Year of creation</option>
+              <select id="Select3" asp-items="@(new SelectList(Model.TheOriginaleGenres, "_genreId","_Genrename"))" asp-for="theinput.GenreID">
+                  <option value="0"> Select genre </option>
               </select>
 
-                 @*@if (Model.theinput.Name != "")
+              <select id="Select4" asp-items="@(new SelectList(Model.Year))" asp-for="theinput.Year">
+                  <option value="0">Select Year of creation</option>
+              </select>
+
+              @*@if (Model.theinput.Name != "")
                  {
                     if (Model.theinput.Searchtype == "0")
                     {
                         <span asp-validation-for="theinput.Searchtype" class="text-danger">Search option required when Search field has value</span>
                     }
                  }*@
-         </div>
-          <button type="submit" class="btn btn-primary">Search</button>  
-          <button type="reset" class="btn btn-primary">Reset</button>  
+          </div>
+          <br/>
 
-     </form></p>
+          <input type="submit" id="btnSubmit" value="Submit"/>
+          <input type="button" id="btnReset" value="Reset" onclick="Reset();"/>
+          <p>Search result count: @Model.MovieList.Count</p>
+
+          <script type="text/javascript">
+              function Reset() 
+              {
+                  var dropDown2 = document.getElementById("Select2");
+                  var dropDown3 = document.getElementById("Select3");
+                  var dropDown4 = document.getElementById("Select4");
+
+                  dropDown2.selectedIndex = 0;
+                  dropDown3.selectedIndex = 0;
+                  dropDown4.selectedIndex = 0;
+              }
+          </script>
+
+      </form></p>
 
 <div class="row">
     @foreach(Movie movie in Model.MovieList)
@@ -63,31 +84,15 @@
                      @movie._title <br/>
                     <img src=@("https://www.themoviedb.org/t/p/w220_and_h330_face" + @movie._posterUrl) height="237" width="165">
                 }
-
            }
-        </a>
+       </a>
     }
 
    @if (Model.MovieList.Count == 0)
    {
-        <p>Sorry no results...</p>
+       <p> Sorry, no movies is matching your search options...
+           <br/>
+           Please try changing the search options, and check for misspelled words.
+       </p>
    }
 </div>
-
-
-
-    <@*paging class="pagination" total-records="@Model.MovieList.Count" show-total-pages="false" show-totalrecords="false" 
-    page-size="@Model.pageSize" page-no="@Model.pageNo"></paging>
-
-@*</div>
- <div class="pagination">
-  <a href="#">&laquo;</a>
-  <a href="#">1</a>
-  <a class="active" href="#">2</a>
-  <a href="#">3</a>
-  <a href="#">4</a>
-  <a href="#">5</a>
-  <a href="#">6</a>
-  <a href="#">&raquo;</a>
-</div> *@
-

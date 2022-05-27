@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ASP_Web_Bootstrap.Pages
+namespace DiscoverMoviesProduction.Pages
 {
     public class PrivacyModel : PageModel
     {
