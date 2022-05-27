@@ -26,7 +26,11 @@ namespace DiscoverMoviesProduction
 
             using (var db = new MyDbContext())
             {
-                InputMovies = db.Movies.Where(c => InputMovieIds.Contains(c.movieId)).Include(x => x._genreList).Include(y => y._prodCompanyList).Include(z => z._employmentList).ToList();
+                InputMovies = db.Movies.Where(c => InputMovieIds.Contains(c.movieId))
+                                        .Include(x => x._genreList)
+                                        .Include(y => y._prodCompanyList)
+                                        .Include(z => z._employmentList)
+                                        .ToList();
             }
 
 
