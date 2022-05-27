@@ -37,16 +37,18 @@ namespace DiscoverMoviesProduction.NUnit
             ScoresList.Add(new DiscoverScore() { Movie = new Movie() { movieId = 3, _title = "Movie " + 3 }, Score = 3 });
 
             // endelige resultater
-            ScoresListResult.Add(new DiscoverScore() { Movie = new Movie() { movieId = 1, _title = "Movie " + 1 }, Score = 0.5 });
-            ScoresListResult.Add(new DiscoverScore() { Movie = new Movie() { movieId = 2, _title = "Movie " + 2 }, Score = 1 });
-            ScoresListResult.Add(new DiscoverScore() { Movie = new Movie() { movieId = 3, _title = "Movie " + 3 }, Score = 1.5 });
+            ScoresListResult.Add(new DiscoverScore() { Movie = new Movie() { movieId = 1, _title = "Movie " + 1 }, Score = 0.33 });
+            ScoresListResult.Add(new DiscoverScore() { Movie = new Movie() { movieId = 2, _title = "Movie " + 2 }, Score = 0.66 });
+            ScoresListResult.Add(new DiscoverScore() { Movie = new Movie() { movieId = 3, _title = "Movie " + 3 }, Score = 1 });
 
+            
 
             // ACT, Vi normalisere scores på den ikke-normaliserede
             NormalizingScores.Normalize(ScoresList);
 
             // ASSERT, sammenligner så værdierne i listerne:
-            Assert.AreEqual(ScoresListResult.ToArray()[idNum].Score, ScoresList.ToArray()[idNum].Score);
+            
+            Assert.That(ScoresListResult.ToArray()[idNum].Score, Is.EqualTo(ScoresList.ToArray()[idNum].Score).Within(0.1d));
         }
 
         #endregion
