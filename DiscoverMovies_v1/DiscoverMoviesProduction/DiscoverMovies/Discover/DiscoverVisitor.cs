@@ -19,6 +19,8 @@ namespace DiscoverMoviesProduction
         public void visit(ProdFilter prod);
         public void visit(BudgetRevenueFilter BuRe);
     }
+
+
     /// <summary>
     /// Gennemgang af alle filtre
     /// </summary>
@@ -38,10 +40,8 @@ namespace DiscoverMoviesProduction
 
         public void visit(Filters filters)
         {
-
             // Læg scores sammen:
             AddingScores.AddScores(AllScores, FinalScores);
-
 
             // Udskriv en liste over final scores:
             Console.WriteLine("");
@@ -61,29 +61,22 @@ namespace DiscoverMoviesProduction
 
             // Sorter efter Score, og returner så den med højeste score:
             FinalResult = FinalScores.OrderByDescending(x => x.Score).FirstOrDefault().Movie;
-
-
-            // Generate Report of result!
-
-            //...
         }
 
         public void visit(GenreFilter filter)
         {
-            // Do stuff with filter!
-
+            Console.WriteLine("Normalizing Genrescores");
             // Get scores, normalize
-
             NormalizingScores.Normalize(filter.discoverScores);
             // Add to scores
             AllScores.Add(filter.discoverScores);
-
         }
 
         public void visit(CastFilter filter)
         {
             // Do stuff with filter!
 
+            Console.WriteLine("Normalizing Cast scores");
             // Get scores, normalize
             NormalizingScores.Normalize(filter.discoverScores);
 
@@ -96,6 +89,7 @@ namespace DiscoverMoviesProduction
         {
             // Do stuff with filter!
 
+            Console.WriteLine("Normalizing Crew scores");
             // Get scores, normalize
             NormalizingScores.Normalize(filter.discoverScores);
 
@@ -108,6 +102,7 @@ namespace DiscoverMoviesProduction
         {
             // Do stuff with filter!
 
+            Console.WriteLine("Normalizing Year scores");
             // Get scores, normalize
             NormalizingScores.Normalize(filter.discoverScores);
 
@@ -120,6 +115,7 @@ namespace DiscoverMoviesProduction
         {
             // Do stuff with filter!
 
+            Console.WriteLine("Normalizing Prod scores");
             // Get scores, normalize
             NormalizingScores.Normalize(filter.discoverScores);
 
@@ -132,6 +128,7 @@ namespace DiscoverMoviesProduction
         {
             // Do stuff with filter!
 
+            Console.WriteLine("Normalizing Budget scores");
             // Get scores, normalize
             NormalizingScores.Normalize(filter.discoverScores);
 

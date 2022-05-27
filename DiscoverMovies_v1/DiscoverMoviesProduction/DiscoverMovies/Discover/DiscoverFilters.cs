@@ -22,11 +22,7 @@ namespace DiscoverMoviesProduction
     /// </summary>
     public class Filters : IFilter
     {
-
-        // Kunne have filter vægtning her...
-
         public List<IFilter> DiscoverFilters;
-
 
         /// <summary>
         /// Grundfilteret, som skal have input Movies, og shortlist Movies, og deler det så ud til de andre filtre.
@@ -139,8 +135,6 @@ namespace DiscoverMoviesProduction
 
             foreach (var movie in inputMovies.ToList())
             {
-                // Console.WriteLine("movie: " + movie._title + " C: " + movie._employmentList.Count());
-
                 foreach (var employment in movie._employmentList.ToList())
                 {
                     // Console.WriteLine("!" + employment._job);
@@ -148,7 +142,6 @@ namespace DiscoverMoviesProduction
                     {
                         inputEmployments.Add(employment);
                     }
-
                 }
             }
             Console.WriteLine("Found {0} cast in input", inputEmployments.Count);
@@ -231,26 +224,6 @@ namespace DiscoverMoviesProduction
                     }
                 }
             }
-
-
-            //Console.WriteLine("SAVING JSON!!!!!");
-
-            //string json = JsonConvert.SerializeObject(discoverScores, Formatting.None,
-            //            new JsonSerializerSettings()
-            //            {
-            //                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            //            });
-
-
-            //string[] jsonToText = { json };
-
-            //System.IO.File.WriteAllLines("../DiscoverMoviesProduction.NUnit/JsonStubs/CastFilterReturn.json", jsonToText);
-
-
-            //Console.WriteLine("DONE!!!");
-
-
-
             // Sortere og printer scores:
             PrintScores.PrintTopTen(discoverScores);
         }
@@ -285,18 +258,7 @@ namespace DiscoverMoviesProduction
             Console.WriteLine("Shortlist Max year: " + shortlist.Max(x => x._releaseDate.Value.Year) + 
                              " Min year: " + shortlist.Min(x => x._releaseDate.Value.Year));
 
-            foreach (var movie in inputMovies)
-            {
-                // Extract Year from Datetime
-                if (movie._releaseDate.Value.Year < minYear)
-                {
-                    minYear = movie._releaseDate.Value.Year;
-                }
-                else if (movie._releaseDate.Value.Year > maxYear)
-                {
-                    maxYear = movie._releaseDate.Value.Year;
-                }
-            }
+
             minYear = inputMovies.Min(x => x._releaseDate.Value.Year);
             maxYear = inputMovies.Max(x => x._releaseDate.Value.Year);
 
@@ -317,11 +279,11 @@ namespace DiscoverMoviesProduction
                     // If match, then pass out score:
                     if (discoverScores.Any(x => x.Movie == movie))
                     {
-                        discoverScores.Find(x => x.Movie == movie).Score += 3;
+                        discoverScores.Find(x => x.Movie == movie).Score += 9;
                     }
                     else
                     {
-                        discoverScores.Add(new DiscoverScore(movie, 3));
+                        discoverScores.Add(new DiscoverScore(movie, 9));
                     }
 
                 }
@@ -331,11 +293,11 @@ namespace DiscoverMoviesProduction
                     // If match, then pass out score:
                     if (discoverScores.Any(x => x.Movie == movie))
                     {
-                        discoverScores.Find(x => x.Movie == movie).Score += 2;
+                        discoverScores.Find(x => x.Movie == movie).Score += 3;
                     }
                     else
                     {
-                        discoverScores.Add(new DiscoverScore(movie, 2));
+                        discoverScores.Add(new DiscoverScore(movie, 3));
                     }
                 }
 

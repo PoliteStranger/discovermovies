@@ -22,7 +22,7 @@ namespace DiscoverMoviesProduction
                 // Normaliser alle Scores
                 foreach (DiscoverScore movie in inputScores)
                 {
-                    movie.Score = (double)(1 / (MaxScore - MinScore)) * inputScores.Find(x => x.Movie == movie.Movie).Score;
+                    movie.Score = (double)(1 / MaxScore) * inputScores.Find(x => x.Movie == movie.Movie).Score;
                 }
             }
         }
@@ -42,6 +42,7 @@ namespace DiscoverMoviesProduction
                     // Tjek om filmen allerede findes på listen
                     if (finalScores.Any(x => x.Movie.movieId == movieScore.Movie.movieId))
                     {
+                        //Console.WriteLine("Adding {0} to {1}", movieScore.Score, finalScores.Find(x => x.Movie.movieId == movieScore.Movie.movieId).Score);
                         // Brug nuværende film, og føj til score
                         finalScores.Find(x => x.Movie.movieId == movieScore.Movie.movieId).Score += movieScore.Score;
                     }

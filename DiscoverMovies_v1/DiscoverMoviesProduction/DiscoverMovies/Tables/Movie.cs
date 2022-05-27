@@ -15,15 +15,9 @@ namespace DiscoverMoviesProduction
 
         public string? _description { get; set; }
         public string? _posterUrl { get; set; }
-
-
-
         public List<Employment> _employmentList { get; set; } = new();
-
         public List<Genre> _genreList { get; set; } = new();
-
         public List<ProdCompany> _prodCompanyList { get; set; } = new();
-
         public DateTime? _releaseDate { get; set; }
         public int? _budget { get; set; }
         public long? _revenue { get; set; }
@@ -32,7 +26,5 @@ namespace DiscoverMoviesProduction
 
         public Movie()
         { }
-
     }
-
 }
